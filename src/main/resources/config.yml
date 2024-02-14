@@ -1,0 +1,34 @@
+# - WorldChatter By OmarOmar93 - #
+
+# Worlds that have been blacklisted from using WorldChatter
+BlackListWorlds:
+  - world_the_end
+  - world_nether
+solomessage: true # keeps the message limited to the blacklist worlds still.
+# Other Settings
+
+ChatFormat: true
+FormatString: "[%player_world%] %player_name%: "
+# Edit the way the chat is formatted (Using legacy expression may not work when using PAPI)
+
+ColoredText: true # It checks whether you can change the & to § in chat.
+DetectedMessage: "&c%player%'s message got detected by the following flags &e[%flags%] %nl%----------> &6%message%" # Change how the detection message is sent
+DetectedPlayerMessage: "&cYou have been detected by the following flags &e[%flags%]" # Changes how the message is sent to the player (set it to "" if you don't want to send it)
+SpamMessage: "&cYou're message is blocked by the &eAnti-Spam" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
+
+
+# Security Settings
+
+AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
+AntiADS: true # Any Ads from the player's message is blocked. (it's bypassable for people with "worldchatter.bypass.antiads" permission)
+ChatLock: true # preventing the chat from being sent and unlocking it (Players who only have "worldchatter.control" permission)
+AntiSwear: true # Blocks any negative words from the player's message. (BETA) - (it's bypassable for people with "worldchatter.bypass.antiswear" permission)
+CustomSwearWords:
+  - bisexual
+  - lesbian
+  - gay
+# This is not an assault; I am simply attempting to add words that the original anti-swear does not contain.
+
+# Deep-in Settings. do not touch unless you know what you're doing
+CacheTimings:
+  update: 300

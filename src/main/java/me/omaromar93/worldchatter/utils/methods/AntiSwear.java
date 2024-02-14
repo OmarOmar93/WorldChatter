@@ -14,7 +14,7 @@ public final class AntiSwear {
     private static Pattern pattern;
 
     public static boolean hasSwearWords(final String message) {
-        return pattern.matcher(message).find();
+        return pattern.matcher(message.toLowerCase()).find();
     }
 
     private static String getRegex() {

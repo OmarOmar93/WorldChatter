@@ -1,8 +1,8 @@
 name: WorldChatter
 version: '${project.version}'
-main: me.omaromar93.worldchatter.Main
+main: me.omaromar93.worldchatter.WorldChatter
 prefix: WorldChatterLog
-load: STARTUP
+load: POSTWORLD
 softdepend: [PlaceholderAPI]
 authors: [OmarOmar93]
 description: Every world deserves its own conversation.

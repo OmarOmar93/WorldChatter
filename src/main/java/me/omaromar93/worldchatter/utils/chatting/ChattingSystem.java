@@ -1,6 +1,6 @@
 package me.omaromar93.worldchatter.utils.chatting;
 
-import me.omaromar93.worldchatter.Main;
+import me.omaromar93.worldchatter.WorldChatter;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 import me.omaromar93.worldchatter.utils.methods.MethodHandler;
 import net.md_5.bungee.api.ChatColor;
@@ -33,7 +33,7 @@ public final class ChattingSystem {
     }
 
     public static void coolThatPlayerDown(final Player player) {
-        cooldowns.put(player.getUniqueId(), getScheduler().runTaskLater(Main.INSTANCE, () -> cooldowns.remove(player.getUniqueId()), ConfigSystem.getConfig().getInt("AntiSpam") * 20L));
+        cooldowns.put(player.getUniqueId(), getScheduler().runTaskLater(WorldChatter.INSTANCE, () -> cooldowns.remove(player.getUniqueId()), ConfigSystem.getConfig().getInt("AntiSpam") * 20L));
     }
 
     public static void makeThatMessaageAloneInThatWorld(final AsyncPlayerChatEvent event) {

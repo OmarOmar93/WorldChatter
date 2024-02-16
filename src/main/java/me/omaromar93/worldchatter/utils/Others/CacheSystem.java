@@ -1,6 +1,6 @@
 package me.omaromar93.worldchatter.utils.Others;
 
-import me.omaromar93.worldchatter.Main;
+import me.omaromar93.worldchatter.WorldChatter;
 
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ public final class CacheSystem {
     }
 
     public static void removeCacheAfterSeconds(final String key, final int seconds) {
-        getScheduler().runTaskLaterAsynchronously(Main.INSTANCE, () -> removeCache(key), seconds * 20L);
+        getScheduler().runTaskLaterAsynchronously(WorldChatter.INSTANCE, () -> removeCache(key), seconds * 20L);
     }
 
     public static boolean hasCache(final String key) {

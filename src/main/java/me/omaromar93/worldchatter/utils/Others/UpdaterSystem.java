@@ -1,6 +1,7 @@
 package me.omaromar93.worldchatter.utils.Others;
 
-import me.omaromar93.worldchatter.Main;
+import me.omaromar93.worldchatter.WorldChatter;
+import me.omaromar93.worldchatter.utils.API.WorldChatterAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,18 +10,27 @@ import java.net.URL;
 
 public final class UpdaterSystem {
 
-    public static int newupdate;
+    public static String newupdate;
 
     public static Boolean isUpdated() {
-        if (CacheSystem.hasCache("update"))
+        if (CacheSystem.hasCache("update")) {
+            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners())
+                api.updateChecked((Boolean) CacheSystem.getCache("update"));
             return (Boolean) CacheSystem.getCache("update");
+        }
         try {
-            final int update = Integer.parseInt(getUrlAsString("https://api.spigotmc.org/legacy/update.php?resource=101226").replace(".", "")), updateold = Integer.parseInt(Main.INSTANCE.getDescription().getVersion().replace(".", ""));
+            String verstring = getUrlAsString("https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version");
+            final int update = Integer.parseInt(verstring.replace(".", "")), updateold = Integer.parseInt(WorldChatter.INSTANCE.getDescription().getVersion().replace(".", ""));
             CacheSystem.addCache("update", update > updateold);
             CacheSystem.removeCacheAfterSeconds("update", ConfigSystem.getConfig().getInt("CacheTimings.update"));
-            newupdate = update;
-            return update > updateold;
+            newupdate = verstring;
+            boolean updatecheck = update > updateold;
+            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners())
+                api.updateChecked(updatecheck);
+            return updatecheck;
         } catch (Exception e) {
+            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners())
+                api.updateChecked(false);
             return null;
         }
     }

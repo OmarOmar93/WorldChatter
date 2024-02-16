@@ -1,5 +1,6 @@
 package me.omaromar93.worldchatter;
 
+import me.omaromar93.worldchatter.utils.API.APICore;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 import me.omaromar93.worldchatter.utils.Others.PAPIDependSystem;
 import me.omaromar93.worldchatter.utils.Others.ThreadsSystem;
@@ -9,21 +10,23 @@ import me.omaromar93.worldchatter.utils.chatting.CommandSystem;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 import static org.bukkit.Bukkit.getConsoleSender;
 
-public final class Main extends JavaPlugin {
+public class WorldChatter extends JavaPlugin {
 
-    public static Main INSTANCE;
+    public static WorldChatter INSTANCE;
+    private APICore apiCore;
+
 
     @Override
     public void onEnable() {
         INSTANCE = this;
         getServer().getPluginManager().registerEvents(new ChatEventHandler(), this);
         getCommand("worldchatter").setExecutor(new CommandSystem());
+
+        apiCore = new APICore();
         ThreadsSystem.runAsync(() -> {
-            ConfigSystem.updateConfig();
+            ConfigSystem.updateConfig(null);
             final String s = PAPIDependSystem.isPAPIThere() ? ChatColor.GREEN + "Your server does have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.GREEN + " installed! " + ChatColor.GRAY + "(Unlocking the boundaries with PlaceholderAPI)" : ChatColor.RED + "Your server does not have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.RED + " installed! " + ChatColor.GRAY + "(Limited to only the built-in expressions)";
             getConsoleSender().sendMessage(s);
             Boolean b = UpdaterSystem.isUpdated();
@@ -39,8 +42,14 @@ public final class Main extends JavaPlugin {
         });
     }
 
+
+
     @Override
     public void onDisable() {
         getConsoleSender().sendMessage(ChatColor.BLUE + "Goodbye and thanks for using WorldChatter ^ - ^");
+    }
+
+    public APICore getAPICore() {
+        return apiCore;
     }
 }

@@ -1,5 +1,8 @@
 package me.omaromar93.worldchatter.utils.chatting;
 
+import me.omaromar93.worldchatter.WorldChatter;
+import me.omaromar93.worldchatter.utils.API.Addon;
+import me.omaromar93.worldchatter.utils.API.WorldChatterAPI;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 import me.omaromar93.worldchatter.utils.Others.ThreadsSystem;
 import me.omaromar93.worldchatter.utils.Others.UpdaterSystem;
@@ -20,7 +23,7 @@ public final class CommandSystem implements CommandExecutor {
                 if (args.length == 1) {
                     switch (args[0].toLowerCase()) {
                         case "reload":
-                            ConfigSystem.updateConfig();
+                            ConfigSystem.updateConfig(sender);
                             sender.sendMessage(ChatColor.GREEN + "Reloaded the WorldChatter's Configuration!");
                             return;
                         case "update":
@@ -42,20 +45,30 @@ public final class CommandSystem implements CommandExecutor {
                             }
                             final String s = Chatlock ? ChatColor.YELLOW + "The chat is now " + ChatColor.GREEN + "OPENED" : ChatColor.YELLOW + "The chat is now " + ChatColor.RED + "CLOSED";
                             Chatlock = !Chatlock;
+                            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners())
+                                api.chatLockToggle(sender, Chatlock);
                             sender.sendMessage(s);
+                            return;
+                        case "addons":
+                            sender.sendMessage("\n" + ChatColor.GRAY + "- " + ChatColor.GREEN + "WorldChatter Addons | " + WorldChatter.INSTANCE.getAPICore().getAddons().size() + ChatColor.GRAY + " -\n");
+                            for (final Addon addon : WorldChatter.INSTANCE.getAPICore().getAddons()) {
+                                sender.sendMessage(ChatColor.YELLOW + "-> " + addon.getName() + " by " + String.join(",", addon.getAuthors()) + "\n" + ChatColor.GRAY + "- " + addon.getDescription());
+                            }
                             return;
                         case "help":
                             sender.sendMessage("\n" + ChatColor.GRAY + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.GRAY + "-\n"
                                     + ChatColor.BLUE + "- Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (Chatlock ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.GRAY + ")" + "\n"
                                     + ChatColor.BLUE + "- Update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
-                                    + ChatColor.BLUE + "- reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n");
+                                    + ChatColor.BLUE + "- reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
+                                    + ChatColor.BLUE + "- addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n");
                     }
                     return;
                 }
                 sender.sendMessage("\n" + ChatColor.GRAY + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.GRAY + "-\n"
                         + ChatColor.BLUE + "- Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (Chatlock ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.GRAY + ")" + "\n"
                         + ChatColor.BLUE + "- Update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
-                        + ChatColor.BLUE + "- reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n");
+                        + ChatColor.BLUE + "- reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
+                        + ChatColor.BLUE + "- addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n");
             }
         });
         return true;

@@ -1,9 +1,11 @@
 package me.omaromar93.worldchatter.utils.Others;
 
-import me.omaromar93.worldchatter.Main;
+import me.omaromar93.worldchatter.WorldChatter;
+import me.omaromar93.worldchatter.utils.API.WorldChatterAPI;
 import me.omaromar93.worldchatter.utils.chatting.ChattingSystem;
 import me.omaromar93.worldchatter.utils.methods.AntiSwear;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -16,11 +18,11 @@ public final class ConfigSystem {
         return config;
     }
 
-    public static void updateConfig() {
-        Main.INSTANCE.getConfig().options().copyDefaults(true);
-        Main.INSTANCE.saveDefaultConfig();
-        Main.INSTANCE.reloadConfig();
-        config = Main.INSTANCE.getConfig();
+    public static void updateConfig(CommandSender sender) {
+        WorldChatter.INSTANCE.getConfig().options().copyDefaults(true);
+        WorldChatter.INSTANCE.saveDefaultConfig();
+        WorldChatter.INSTANCE.reloadConfig();
+        config = WorldChatter.INSTANCE.getConfig();
         for (final BukkitTask task : ChattingSystem.cooldowns.values()) {
             task.cancel();
         }
@@ -29,7 +31,8 @@ public final class ConfigSystem {
             AntiSwear.update();
         } catch (IOException e) {
             e.printStackTrace();
-            Main.INSTANCE.getServer().getConsoleSender().sendMessage(ChatColor.RED + "That didn't suppose to happen,An error has occurred while updating the profanity list.. Please contact the developer to check about it");
+            WorldChatter.INSTANCE.getServer().getConsoleSender().sendMessage(ChatColor.RED + "That didn't suppose to happen,An error has occurred while updating the profanity list.. Please contact the developer to check about it");
         }
+        for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners()) api.configReload(sender);
     }
 }

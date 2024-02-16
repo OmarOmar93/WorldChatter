@@ -1,6 +1,6 @@
 package me.omaromar93.worldchatter.utils.methods;
 
-import me.omaromar93.worldchatter.Main;
+import me.omaromar93.worldchatter.WorldChatter;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 
 import java.io.*;
@@ -34,7 +34,7 @@ public final class AntiSwear {
 
     public static void update() throws IOException {
         list.clear();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader((Main.INSTANCE.getResource("profanity_list.txt"))));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader((WorldChatter.INSTANCE.getResource("profanity_list.txt"))));
         String line;
         while ((line = reader.readLine()) != null) {
             list.add(line.trim().toLowerCase());

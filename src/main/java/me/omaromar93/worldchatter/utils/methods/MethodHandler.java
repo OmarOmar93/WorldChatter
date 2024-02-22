@@ -5,6 +5,7 @@ import me.omaromar93.worldchatter.utils.API.WorldChatterAPI;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 import me.omaromar93.worldchatter.utils.Others.ThreadsSystem;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
@@ -14,16 +15,19 @@ import java.util.List;
 
 public final class MethodHandler {
 
-    public static void runMethodsOnMessage(final Player player, @NotNull final String message, final AsyncPlayerChatEvent event) {
+    public static void runMethodsOnMessage(final Player player, @NotNull String message, final AsyncPlayerChatEvent event) {
         final List<String> list = detectMethods(message, player);
         if (list.contains("AntiSwear") || list.contains("AntiADS")) {
             event.setCancelled(true);
-            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners()) api.messageDetect(event, list);
+            for (final WorldChatterAPI api : WorldChatter.INSTANCE.getAPICore().getListeners())
+                api.messageDetect(event, list);
             ThreadsSystem.runAsync(() -> sendToConsoleAndStaff(event, list));
             return;
         }
         if (ConfigSystem.getConfig().getBoolean("ChatFormat"))
             event.setFormat(Expression.expressIt(player, ChatColor.translateAlternateColorCodes('&', ConfigSystem.getConfig().getString("FormatString"))).replace("%", "%%") + "%2$s");
+        if (ConfigSystem.getConfig().getBoolean("texts.enabled"))
+            message = Expression.replaceIt(player, message);
         event.setMessage(ConfigSystem.getConfig().getBoolean("ColoredText") ? ChatColor.translateAlternateColorCodes('&', message) : message);
     }
 
@@ -33,8 +37,8 @@ public final class MethodHandler {
                 .replace("%player%", event.getPlayer().getName())
                 .replace("%flags%", String.join(", ", list))
                 .replace("%message%", event.getMessage()));
-        WorldChatter.INSTANCE.getServer().getConsoleSender().sendMessage(message);
-        for (final Player player : WorldChatter.INSTANCE.getServer().getOnlinePlayers()) {
+        Bukkit.getConsoleSender().sendMessage(message);
+        for (final Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("worldchatter.control")) player.sendMessage(message);
         }
         final String playermessage = ChatColor.translateAlternateColorCodes('&', ConfigSystem.getConfig().getString("DetectedPlayerMessage")

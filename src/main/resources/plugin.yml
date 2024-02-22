@@ -7,6 +7,9 @@ softdepend: [PlaceholderAPI]
 authors: [OmarOmar93]
 description: Every world deserves its own conversation.
 permissions:
+  worldchatter.admintext:
+    description: Access more replacement texts by having this permission
+    default: op
   worldchatter.control:
     default: op
     description: Control worldchatter's command

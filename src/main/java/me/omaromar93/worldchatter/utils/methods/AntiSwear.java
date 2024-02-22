@@ -1,9 +1,9 @@
 package me.omaromar93.worldchatter.utils.methods;
 
-import me.omaromar93.worldchatter.WorldChatter;
 import me.omaromar93.worldchatter.utils.Others.ConfigSystem;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -34,11 +34,14 @@ public final class AntiSwear {
 
     public static void update() throws IOException {
         list.clear();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader((WorldChatter.INSTANCE.getResource("profanity_list.txt"))));
+        final URL url = new URL(ConfigSystem.getConfig().getString("ASWLocation"));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = reader.readLine()) != null) {
-            list.add(line.trim().toLowerCase());
+            if (line.length() > 1) list.add(line.trim().toLowerCase()
+                    .replaceAll("[^a-zA-Z0-9]", " "));
         }
+        reader.close();
         list.addAll(ConfigSystem.getConfig().getStringList("CustomSwearWords"));
         pattern = Pattern.compile(getRegex());
         reader.close();

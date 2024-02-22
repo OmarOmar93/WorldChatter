@@ -1,7 +1,7 @@
 package me.omaromar93.worldchatter.utils.API;
 
-import me.omaromar93.worldchatter.WorldChatter;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +14,7 @@ public class APICore {
 
     private final HashMap<Plugin, Addon> addons = new HashMap<>();
 
+    @SuppressWarnings("ALL")
     public void addListener(final @NotNull Plugin plugin, final @NotNull WorldChatterAPI worldChatterAPI) {
         if (addons.containsKey(plugin)) {
             addons.get(plugin).addListener(worldChatterAPI);
@@ -26,7 +27,7 @@ public class APICore {
 
         addons.put(plugin, addon);
 
-        WorldChatter.INSTANCE.getServer().getConsoleSender().sendMessage(ChatColor.WHITE + "(WorldChatter Addons) " + ChatColor.YELLOW + "Detected Addon -> " + ChatColor.BLUE + plugin.getName());
+        Bukkit.getConsoleSender().sendMessage(ChatColor.WHITE + "(WorldChatter Addons) " + ChatColor.YELLOW + "Detected Addon -> " + ChatColor.BLUE + plugin.getName());
     }
 
     public Collection<Addon> getAddons() {

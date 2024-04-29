@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WorldChatter/WorldChatter.iml" filepath="$PROJECT_DIR$/WorldChatter/WorldChatter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WorldChatterBungee/WorldChatterBungee.iml" filepath="$PROJECT_DIR$/WorldChatterBungee/WorldChatterBungee.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WorldChatter">
+    <output-path>$PROJECT_DIR$/../../Servers/Minecraft</output-path>
+    <root id="archive" name="WorldChatter.jar">
+      <element id="module-output" name="Common" />
+      <element id="module-output" name="WorldChatter" />
+      <element id="module-output" name="WorldChatterBungee" />
+    </root>
+  </artifact>
+</component>

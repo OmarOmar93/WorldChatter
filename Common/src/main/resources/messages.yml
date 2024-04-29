@@ -1,0 +1,23 @@
+# Message Settings
+
+DetectedMessage: "&c%player%'s message got detected by the following flags &e[%flags%] \n----------> &6%message%" # Change how the detection message is sent
+DetectedPlayerMessage: "&cYou have been detected by the following flags &e[%flags%]" # Changes how the message is sent to the player (set it to "" if you don't want to send it)
+SpamMessage: "&cYour message is blocked by the &eAnti-Spam" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
+
+
+CustomJoinQuit: true # Allow for Custom Join and Quit Messages
+Join:
+  message: "&a%player% &fhas joined the game!"
+  permmode: true # Checks to use the permissions mode to send messages / disabled will use minecraft's default message
+  permissions:
+    admin:
+      permissions: ["worldchatter.control", "*"]
+      message: "&a%player% &fhas joined the game\n<;hover_text;&aClick to teleport to %player%;run_command;/tp %player%;&e[Teleport to %player%];>"
+
+Quit:
+  message: "&a%player% &fhas left the game!"
+  permmode: false # Checks to use the permissions below to show a different message or no!
+  permissions:
+    admin:
+      permissions: ["worldchatter.control", "*"]
+      message: "&a%player% &fhas left the game &8You have nothing to do to that player :P"

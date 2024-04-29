@@ -1,0 +1,6 @@
+name: WorldChatter
+version: '${project.version}'
+main: me.omaromar93.worldchatterbungee.WorldChatterBungee
+softdepend: [ PlaceholderAPI ]
+author: OmarOmar93
+description: Enhance your Chatting Experience.

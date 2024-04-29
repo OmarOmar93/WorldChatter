@@ -1,0 +1,33 @@
+# Text Replacement Settings
+
+texts: # Replaces a certain text with another text
+  enabled: true
+  messages:
+    "heart":
+      text: "<3"
+      replace: "❤"
+      perm: false # if player has permission 'worldchatter.admintext'
+    "star":
+      text: ":star:"
+      replace: "✮"
+      perm: false
+    "yes":
+      text: ":yes:"
+      replace: "✔"
+      perm: false
+    "no":
+      text: ":no:"
+      replace: "✖"
+      perm: false
+    "pvp":
+      text: ":pvp:"
+      replace: "⚔"
+      perm: false
+    "skull":
+      text: ":skull:"
+      replace: "☠"
+      perm: false
+    "lenny":
+      text: ":lenny:"
+      replace: "( ͡° ͜ʖ ͡°)"
+      perm: false

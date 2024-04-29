@@ -1,0 +1,40 @@
+name: WorldChatter
+version: '${project.version}'
+main: me.omaromar93.worldchatter.WorldChatter
+prefix: WorldChatterLog
+load: POSTWORLD
+softdepend: [PlaceholderAPI]
+authors: [OmarOmar93]
+description: Enhance your chatting experience.
+permissions:
+  worldchatter.admintext:
+    description: Access more replacement texts by having this permission
+    default: op
+  worldchatter.control:
+    default: op
+    description: Control worldchatter's command
+  worldchatter.bypass.*:
+    default: op
+    description: Bypass worldchatter's Security settings
+    children:
+      worldchatter.bypass.antiswear: true
+      worldchatter.bypass.antiads: true
+      worldchatter.bypass.antispam: true
+      worldchatter.bypass.chatlock: true
+  worldchatter.bypass.antiswear:
+    default: op
+    description: Bypass Worldchatter's AntiSwear detection
+  worldchatter.bypass.antiads:
+    default: op
+    description: Bypass Worldchatter's AntiADs detection
+  worldchatter.bypass.antispam:
+    default: op
+    description: Bypass Worldchatter's AntiSpam detection
+  worldchatter.bypass.chatlock:
+    default: op
+    description: Bypass Worldchatter's ChatLock Feature
+commands:
+  worldchatter:
+    description: The power of the chat in the palm of your hand.
+    aliases:
+      - wc

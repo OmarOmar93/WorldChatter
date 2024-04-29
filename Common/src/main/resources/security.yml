@@ -1,0 +1,19 @@
+# Security Settings
+
+AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
+AntiADS: true # Any Ads from the player's message is blocked. (it's bypassable for people with "worldchatter.bypass.antiads" permission)
+ChatLock: true # preventing the chat from being sent and unlocking it (Players who only have "worldchatter.control" permission)
+
+
+# ------------------------------------------------------------------------------------
+
+# Anti-Swear Settings
+
+AntiSwear: true # Blocks any negative words from the player's message. (BETA) - (it's bypassable for people with "worldchatter.bypass.antiswear" permission)
+CustomSwearWords:
+  - bisexual
+  - lesbian
+  - gay
+WhitelistSwearWords: # Allows any negative words from the list
+  - add_text_here
+# This is not an assault; I am simply attempting to add words that the original anti-swear does not contain.

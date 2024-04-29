@@ -1,0 +1,44 @@
+# - WorldChatter By OmarOmar93 - #
+
+# Worlds that have been blacklisted from using WorldChatter
+BlackListPlaces:
+  - world_the_end
+solomessage: true # keeps the message limited to the blacklist worlds still.
+
+# ------------------------------------------------------------------------------------
+
+# Other Settings
+GlobalChat: false # makes the message visible to every world
+
+# ------------------------------------------------------------------------------------
+
+# Color Settings
+
+ColoredText: true # It checks whether you can change the & to § in chat.
+HexColor: true # Translates hex code into color as well (Works on 1.16+)
+# Bungeecord or any other fork related to bungee doesn't support hex color codes :(
+
+
+# ------------------------------------------------------------------------------------
+
+# Notification Settings
+
+notifications: true # toggles the notification sound feature to be enabled or not
+
+notification:
+  staff: # notification detection for staff
+    sound: "BLOCK_NOTE_BLOCK_PLING" # the sound to play as the notification you can find it here by https://helpch.at/docs/SERVER_VERSION_GOES_HERE/index.html?org/bukkit/Sound.html
+    volume: 1 # volume of the sound
+    pitch: 1 # pitch of the sound
+  player: # notification detection to the player
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+    volume: 1
+    pitch: 1
+
+# ------------------------------------------------------------------------------------
+
+# Deep-in Settings. do not touch unless you know what you're doing
+
+ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"
+CacheTimings:
+  update: 300

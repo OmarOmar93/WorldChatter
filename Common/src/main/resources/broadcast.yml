@@ -1,0 +1,17 @@
+# Broadcast Settings
+
+broadcast:
+  enabled: false
+  messagecycle: 10 # The number of seconds to send a broadcast message
+  shufflemessages: true # each player has a different message false will make the same message to all players
+  commonmessages:
+    - "all"
+  places: # represents Worlds in bukkit/spigot but in bungeecord it represents servers!
+    world:
+      - "&e-> Thanks for using worldchatter!"
+      - "&e-> Make sure to be updated for more features and bug fixes <;open_url;https://www.spigotmc.org/resources/worldchatter-1-8-1-20.101226/;hover_text;Click to visit the &eSpigotMC Page!;&a[SpigotMC];>"
+      - "&eColor yellow."
+    world_nether:
+      - "&cWelcome to the nether."
+    world_the_end:
+      - "&fThe end." # it won't work unless you remove it from the Blacklist

@@ -1,0 +1,4 @@
+# Project exclude paths
+/Common/target/
+/WorldChatter/target/
+/WorldChatterBungee/target/

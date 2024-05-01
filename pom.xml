@@ -7,7 +7,7 @@
     <artifactId>WorldChatterCore</artifactId>
     <version>2.4.0-BETA-1</version>
     <packaging>pom</packaging>
-<!--Your comment-->
+         
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

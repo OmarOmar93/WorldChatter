@@ -7,6 +7,7 @@ import Others.PlayerSystem;
 import Others.SoundSystem;
 import Others.ThreadsSystem;
 import UniversalFunctions.ChatEvent;
+import UniversalFunctions.LegacyChatColor;
 import UniversalFunctions.Player;
 import UniversalFunctions.UniLogHandler;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public final class MethodHandler {
 
-    public static void runMethodsOnMessage(final Player player, @NotNull String message, final ChatEvent event) {
+    public static void runMethodsOnMessage(final Player player, @NotNull String message, final ChatEvent event, final Boolean legacy) {
         if (ConfigSystem.INSTANCE.getTexts().getBoolean("texts.enabled", true))
             message = Expression.replaceIt(player, message);
         final List<String> list = detectMethods(message, player);
@@ -25,10 +26,10 @@ public final class MethodHandler {
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) {
                 api.messageDetect(event, list, event.getOriginEvent());
             }
-            ThreadsSystem.runAsync(() -> sendToConsoleAndStaff(event, list));
+            ThreadsSystem.runAsync(() -> sendToConsoleAndStaff(event, list, legacy));
             return;
         }
-        if (ConfigSystem.INSTANCE.getConfig().getBoolean("ColoredText", true)) {
+        if (ConfigSystem.INSTANCE.getConfig().getBoolean("ColoredText", true) && !legacy) {
             message = Expression.translateColors(message);
         }
         if (ConfigSystem.INSTANCE.getFormat().getBoolean("ChatFormat", true)) {
@@ -37,18 +38,20 @@ public final class MethodHandler {
                 return;
             } else {
                 event.setFormat(Expression.formatChat(player, event.PAPI()));
-                event.setFormat(Expression.translateColors(event.getFormat()));
+                if(!legacy) event.setFormat(Expression.translateColors(event.getFormat()));
+                else event.setFormat(event.getFormat());
             }
         }
         event.setMessage(message);
     }
 
-    public static void sendToConsoleAndStaff(final ChatEvent event, final List<String> list) {
+    public static void sendToConsoleAndStaff(final ChatEvent event, final List<String> list, final boolean legacy) {
         String message = ConfigSystem.INSTANCE.getMessages().get("DetectedMessage", "").toString()
-                .replace("%player%", event.getPlayer().getName())
+                .replace("%player_name%", event.getPlayer().getName())
                 .replace("%flags%", String.join(", ", list))
                 .replace("%message%", event.getMessage());
-        message = Expression.translateColors(message);
+        if(!legacy) message = Expression.translateColors(message);
+        else message = LegacyChatColor.translateAlternateColorCodes('&',message);
         UniLogHandler.INSTANCE.sendMessage(message);
         for (final Player player : PlayerSystem.INSTANCE.getPlayers()) {
             if (player.hasPermission("worldchatter.control")) {
@@ -57,9 +60,10 @@ public final class MethodHandler {
             }
         }
         String playermessage = ConfigSystem.INSTANCE.getMessages().get("DetectedPlayerMessage", "").toString()
-                .replace("%player%", event.getPlayer().getName())
+                .replace("%player_name%", event.getPlayer().getName())
                 .replace("%flags%", String.join(", ", list));
-        playermessage = Expression.translateColors(playermessage);
+        if(!legacy) playermessage = Expression.translateColors(playermessage);
+        else playermessage = LegacyChatColor.translateAlternateColorCodes('&',playermessage);
         if (!playermessage.isEmpty()) {
             event.getPlayer().sendMessage(playermessage);
             SoundSystem.playSoundToPlayer(event.getPlayer(), false);

@@ -1,5 +1,7 @@
 package me.omaromar93.worldchatterbungee;
 
+import API.APICore;
+import API.WorldChatterAPI;
 import Others.ConfigSystem;
 import Others.PlayerSystem;
 import Others.ThreadsSystem;
@@ -29,6 +31,7 @@ public final class WorldChatterBungee extends Plugin {
 
         ThreadsSystem.runAsync(() -> {
             ConfigSystem.INSTANCE.update();
+            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null,null);
             getProxy().getPluginManager().registerListener(this, new PlayerEventHandler());
             final Boolean b = UpdaterSystem.isUpdated();
             for (final ProxiedPlayer player : getProxy().getPlayers()) {

@@ -8,8 +8,7 @@ import chatting.ChattingSystem;
 import UniversalFunctions.YMLFile;
 import methods.AntiSwear;
 import methods.Expression;
-import methods.MoreFormat;
-import net.md_5.bungee.api.ChatColor;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +30,6 @@ public final class ConfigSystem {
         this.logger = logger;
 
         new APICore();
-        new MoreFormat();
         new PlayerSystem();
         new BroadcastSystemConnector();
     }
@@ -40,22 +38,15 @@ public final class ConfigSystem {
         final File file = new File("plugins/WorldChatter");
 
         if (file.mkdir()) {
-            UniLogHandler.INSTANCE.sendMessage(ChatColor.GREEN + "Created WorldChatter folder!");
+            UniLogHandler.INSTANCE.sendMessage("Created WorldChatter folder!");
         }
 
-        if (texts == null) updateTexts();
-        if (config == null) updateConfig();
-        if (format == null) updateFormat();
-        if (security == null) updateSecurity();
-        if (messages == null) updateMessages();
-        if (broadcast == null) updateBroadcast();
-
-        texts.update();
-        config.update();
-        format.update();
-        security.update();
-        messages.update();
-        broadcast.update();
+        updateTexts();
+        updateConfig();
+        updateFormat();
+        updateSecurity();
+        updateMessages();
+        updateBroadcast();
 
 
         Expression.update();
@@ -73,8 +64,6 @@ public final class ConfigSystem {
         }
 
         ChattingSystem.cooldowns.clear();
-
-        for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null);
     }
 
     public Logger getLogger() {
@@ -106,27 +95,33 @@ public final class ConfigSystem {
     }
 
     private void updateConfig() {
-        config = new YMLFile(copyFromIDE("config.yml").toPath());
+        if(config == null) config = new YMLFile(copyFromIDE("config.yml").toPath());
+        config.update();
     }
 
     private void updateMessages() {
-        messages = new YMLFile(copyFromIDE("messages.yml").toPath());
+        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml").toPath());
+        messages.update();
     }
 
     private void updateBroadcast() {
-        broadcast = new YMLFile(copyFromIDE("broadcast.yml").toPath());
+        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml").toPath());
+        broadcast.update();
     }
 
     private void updateFormat() {
-        format = new YMLFile(copyFromIDE("format.yml").toPath());
+        if(format == null) format = new YMLFile(copyFromIDE("format.yml").toPath());
+        format.update();
     }
 
     private void updateSecurity() {
-        security = new YMLFile(copyFromIDE("security.yml").toPath());
+        if(security == null) security = new YMLFile(copyFromIDE("security.yml").toPath());
+        security.update();
     }
 
     private void updateTexts() {
-        texts = new YMLFile(copyFromIDE("texts.yml").toPath());
+        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml").toPath());
+        texts.update();
     }
 
     public File copyFromIDE(final String key) {

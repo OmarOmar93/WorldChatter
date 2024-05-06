@@ -37,7 +37,7 @@ public class BungeePlayer implements Player {
     }
 
     @Override
-    public void playSound(String soundName, float volume, float pitch) {
+    public void playSound(final String soundName, final float volume, final float pitch) {
         Pplayer.playSound(Sound.valueOf(soundName), SoundCategory.MASTER, 1f, 1f);
     }
 

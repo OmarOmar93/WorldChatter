@@ -33,7 +33,7 @@ public class ChatEventHandler implements Listener {
             return;
         }
 
-        ChattingSystem.returnFormattedMessage(chatEvent);
+        ChattingSystem.returnFormattedMessage(chatEvent,false);
         if (chatEvent.isCancelled()) return;
         message = new TextComponent(chatEvent.getMessage());
 

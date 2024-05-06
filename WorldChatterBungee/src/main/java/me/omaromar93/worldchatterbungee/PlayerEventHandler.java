@@ -52,7 +52,7 @@ public class PlayerEventHandler implements Listener {
                         for (final HashMap<String, Object> map : joinSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
                                 p.sendMessage(MoreFormat.FormatMore(Expression.translateColors(map.get("message").toString())
-                                        .replace("%player%", event.getPlayer().getName())));
+                                        .replace("%player_name%", event.getPlayer().getName())));
                                 continue;
                             }
                             p.sendMessage(messagedefault);
@@ -90,9 +90,9 @@ public class PlayerEventHandler implements Listener {
 
     public String getDefaultMessage(final ProxiedPlayer player, final boolean quit) {
         return Expression.translateColors(quit ? Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Quit.message")).toString()
-                .replace("%player%", player.getName()) :
+                .replace("%player_name%", player.getName()) :
                 Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Join.message")).toString()
-                        .replace("%player%", player.getName()));
+                        .replace("%player_name%", player.getName()));
     }
 
     private boolean hasPermission(final ProxiedPlayer player, final List<String> permissions) {

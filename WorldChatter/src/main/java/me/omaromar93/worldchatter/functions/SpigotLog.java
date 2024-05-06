@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 public class SpigotLog implements UniLog {
     @Override
-    public void sendmessage(String message) {
+    public void sendmessage(final String message) {
         Bukkit.getConsoleSender().sendMessage(message);
     }
 }

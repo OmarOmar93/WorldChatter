@@ -3,6 +3,7 @@ package chatting;
 import Others.ConfigSystem;
 import Others.SoundSystem;
 import UniversalFunctions.ChatEvent;
+import UniversalFunctions.LegacyChatColor;
 import UniversalFunctions.Player;
 import methods.Expression;
 import methods.MethodHandler;
@@ -25,11 +26,14 @@ public final class ChattingSystem {
         return ChatLock;
     }
 
-    public static void returnFormattedMessage(final ChatEvent event) {
+    public static void returnFormattedMessage(final ChatEvent event, final Boolean leagcy) {
         if ((!event.getPlayer().hasPermission("worldchatter.bypass.antispam") && cooldowns.containsKey(event.getPlayer().getUUID())) || (ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLock") && ChatLock && !event.getPlayer().hasPermission("worldchatter.bypass.chatlock"))) {
             event.setCancelled(true);
-            final String spam = Expression.translateColors(ConfigSystem.INSTANCE.getMessages().get("SpamMessage", "").toString()
-                    .replace("%player%", event.getPlayer().getName()));
+            String spam;
+            if(!leagcy) spam = Expression.translateColors(ConfigSystem.INSTANCE.getMessages().get("SpamMessage", "").toString()
+                    .replace("%player_name%", event.getPlayer().getName()));
+            else spam = LegacyChatColor.translateAlternateColorCodes('&',ConfigSystem.INSTANCE.getMessages().get("SpamMessage", "").toString()
+                    .replace("%player_name%", event.getPlayer().getName()));
             if (cooldowns.containsKey(event.getPlayer().getUUID()) && !spam.isEmpty()) {
                 event.getPlayer().sendMessage(spam);
                 SoundSystem.playSoundToPlayer(event.getPlayer(), false);
@@ -38,7 +42,7 @@ public final class ChattingSystem {
         }
         if (ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") > 0)
             coolThatPlayerDown(event.getPlayer());
-        MethodHandler.runMethodsOnMessage(event.getPlayer(), event.getMessage(), event);
+        MethodHandler.runMethodsOnMessage(event.getPlayer(), event.getMessage(), event, leagcy);
     }
 
     private static void coolThatPlayerDown(final Player player) {

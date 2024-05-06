@@ -28,16 +28,13 @@ public final class YMLFile {
     }
 
     public void update() {
-        try {
-            try (InputStream inputStream = Files.newInputStream(filePath)) {
-                data = yaml.load(inputStream);
-            }
-
-            if (data == null) data = new HashMap<>();
+        try (InputStream inputStream = Files.newInputStream(filePath)) {
+            data = yaml.load(inputStream);
         } catch (final IOException e) {
             ConfigSystem.INSTANCE.getLogger().severe("Couldn't load yaml from file " + filePath.toFile().getName() + ": " + e.getMessage());
             data = new HashMap<>();
         }
+        if (data == null) data = new HashMap<>();
     }
 
     public boolean getBoolean(final @NotNull String key) {

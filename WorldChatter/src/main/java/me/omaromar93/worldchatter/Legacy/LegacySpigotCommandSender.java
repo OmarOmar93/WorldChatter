@@ -1,14 +1,14 @@
-package me.omaromar93.worldchatter.functions;
+package me.omaromar93.worldchatter.Legacy;
 
 import UniversalFunctions.CommandSender;
-import methods.MoreFormat;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class SpigotCommandSender implements CommandSender {
+public class LegacySpigotCommandSender implements CommandSender {
 
     private final org.bukkit.command.CommandSender sender;
 
-    public SpigotCommandSender(final org.bukkit.command.CommandSender sender) {
+    public LegacySpigotCommandSender(final org.bukkit.command.CommandSender sender) {
         this.sender = sender;
     }
 
@@ -19,11 +19,7 @@ public class SpigotCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(final String message) {
-        try {
-            sender.spigot().sendMessage(MoreFormat.FormatMore(message));
-        } catch (final NoSuchMethodError ignored){
-            sender.sendMessage(message);
-        }
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',message));
     }
 
     @Override

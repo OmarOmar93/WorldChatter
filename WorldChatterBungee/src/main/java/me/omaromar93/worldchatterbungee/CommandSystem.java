@@ -18,22 +18,33 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 
 public class CommandSystem extends Command {
 
+    final List<String> cleaner = new ArrayList<>();
+
     public CommandSystem() {
         super("worldchatter", "worlcchatter.control", "wc"); // Command name
+        while (cleaner.size() < 100) {
+            cleaner.add("§f\n");
+        }
     }
 
     @Override
     public void execute(final CommandSender commandSender, final String[] args) {
         ThreadsSystem.runAsync(() -> {
             final UniversalFunctions.CommandSender sender = new BungeeCommandSender(commandSender);
-            if(args.length > 0) {
+            if (args.length > 0) {
                 if (sender.hasPermission("worldchatter.control")) {
                     switch (args[0].toLowerCase()) {
                         case "reload":
                             ConfigSystem.INSTANCE.update();
+                            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
+                                api.configReload(sender, commandSender);
                             sender.sendMessage(ChatColor.GREEN + "Reloaded the WorldChatter's Configuration!");
                             return;
                         case "update":
@@ -48,16 +59,28 @@ public class CommandSystem extends Command {
                             }
                             sender.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
                             return;
+                        case "clear":
+                        case "clearchat":
+                        case "cc":
+                            for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
+                                player.sendMessage(new TextComponent(String.join(" ", cleaner)
+                                        + Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString()
+                                        .replace("%sender%", sender.getName()))));
+                            sender.sendMessage(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString());
+                            return;
                         case "lock":
                             if (!ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLock")) {
                                 sender.sendMessage(ChatColor.YELLOW + "The " + ChatColor.BLUE + "'ChatLock' " + ChatColor.YELLOW + "is disabled, toggling it won't do anything");
                                 return;
                             }
                             final boolean lock = ChattingSystem.toggleChatLock();
-                            final String s = !lock ? ChatColor.YELLOW + "The chat is now " + ChatColor.GREEN + "OPENED" : ChatColor.YELLOW + "The chat is now " + ChatColor.RED + "CLOSED";
+                            final String s = ChatColor.translateAlternateColorCodes('&', !lock ? Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.unlocked")).toString() : Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.locked")).toString());
                             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
-                                api.chatLockToggle(sender, lock);
-                            sender.sendMessage(s);
+                                api.chatLockToggle(sender, lock, commandSender);
+                            if (ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLockMessage.public"))
+                                for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
+                                    player.sendMessage(MoreFormat.FormatMore(s));
+                            sender.sendMessage(ChatColor.YELLOW + "Successfully Toggled the Chat: " + (lock ? ChatColor.RED + "LOCKED" : ChatColor.GREEN + "UNLOCKED"));
                             return;
                         case "addons":
                             sender.sendMessage("\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Addons | " + APICore.INSTANCE.getAddons().size() + ChatColor.WHITE + " -\n");
@@ -67,7 +90,7 @@ public class CommandSystem extends Command {
                             return;
                         case "bc":
                         case "broadcast":
-                            if(args.length > 1) {
+                            if (args.length > 1) {
                                 final StringBuilder builder = new StringBuilder();
                                 for (int i = 1; i < args.length; i++) {
                                     builder.append(args[i]).append(" ");
@@ -79,18 +102,24 @@ public class CommandSystem extends Command {
                                     message = Expression.translateColors(message);
                                 }
                                 sender.sendMessage(ChatColor.GREEN + "Successfully sent! >>> " + ChatColor.WHITE + message);
-                                for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
+                                for (final ServerInfo server : ProxyServer.getInstance().getServers().values()) {
                                     if (!ConfigSystem.INSTANCE.getConfig().getStringList("BlackListPlaces").contains(server.getName())) {
-                                        for (ProxiedPlayer player : server.getPlayers()) {
+                                        for (final ProxiedPlayer player : server.getPlayers()) {
                                             if (sender.getName().equals(player.getName())) {
                                                 continue;
                                             }
-                                            TextComponent textComponent = MoreFormat.FormatMore(message);
+                                            final TextComponent textComponent = MoreFormat.FormatMore(message);
                                             player.sendMessage(textComponent);
                                         }
                                     }
                                 }
                             }
+                            return;
+                        case "info":
+                        case "version":
+                            sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion() + "\n"
+                                    + ChatColor.YELLOW + "Created By: " + WorldChatterBungee.INSTANCE.getDescription().getAuthor() + "\n"
+                                    + "Update Title: " + ChatColor.GOLD + "The Wild Update");
                             return;
                         case "help":
                             sender.sendMessage("\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"
@@ -98,13 +127,14 @@ public class CommandSystem extends Command {
                                     + ChatColor.BLUE + "- wc update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
                                     + ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
                                     + ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n"
-                                    + ChatColor.BLUE + "- wc broadcast" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)" + "\n");
+                                    + ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!" + "\n"
+                                    + ChatColor.BLUE + "- wc broadcast" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)" + "\n"
+                                    + ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!" + "\n");
                             return;
                     }
                     sender.sendMessage(ChatColor.RED + "- INVALID ARGUMENT" + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Type 'wc help' to check for available list!");
                 }
             }
         });
-
     }
 }

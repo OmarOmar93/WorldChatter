@@ -3,7 +3,7 @@
 ChatFormat: true
 NewLine: true # Allows players to place new lines in their messages '\n'
 DefaultFormat: "[%player_place%] %player_name%: " # Default Format to use
-AdvancedFormat: true # Uses the new 2.4 Formats "<;font;minecraft:unicode;text;> (BETA)
+AdvancedFormat: true # Uses the new 2.4 Formats "<;font;minecraft:unicode;text;>
 FormatSettings: # the slash will represent each mode for better understanding.
   Mode: 1 # 1 represents permissions mode / 2 represents player mode
   Formats:

@@ -50,7 +50,7 @@ public class BroadcastSystem implements BroadcastSystemInterface {
                             }
                             return;
                         }
-                        TextComponent textComponent = MoreFormat.FormatMore(Expression.translateColors(messages.get(getrandomint(messages.size()))));
+                        final TextComponent textComponent = MoreFormat.FormatMore(Expression.translateColors(messages.get(getrandomint(messages.size()))));
                         for (final ProxiedPlayer player : server.getPlayers()) {
                             player.sendMessage(textComponent);
                         }
@@ -63,7 +63,7 @@ public class BroadcastSystem implements BroadcastSystemInterface {
                         }
                         return;
                     }
-                    TextComponent textComponent = MoreFormat.FormatMore(Expression.translateColors(messages.get(getrandomint(messages.size()))));
+                    final TextComponent textComponent = MoreFormat.FormatMore(Expression.translateColors(messages.get(getrandomint(messages.size()))));
                     for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                         player.sendMessage(textComponent);
                     }

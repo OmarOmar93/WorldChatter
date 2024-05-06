@@ -3,6 +3,10 @@
 AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
 AntiADS: true # Any Ads from the player's message is blocked. (it's bypassable for people with "worldchatter.bypass.antiads" permission)
 ChatLock: true # preventing the chat from being sent and unlocking it (Players who only have "worldchatter.control" permission)
+ChatLockMessage:
+  public: true # TRUE | Shows the message to everyone or FALSE | just the sender
+  locked: "&eThe Chat is now &cLOCKED &eby &a%sender%"
+  unlocked: "&eThe Chat is now &aUNLOCKED &eby &a%sender%"
 
 
 # ------------------------------------------------------------------------------------

@@ -53,18 +53,23 @@ public class PlayerEventHandler implements Listener {
                     if (joinMode) {
                         for (final HashMap<String, Object> map : joinSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player%", event.getPlayer().getName())));
+                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName()))));
                                 continue;
                             }
-                            p.spigot().sendMessage(messagedefault);
+                            p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
                         }
                         continue;
                     }
-                    p.spigot().sendMessage(messagedefault);
+                    p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
                 }
             }
-            Bukkit.getConsoleSender().spigot().sendMessage(messagedefault);
+            try {
+                Bukkit.getConsoleSender().spigot().sendMessage(Objects.requireNonNull(messagedefault));
+            } catch (final NoSuchMethodError ignored) {
+                assert messagedefault != null;
+                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault.toLegacyText()));
+            }
         }
     }
 
@@ -79,18 +84,23 @@ public class PlayerEventHandler implements Listener {
                     if (quitMode) {
                         for (final HashMap<String, Object> map : quitSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player%", event.getPlayer().getName())));
+                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName()))));
                                 continue;
                             }
-                            p.spigot().sendMessage(messagedefault);
+                            p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
                         }
                         continue;
                     }
-                    p.spigot().sendMessage(messagedefault);
+                    p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
                 }
             }
-            Bukkit.getConsoleSender().spigot().sendMessage(messagedefault);
+            try {
+                Bukkit.getConsoleSender().spigot().sendMessage(Objects.requireNonNull(messagedefault));
+            } catch (final NoSuchMethodError ignored) {
+                assert messagedefault != null;
+                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault.toLegacyText()));
+            }
         }
     }
 
@@ -100,11 +110,11 @@ public class PlayerEventHandler implements Listener {
                         quit ? Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Quit.message")).toString()
                                 :
                                 Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Join.message")).toString()
-                                        .replace("%player%", player.getName()))) :
+                                        .replace("%player_name%", player.getName()))) :
                 quit ? Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Quit.message")).toString()
-                        .replace("%player%", player.getName()) :
+                        .replace("%player_name%", player.getName()) :
                         Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Join.message")).toString()
-                                .replace("%player%", player.getName());
+                                .replace("%player_name%", player.getName());
     }
 
     private boolean hasPermission(final org.bukkit.entity.Player player, final List<String> permissions) {

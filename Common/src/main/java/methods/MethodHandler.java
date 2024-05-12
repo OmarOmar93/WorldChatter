@@ -29,9 +29,6 @@ public final class MethodHandler {
             ThreadsSystem.runAsync(() -> sendToConsoleAndStaff(event, list, legacy));
             return;
         }
-        if (ConfigSystem.INSTANCE.getConfig().getBoolean("ColoredText", true) && !legacy) {
-            message = Expression.translateColors(message);
-        }
         if (ConfigSystem.INSTANCE.getFormat().getBoolean("ChatFormat", true)) {
             if (event.isProxy()) {
                 event.setMessage(Expression.translateColors(Expression.formatChat(player, event.PAPI()) + message));
@@ -41,6 +38,9 @@ public final class MethodHandler {
                 if(!legacy) event.setFormat(Expression.translateColors(event.getFormat()));
                 else event.setFormat(event.getFormat());
             }
+        }
+        if (ConfigSystem.INSTANCE.getConfig().getBoolean("ColoredText", true) && !legacy) {
+            message = Expression.translateColors(message);
         }
         event.setMessage(message);
     }

@@ -9,6 +9,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.omaromar93.worldchatter.Legacy.LegacySpigotPlayer;
 import me.omaromar93.worldchatter.PAPI.PAPIDependSystem;
 import me.omaromar93.worldchatter.functions.SpigotPlayer;
+import methods.Expression;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,7 +47,8 @@ public class ChatEventHandler implements Listener {
                     event.setMessage((ConfigSystem.INSTANCE.getFormat().getBoolean("NewLine") ? chatEvent.getMessage().replace("\\n", "\n") : event.getMessage()));
             } else {
                 if (ConfigSystem.INSTANCE.getFormat().getBoolean("ChatFormat", true))
-                    event.setFormat((PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), chatEvent.getFormat()) : chatEvent.getFormat()).replace("%", "%%") + "%2$s");
+                    if (ConfigSystem.INSTANCE.getConfig().getBoolean("ColoredText", true)) event.setFormat(Expression.translateColors((PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), chatEvent.getFormat()) : chatEvent.getFormat()).replace("%", "%%") + "%2$s"));
+                    else event.setFormat((PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), chatEvent.getFormat()) : chatEvent.getFormat()).replace("%", "%%") + "%2$s");
                 event.setMessage((ConfigSystem.INSTANCE.getFormat().getBoolean("NewLine") ? chatEvent.getMessage().replace("\\n", "\n") : event.getMessage()));
             }
         } else {

@@ -34,7 +34,10 @@ public class MoreFormat {
                     // Determine if the part contains a color
                     ChatColor color = determineColor(text);
                     // Use the default color if no color is found
-                    lastColor = Objects.requireNonNullElse(color, defaultColor);
+                    if(color != null)
+                        lastColor = color;
+                    else
+                        lastColor = defaultColor;
 
                     // Apply other formats if needed
                     for (int i = 0; i < returnValue.function.length - 1; i++) {
@@ -106,7 +109,7 @@ public class MoreFormat {
                         }
                     }
 
-                    if (!builder.isEmpty() && (builder.charAt(builder.length() - 1) == '>' && builder.charAt(builder.length() - 2) == ';')) {
+                    if (builder.length() != 0 && (builder.charAt(builder.length() - 1) == '>' && builder.charAt(builder.length() - 2) == ';')) {
                         String[] function = builder.toString().replace("<", "").replaceFirst(";", "").replace(">", "").split(";");
                         functions.add(new ReturnValue(i, j + 1, function));
                     }

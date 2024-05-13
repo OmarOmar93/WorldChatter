@@ -64,7 +64,9 @@ public final class CommandSystem implements CommandExecutor {
                             }
                             sender.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
                             return;
-                        case "clear","clearchat","cc":
+                        case "cc":
+                        case "clearchat":
+                        case "clear":
                             try {
                                 for (final Player player : Bukkit.getOnlinePlayers())
                                     player.sendMessage(String.join(" ", cleaner)
@@ -112,7 +114,8 @@ public final class CommandSystem implements CommandExecutor {
                                 sender.sendMessage(ChatColor.YELLOW + "-> " + addon.getName() + " by " + String.join(",", addon.getAuthors()) + "\n" + ChatColor.WHITE + "- " + addon.getDescription());
                             }
                             return;
-                        case "bc","broadcast":
+                        case "broadcast":
+                        case "bc":
                             if (args.length > 1) {
                                 final StringBuilder builder = new StringBuilder();
                                 for (int i = 1; i < args.length; i++) {
@@ -145,7 +148,8 @@ public final class CommandSystem implements CommandExecutor {
                                 }
                             }
                             return;
-                        case "version","info":
+                        case "version":
+                        case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatter.INSTANCE.getDescription().getVersion() + "\n"
                                     + ChatColor.YELLOW + "Created By: " + WorldChatter.INSTANCE.getDescription().getAuthors() + "\n"
                                     + "Update Title: " + ChatColor.GOLD + "The Wild Update");

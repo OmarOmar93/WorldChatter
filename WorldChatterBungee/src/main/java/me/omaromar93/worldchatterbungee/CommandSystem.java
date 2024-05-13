@@ -59,7 +59,9 @@ public class CommandSystem extends Command {
                             }
                             sender.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
                             return;
-                        case "cc","clearchat","clear":
+                        case "cc":
+                        case "clearchat":
+                        case "clear":
                             for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
                                 player.sendMessage(new TextComponent(String.join(" ", cleaner)
                                         + Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString()
@@ -86,7 +88,8 @@ public class CommandSystem extends Command {
                                 sender.sendMessage(ChatColor.YELLOW + "-> " + addon.getName() + " by " + String.join(",", addon.getAuthors()) + "\n" + ChatColor.WHITE + "- " + addon.getDescription());
                             }
                             return;
-                        case "broadcast","bc":
+                        case "broadcast":
+                        case "bc":
                             if (args.length > 1) {
                                 final StringBuilder builder = new StringBuilder();
                                 for (int i = 1; i < args.length; i++) {
@@ -112,7 +115,8 @@ public class CommandSystem extends Command {
                                 }
                             }
                             return;
-                        case "version","info":
+                        case "version":
+                        case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion() + "\n"
                                     + ChatColor.YELLOW + "Created By: " + WorldChatterBungee.INSTANCE.getDescription().getAuthor() + "\n"
                                     + "Update Title: " + ChatColor.GOLD + "The Wild Update");

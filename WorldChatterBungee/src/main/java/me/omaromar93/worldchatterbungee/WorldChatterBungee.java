@@ -31,7 +31,7 @@ public final class WorldChatterBungee extends Plugin {
 
         ThreadsSystem.runAsync(() -> {
             ConfigSystem.INSTANCE.update();
-            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null,null);
+            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null, null);
             getProxy().getPluginManager().registerListener(this, new PlayerEventHandler());
             final Boolean b = UpdaterSystem.isUpdated();
             for (final ProxiedPlayer player : getProxy().getPlayers()) {
@@ -42,7 +42,7 @@ public final class WorldChatterBungee extends Plugin {
                 return;
             }
             if (b) {
-                UniLogHandler.INSTANCE.sendMessage(ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
+                UniLogHandler.INSTANCE.sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
                 return;
             }
             UniLogHandler.INSTANCE.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");

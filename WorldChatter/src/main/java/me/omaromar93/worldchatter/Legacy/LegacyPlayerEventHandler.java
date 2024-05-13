@@ -45,7 +45,7 @@ public class LegacyPlayerEventHandler implements Listener {
         final Player player = new LegacySpigotPlayer(event.getPlayer());
         PlayerSystem.INSTANCE.addPlayer(player.getUUID(), player);
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final String messagedefault = getDefaultMessage(event.getPlayer(), false);
+            final String messagedefault = ChatColor.translateAlternateColorCodes('&',getDefaultMessage(event.getPlayer(), false));
             event.setJoinMessage(null);
             for (final OfflinePlayer p1 : Bukkit.getOfflinePlayers()) {
                 if (p1.isOnline()) {
@@ -74,7 +74,7 @@ public class LegacyPlayerEventHandler implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         PlayerSystem.INSTANCE.removePlayer(event.getPlayer().getUniqueId());
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final String messagedefault = getDefaultMessage(event.getPlayer(), true);
+            final String messagedefault = ChatColor.translateAlternateColorCodes('&',getDefaultMessage(event.getPlayer(), true));
             event.setQuitMessage(null);
             for (final OfflinePlayer p1 : Bukkit.getOfflinePlayers()) {
                 if (p1.isOnline()) {

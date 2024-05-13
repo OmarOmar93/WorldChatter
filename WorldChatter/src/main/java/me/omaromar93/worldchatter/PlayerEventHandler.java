@@ -53,8 +53,8 @@ public class PlayerEventHandler implements Listener {
                     if (joinMode) {
                         for (final HashMap<String, Object> map : joinSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player_name%", event.getPlayer().getName()))));
+                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName())))));
                                 continue;
                             }
                             p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
@@ -84,8 +84,8 @@ public class PlayerEventHandler implements Listener {
                     if (quitMode) {
                         for (final HashMap<String, Object> map : quitSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player_name%", event.getPlayer().getName()))));
+                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName())))));
                                 continue;
                             }
                             p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
@@ -105,16 +105,16 @@ public class PlayerEventHandler implements Listener {
     }
 
     public String getDefaultMessage(org.bukkit.entity.Player player, boolean quit) {
-        return PAPIDependSystem.INSTANCE.isPAPIThere() ?
-                PlaceholderAPI.setPlaceholders(player, Expression.translateColors(
+        return Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ?
+                PlaceholderAPI.setPlaceholders(player,
                         quit ? Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Quit.message")).toString()
                                 :
                                 Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Join.message")).toString()
-                                        .replace("%player_name%", player.getName()))) :
+                                        .replace("%player_name%", player.getName())) :
                 quit ? Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Quit.message")).toString()
                         .replace("%player_name%", player.getName()) :
                         Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Join.message")).toString()
-                                .replace("%player_name%", player.getName());
+                                .replace("%player_name%", player.getName()));
     }
 
     private boolean hasPermission(final org.bukkit.entity.Player player, final List<String> permissions) {

@@ -74,7 +74,7 @@ public class WorldChatter extends JavaPlugin {
                 return;
             }
             if (b) {
-                getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
+                getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
                 return;
             }
             getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter is in it's latest update!");

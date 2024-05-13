@@ -57,11 +57,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
                 return Objects.requireNonNull(ConfigSystem.INSTANCE.getBroadcast().get(params.split("_")[1])).toString();
             case "format":
                 return Objects.requireNonNull(ConfigSystem.INSTANCE.getFormat().get(params.split("_")[1])).toString();
-            case "message", "messages":
+            case "message":
+            case "messages":
                 return Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get(params.split("_")[1])).toString();
             case "security":
                 return Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get(params.split("_")[1])).toString();
-            case "texts", "text":
+            case "texts":
+            case "text":
                 return Objects.requireNonNull(ConfigSystem.INSTANCE.getTexts().get(params.split("_")[1])).toString();
             default:
                 return null;

@@ -17,3 +17,12 @@ FormatSettings: # the slash will represent each mode for better understanding.
 #    steve:
 #      name: "steve" # permission name / player name
 #      format: "&b%player_name%: &r" # format result from permission / - - from player
+
+UserMention:
+  enabled: true
+  prefix: '@' # prefix character to mention the user with @omaromar93
+  format: "&a%player_name%"
+  sound:
+    name: "BLOCK_NOTE_BLOCK_PLING"
+    volume: 1
+    pitch: 1

@@ -30,6 +30,7 @@ public final class CacheSystem {
                 removeCache(key);
             }
         }, seconds * 1000L));
+        System.gc();
     }
 
     public static boolean hasCache(final String key) {

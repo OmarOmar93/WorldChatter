@@ -24,11 +24,17 @@ public class PlayerEventHandler implements Listener {
 
     private static boolean joinMode, quitMode = false;
 
+    private static boolean greetingmode = true;
+
+    private static String greetingmessage;
+
     public PlayerEventHandler() {
         update();
     }
 
     public static void update() {
+        greetingmode = ConfigSystem.INSTANCE.getMessages().getBoolean("Greetings.enabled");
+        greetingmessage = Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Greetings.message")).toString();
         joinMode = ConfigSystem.INSTANCE.getMessages().getBoolean("Join.permmode");
         quitMode = ConfigSystem.INSTANCE.getMessages().getBoolean("Quit.permmode");
         if (joinMode) {
@@ -62,6 +68,13 @@ public class PlayerEventHandler implements Listener {
                     p.sendMessage(messagedefault);
                 }
             }
+        }
+        if (greetingmode) {
+            event.getPlayer().sendMessage(MoreFormat.FormatMore(
+                    Expression.translateColors(greetingmessage
+                            .replace("%player_name%", event.getPlayer().getName())
+                            .replace("%player_displayname%", event.getPlayer().getDisplayName())
+                    )));
         }
     }
 

@@ -1,5 +1,6 @@
 package me.omaromar93.worldchatter.Legacy;
 
+import UniversalFunctions.LegacyChatColor;
 import UniversalFunctions.UniLogHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -22,7 +23,7 @@ public class LegacySpigotPlayer implements UniversalFunctions.Player {
 
     @Override
     public void sendMessage(final String message) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',message));
+        player.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
     }
 
     @Override

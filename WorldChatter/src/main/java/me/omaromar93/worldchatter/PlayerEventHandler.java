@@ -25,11 +25,17 @@ public class PlayerEventHandler implements Listener {
 
     private static boolean joinMode, quitMode = false;
 
+    private static boolean greetingmode = true;
+
+    private static String greetingmessage;
+
     public PlayerEventHandler() {
         update();
     }
 
     public static void update() {
+        greetingmode = ConfigSystem.INSTANCE.getMessages().getBoolean("Greetings.enabled");
+        greetingmessage = Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("Greetings.message")).toString();
         joinMode = ConfigSystem.INSTANCE.getMessages().getBoolean("Join.permmode");
         quitMode = ConfigSystem.INSTANCE.getMessages().getBoolean("Quit.permmode");
         if (joinMode) {
@@ -70,6 +76,15 @@ public class PlayerEventHandler implements Listener {
                 assert messagedefault != null;
                 Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault.toLegacyText()));
             }
+        }
+        if (greetingmode) {
+            event.getPlayer().spigot().sendMessage(MoreFormat.FormatMore(
+                    Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ?
+                            PlaceholderAPI.setPlaceholders(event.getPlayer(), greetingmessage) :
+                            greetingmessage
+                                    .replace("%player_name%", event.getPlayer().getName())
+                                    .replace("%player_displayname%", event.getPlayer().getDisplayName())
+                    )));
         }
     }
 

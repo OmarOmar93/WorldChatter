@@ -32,5 +32,6 @@ public class SoundSystem {
                 p.playSound(playersound, playervolume, playerpitch);
             }
         });
+        System.gc();
     }
 }

@@ -18,6 +18,7 @@ public class MoreFormat {
                 ChatColor defaultColor = ChatColor.WHITE; // Default color
                 int lastIndex = 0; // Track the last index processed
 
+                assert functions != null;
                 for (final ReturnValue returnValue : functions) {
 
                     // Add the text before the function to the final message

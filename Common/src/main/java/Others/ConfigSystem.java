@@ -1,13 +1,13 @@
 package Others;
 
 import API.APICore;
-import API.WorldChatterAPI;
 import UniversalFunctions.UniLogHandler;
 import chatting.BroadcastSystemConnector;
 import chatting.ChattingSystem;
 import UniversalFunctions.YMLFile;
 import methods.AntiSwear;
 import methods.Expression;
+import methods.UserMention;
 
 
 import java.io.File;
@@ -51,12 +51,12 @@ public final class ConfigSystem {
 
         Expression.update();
         SoundSystem.update();
+        UserMention.update();
         BroadcastSystemConnector.INSTANCE.update();
-
         try {
             AntiSwear.update();
         } catch (final IOException e) {
-            ConfigSystem.INSTANCE.getLogger().warning("An error has occurred while updating the profanity list.. If your network is enabled then contact the developer!");
+            ConfigSystem.INSTANCE.getLogger().warning("An error has occurred while updating the profanity list.. If you're connected to the network then contact the developer!");
         }
 
         for (final Timer task : ChattingSystem.cooldowns.values()) {

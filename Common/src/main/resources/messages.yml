@@ -2,9 +2,8 @@
 
 DetectedMessage: "&c%player_name%'s message got detected by the following flags &e[%flags%] \n----------> &6%message%" # Change how the detection message is sent
 DetectedPlayerMessage: "&cYou have been detected by the following flags &e[%flags%]" # Changes how the message is sent to the player (set it to "" if you don't want to send it)
-SpamMessage: "&cYour message is blocked by the &eAnti-Spam" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
+SpamMessage: "&cYour message is blocked by the &eAnti-Spam\n&7Remaining time: %duration% seconds" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
 ChatClearMessage: "&eThe Chat has been cleared by &a%sender%" # Changes how the cleared chat message gets sent
-
 CustomJoinQuit: true # Allow for Custom Join and Quit Messages
 Join:
   message: "&a%player_name% &fhas joined the game!"
@@ -21,3 +20,7 @@ Quit:
     admin:
       permissions: ["worldchatter.control", "*"]
       message: "&a%player_name% &fhas left the game &8You have nothing to do to that player :P"
+
+Greetings:
+  enabled: true
+  message: "&7->> &eWelcome, &a%player_name% &eto the Minecraft Server!"

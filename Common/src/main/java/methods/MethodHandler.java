@@ -21,21 +21,23 @@ public final class MethodHandler {
         if (ConfigSystem.INSTANCE.getTexts().getBoolean("texts.enabled", true))
             message = Expression.replaceIt(player, message);
         final List<String> list = detectMethods(message, player);
-        if (list.contains("AntiSwear") || list.contains("AntiADS")) {
+        if (!list.isEmpty()) {
             event.setCancelled(true);
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) {
                 api.messageDetect(event, list, event.getOriginEvent());
             }
+            System.gc();
             ThreadsSystem.runAsync(() -> sendToConsoleAndStaff(event, list, legacy));
             return;
         }
+        if(ConfigSystem.INSTANCE.getFormat().getBoolean("UserMention.enabled")) message = UserMention.mentionUsers(message,player);
         if (ConfigSystem.INSTANCE.getFormat().getBoolean("ChatFormat", true)) {
             if (event.isProxy()) {
                 event.setMessage(Expression.translateColors(Expression.formatChat(player, event.PAPI()) + message));
                 return;
             } else {
                 event.setFormat(Expression.formatChat(player, event.PAPI()));
-                if(!legacy) event.setFormat(Expression.translateColors(event.getFormat()));
+                if (!legacy) event.setFormat(Expression.translateColors(event.getFormat()));
                 else event.setFormat(event.getFormat());
             }
         }
@@ -50,8 +52,8 @@ public final class MethodHandler {
                 .replace("%player_name%", event.getPlayer().getName())
                 .replace("%flags%", String.join(", ", list))
                 .replace("%message%", event.getMessage());
-        if(!legacy) message = Expression.translateColors(message);
-        else message = LegacyChatColor.translateAlternateColorCodes('&',message);
+        if (!legacy) message = Expression.translateColors(message);
+        else message = LegacyChatColor.translateAlternateColorCodes('&', message);
         UniLogHandler.INSTANCE.sendMessage(message);
         for (final Player player : PlayerSystem.INSTANCE.getPlayers()) {
             if (player.hasPermission("worldchatter.control")) {
@@ -62,8 +64,8 @@ public final class MethodHandler {
         String playermessage = ConfigSystem.INSTANCE.getMessages().get("DetectedPlayerMessage", "").toString()
                 .replace("%player_name%", event.getPlayer().getName())
                 .replace("%flags%", String.join(", ", list));
-        if(!legacy) playermessage = Expression.translateColors(playermessage);
-        else playermessage = LegacyChatColor.translateAlternateColorCodes('&',playermessage);
+        if (!legacy) playermessage = Expression.translateColors(playermessage);
+        else playermessage = LegacyChatColor.translateAlternateColorCodes('&', playermessage);
         if (!playermessage.isEmpty()) {
             event.getPlayer().sendMessage(playermessage);
             SoundSystem.playSoundToPlayer(event.getPlayer(), false);
@@ -76,6 +78,8 @@ public final class MethodHandler {
             detections.add("AntiSwear");
         if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS", true) && AntiADs.hasAds(message) && !player.hasPermission("worldchatter.bypass.antiads"))
             detections.add("AntiADS");
+        if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled", true) && AntiCaps.hasAlotOfCaps(message) && !player.hasPermission("worldchatter.bypass.anticaps"))
+            detections.add("AntiCaps");
         return detections;
     }
 }

@@ -7,7 +7,10 @@ ChatLockMessage:
   public: true # TRUE | Shows the message to everyone or FALSE | just the sender
   locked: "&eThe Chat is now &cLOCKED &eby &a%sender%"
   unlocked: "&eThe Chat is now &aUNLOCKED &eby &a%sender%"
-
+AntiCaps:
+  enabled: true
+  maxletters: 3 # minimum Capped letters per word
+  maximum: 2 # minimum detected words to block
 
 # ------------------------------------------------------------------------------------
 

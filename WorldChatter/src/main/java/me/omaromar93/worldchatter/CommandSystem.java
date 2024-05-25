@@ -28,6 +28,7 @@ import java.util.Objects;
 public final class CommandSystem implements CommandExecutor {
 
     private final List<String> cleaner = new ArrayList<>();
+
     public CommandSystem() {
         for (int i = 0; i < 100; i++) {
             cleaner.add("§f\n");
@@ -70,7 +71,7 @@ public final class CommandSystem implements CommandExecutor {
                             try {
                                 for (final Player player : Bukkit.getOnlinePlayers())
                                     player.sendMessage(String.join(" ", cleaner)
-                                            + Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString().replace("%sender%",sender.getName())));
+                                            + Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString().replace("%sender%", sender.getName())));
                             } catch (final NoSuchMethodError ignored) {
                                 for (final OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
                                     if (offlinePlayer.isOnline()) {
@@ -88,18 +89,18 @@ public final class CommandSystem implements CommandExecutor {
                             }
                             final boolean lock = ChattingSystem.toggleChatLock();
                             final String s = ChatColor.translateAlternateColorCodes('&', !lock ? Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.unlocked")).toString() : Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.locked")).toString())
-                                    .replace("%sender%",sender.getName());
+                                    .replace("%sender%", sender.getName());
                             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                                 api.chatLockToggle(sender, lock, commandSender);
                             if (ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLockMessage.public")) {
                                 try {
                                     for (final Player player : Bukkit.getOnlinePlayers()) {
-                                        if(!player.getName().equals(sender.getName()))
+                                        if (!player.getName().equals(sender.getName()))
                                             player.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(s)));
                                     }
                                 } catch (final NoSuchMethodError ignored) {
                                     for (final OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
-                                        if (offlinePlayer.isOnline()&& !Objects.equals(sender.getName(), offlinePlayer.getName())) {
+                                        if (offlinePlayer.isOnline() && !Objects.equals(sender.getName(), offlinePlayer.getName())) {
                                             Player newplayer = (Player) offlinePlayer;
                                             newplayer.sendMessage(s);
                                         }
@@ -152,7 +153,7 @@ public final class CommandSystem implements CommandExecutor {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatter.INSTANCE.getDescription().getVersion() + "\n"
                                     + ChatColor.YELLOW + "Created By: " + WorldChatter.INSTANCE.getDescription().getAuthors() + "\n"
-                                    + "Update Title: " + ChatColor.GOLD + "The Wild Update");
+                                    + "Update Title: " + ChatColor.GOLD + "The Wildlife Update");
                             return;
                         case "help":
                             sender.sendMessage("\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"

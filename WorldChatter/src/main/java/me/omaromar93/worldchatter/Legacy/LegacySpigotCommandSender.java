@@ -1,7 +1,7 @@
 package me.omaromar93.worldchatter.Legacy;
 
 import UniversalFunctions.CommandSender;
-import org.bukkit.ChatColor;
+import UniversalFunctions.LegacyChatColor;
 import org.bukkit.entity.Player;
 
 public class LegacySpigotCommandSender implements CommandSender {
@@ -19,7 +19,7 @@ public class LegacySpigotCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(final String message) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',message));
+            sender.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
     }
 
     @Override

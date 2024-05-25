@@ -3,11 +3,11 @@ package me.omaromar93.worldchatter.Legacy;
 import Others.ConfigSystem;
 import Others.PlayerSystem;
 import Others.ThreadsSystem;
+import UniversalFunctions.LegacyChatColor;
 import chatting.BroadcastSystemConnector;
 import chatting.BroadcastSystemInterface;
 import me.omaromar93.worldchatter.WorldChatter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -30,6 +30,7 @@ public class LegacyBroadcastSystem implements BroadcastSystemInterface {
     @Override
     public void update() {
         if (broadcastTasker != null) broadcastTasker.cancel();
+        System.gc();
         ThreadsSystem.runAsync(() -> {
             if (ConfigSystem.INSTANCE.getBroadcast().getBoolean("broadcast.enabled")) {
                 worldsSection = ConfigSystem.INSTANCE.getBroadcast().getConfigurationSection("broadcast.places");
@@ -45,24 +46,24 @@ public class LegacyBroadcastSystem implements BroadcastSystemInterface {
                         final List<String> messages = (List<String>) worldsSection.get(world.getName());
                         if (ConfigSystem.INSTANCE.getBroadcast().getBoolean("broadcast.shufflemessages")) {
                             for (final Player player : world.getPlayers()) {
-                                PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(ChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size()))));
+                                PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(LegacyChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size()))));
                             }
                             return;
                         }
                         final String message = messages.get(getrandomint(messages.size()));
                         for (final Player player : world.getPlayers()) {
-                            PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(ChatColor.translateAlternateColorCodes('&',message));
+                            PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
                         }
                         return;
                     }
                     final List<String> messages = ConfigSystem.INSTANCE.getBroadcast().getStringList("broadcast.commonmessages");
                     if (ConfigSystem.INSTANCE.getBroadcast().getBoolean("broadcast.shufflemessages")) {
                         for (final Player player : Bukkit.getOnlinePlayers()) {
-                            PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(ChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size()))));
+                            PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(LegacyChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size()))));
                         }
                         return;
                     }
-                    final String message = ChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size())));
+                    final String message = LegacyChatColor.translateAlternateColorCodes('&',messages.get(getrandomint(messages.size())));
                     for (final Player player : Bukkit.getOnlinePlayers()) {
                         PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).sendMessage(message);
                     }

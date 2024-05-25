@@ -119,7 +119,7 @@ public class CommandSystem extends Command {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion() + "\n"
                                     + ChatColor.YELLOW + "Created By: " + WorldChatterBungee.INSTANCE.getDescription().getAuthor() + "\n"
-                                    + "Update Title: " + ChatColor.GOLD + "The Wild Update");
+                                    + "Update Title: " + ChatColor.GOLD + "The Wildlife Update");
                             return;
                         case "help":
                             sender.sendMessage("\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"

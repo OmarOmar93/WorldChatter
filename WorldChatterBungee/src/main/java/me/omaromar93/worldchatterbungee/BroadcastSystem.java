@@ -31,6 +31,7 @@ public class BroadcastSystem implements BroadcastSystemInterface {
     @Override
     public void update() {
         if (broadcastTasker != null) broadcastTasker.cancel();
+        System.gc();
         ThreadsSystem.runAsync(() -> {
             if (ConfigSystem.INSTANCE.getBroadcast().getBoolean("broadcast.enabled")) {
                 worldsSection = ConfigSystem.INSTANCE.getBroadcast().getConfigurationSection("broadcast.places");

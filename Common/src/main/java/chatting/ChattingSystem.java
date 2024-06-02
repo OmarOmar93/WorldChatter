@@ -18,7 +18,7 @@ public final class ChattingSystem {
     private static boolean ChatLock = false;
     public static final HashMap<UUID, Timer> cooldowns = new HashMap<>();
 
-    private static final HashMap<UUID, Long> durations = new HashMap<>();
+    public static final HashMap<UUID, Long> durations = new HashMap<>();
 
     public static boolean toggleChatLock() {
         return ChatLock = !ChatLock;

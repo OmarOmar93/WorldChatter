@@ -64,6 +64,7 @@ public final class ConfigSystem {
         }
 
         ChattingSystem.cooldowns.clear();
+        ChattingSystem.durations.clear();
     }
 
     public Logger getLogger() {

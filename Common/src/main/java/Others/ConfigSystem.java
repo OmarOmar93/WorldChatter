@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Logger;
 
@@ -65,6 +67,28 @@ public final class ConfigSystem {
 
         ChattingSystem.cooldowns.clear();
         ChattingSystem.durations.clear();
+    }
+
+    public YMLFile getClassWithKey(String key) {
+        if (config.get(key) != null) {
+            return config;
+        }
+        if (security.get(key) != null) {
+            return security;
+        }
+        if (format.get(key) != null) {
+            return format;
+        }
+        if (messages.get(key) != null) {
+            return messages;
+        }
+        if (broadcast.get(key) != null) {
+            return broadcast;
+        }
+        if (texts.get(key) != null) {
+            return texts;
+        }
+        return null;
     }
 
     public Logger getLogger() {
@@ -125,7 +149,7 @@ public final class ConfigSystem {
         texts.update();
     }
 
-    public File copyFromIDE(final String key) {
+    private File copyFromIDE(final String key) {
         final File file = new File("plugins/WorldChatter/" + key);
         final ClassLoader classloader = getClass().getClassLoader();
 
@@ -147,4 +171,46 @@ public final class ConfigSystem {
         return file;
     }
 
+    private void updateIfNeeded(final YMLFile ymlFile) {
+        final Set<String> keys = ymlFile.getKeys();
+
+        HashMap<String, HashMap<String, Object>> data;
+        for (final String key : keys) {
+            data = ymlFile.getConfigurationSection(key);
+
+            if (data.isEmpty()) {
+                // 1 value
+                continue;
+            }
+
+            final StringBuilder builder = new StringBuilder(key);
+            HashMap<String, HashMap<String, Object>> data1;
+            for (final String key1 : data.keySet()) {
+                data1 = ymlFile.getConfigurationSection(builder + "." + key1);
+
+                if (data1.isEmpty()) {
+                    // 1 value
+                    continue;
+                }
+
+                updateSection(key + "." + key1, ymlFile, data1);
+            }
+        }
+    }
+
+    private void updateSection(final String key, final YMLFile ymlFile, final HashMap<String, HashMap<String, Object>> data) {
+        final StringBuilder currentKey = new StringBuilder(key);
+        HashMap<String, HashMap<String, Object>> data1;
+        for (final String key1 : data.keySet()) {
+            data1 = ymlFile.getConfigurationSection(currentKey + "." + key1);
+
+            if (data1.isEmpty()) {
+                // 1 value
+                continue;
+            }
+
+            updateSection(currentKey + "." + key1, ymlFile, data1);
+        }
+
+    }
 }

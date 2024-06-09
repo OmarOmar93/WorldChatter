@@ -39,15 +39,14 @@ public class PAPIExpansion extends PlaceholderExpansion {
     }
 
     @Override
-    public String onRequest(OfflinePlayer player, String params) {
+    public String onRequest(OfflinePlayer player, @NotNull String params) {
         final String param = params.contains("_") ? params.split("_")[0] : params;
         try {
-
-
         switch (param.toLowerCase()) {
             case "player":
-                if (params.split("_")[1].equals("place"))
+                if (params.split("_")[1].equalsIgnoreCase("place")) {
                     return PlayerSystem.INSTANCE.getPlayer(player.getUniqueId()).getPlace();
+                }
                 return null;
             case "lockstats":
                 return String.valueOf(ChattingSystem.isChatLock());

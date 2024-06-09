@@ -1,6 +1,7 @@
 package UniversalFunctions;
 
 
+
 import java.util.UUID;
 
 public interface Player extends CommandSender {

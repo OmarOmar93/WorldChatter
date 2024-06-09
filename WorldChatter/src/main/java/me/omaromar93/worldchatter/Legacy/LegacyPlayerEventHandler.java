@@ -7,7 +7,6 @@ import UniversalFunctions.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.omaromar93.worldchatter.PAPI.PAPIDependSystem;
 import methods.Expression;
-import methods.MoreFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;

@@ -34,7 +34,8 @@ public final class AntiSwear {
 
     public static void update() throws IOException {
         list.clear();
-        final URL url = new URL(ConfigSystem.INSTANCE.getConfig().get("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt").toString());
+        final String urlName = ConfigSystem.INSTANCE.getConfig().get("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt").toString();
+        final URL url = new URL(urlName);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -48,6 +49,5 @@ public final class AntiSwear {
         reader.close();
         list.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("CustomSwearWords"));
         pattern = Pattern.compile(getRegex());
-        reader.close();
     }
 }

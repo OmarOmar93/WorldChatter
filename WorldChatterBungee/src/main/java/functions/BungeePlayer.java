@@ -9,6 +9,7 @@ import methods.MoreFormat;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class BungeePlayer implements Player {
@@ -28,7 +29,7 @@ public class BungeePlayer implements Player {
 
     @Override
     public void sendMessage(final String message) {
-        player.sendMessage(new TextComponent(MoreFormat.FormatMore(message)));
+        player.sendMessage(new TextComponent(Objects.requireNonNull(MoreFormat.FormatMore(message))));
     }
 
     @Override
@@ -40,7 +41,6 @@ public class BungeePlayer implements Player {
     public void playSound(final String soundName, final float volume, final float pitch) {
         Pplayer.playSound(Sound.valueOf(soundName), SoundCategory.MASTER, 1f, 1f);
     }
-
 
     @Override
     public UUID getUUID() {

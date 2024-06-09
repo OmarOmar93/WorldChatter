@@ -25,7 +25,7 @@ public class SpigotPlayer implements UniversalFunctions.Player {
     public void sendMessage(final String message) {
         try {
             player.spigot().sendMessage(MoreFormat.FormatMore(message));
-        } catch (final NoSuchMethodError ignored){
+        } catch (final NoSuchMethodError ignored) {
             player.sendMessage(message);
         }
     }
@@ -63,4 +63,6 @@ public class SpigotPlayer implements UniversalFunctions.Player {
     public String getDisplayName() {
         return player.getDisplayName();
     }
+
+
 }

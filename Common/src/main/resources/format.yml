@@ -13,7 +13,7 @@ FormatSettings: # the slash will represent each mode for better understanding.
     op:
       name: "*"
       format: "&a- Overpowered -> %player_name%: &r"
-# if you're on player mode here is a small example
+# If you're on player mode here is a small example
 #    steve:
 #      name: "steve" # permission name / player name
 #      format: "&b%player_name%: &r" # format result from permission / - - from player

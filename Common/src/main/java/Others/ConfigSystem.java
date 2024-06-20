@@ -15,16 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Logger;
 
 public final class ConfigSystem {
 
-    private YMLFile config,broadcast,messages,format,security,texts;
     private final Logger logger;
     public static ConfigSystem INSTANCE;
+    private YMLFile config,broadcast,messages,format,security,texts;
 
     public ConfigSystem(final Logger logger) {
         INSTANCE = this;
@@ -120,32 +118,32 @@ public final class ConfigSystem {
     }
 
     private void updateConfig() {
-        if(config == null) config = new YMLFile(copyFromIDE("config.yml").toPath());
+        if(config == null) config = new YMLFile(copyFromIDE("config.yml"), copyISFromIDE("config.yml"),false);
         config.update();
     }
 
     private void updateMessages() {
-        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml").toPath());
+        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml"), copyISFromIDE("messages.yml"),false);
         messages.update();
     }
 
     private void updateBroadcast() {
-        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml").toPath());
+        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml"), copyISFromIDE("broadcast.yml"),false);
         broadcast.update();
     }
 
     private void updateFormat() {
-        if(format == null) format = new YMLFile(copyFromIDE("format.yml").toPath());
+        if(format == null) format = new YMLFile(copyFromIDE("format.yml"), copyISFromIDE("format.yml"),false);
         format.update();
     }
 
     private void updateSecurity() {
-        if(security == null) security = new YMLFile(copyFromIDE("security.yml").toPath());
+        if(security == null) security = new YMLFile(copyFromIDE("security.yml"), copyISFromIDE("security.yml"),false);
         security.update();
     }
 
     private void updateTexts() {
-        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml").toPath());
+        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml"), copyISFromIDE("texts.yml"),true);
         texts.update();
     }
 
@@ -171,46 +169,15 @@ public final class ConfigSystem {
         return file;
     }
 
-    private void updateIfNeeded(final YMLFile ymlFile) {
-        final Set<String> keys = ymlFile.getKeys();
+    private InputStream copyISFromIDE(final String key) {
+        final ClassLoader classloader = getClass().getClassLoader();
 
-        HashMap<String, HashMap<String, Object>> data;
-        for (final String key : keys) {
-            data = ymlFile.getConfigurationSection(key);
-
-            if (data.isEmpty()) {
-                // 1 value
-                continue;
-            }
-
-            final StringBuilder builder = new StringBuilder(key);
-            HashMap<String, HashMap<String, Object>> data1;
-            for (final String key1 : data.keySet()) {
-                data1 = ymlFile.getConfigurationSection(builder + "." + key1);
-
-                if (data1.isEmpty()) {
-                    // 1 value
-                    continue;
-                }
-
-                updateSection(key + "." + key1, ymlFile, data1);
-            }
-        }
-    }
-
-    private void updateSection(final String key, final YMLFile ymlFile, final HashMap<String, HashMap<String, Object>> data) {
-        final StringBuilder currentKey = new StringBuilder(key);
-        HashMap<String, HashMap<String, Object>> data1;
-        for (final String key1 : data.keySet()) {
-            data1 = ymlFile.getConfigurationSection(currentKey + "." + key1);
-
-            if (data1.isEmpty()) {
-                // 1 value
-                continue;
-            }
-
-            updateSection(currentKey + "." + key1, ymlFile, data1);
+        final InputStream is = classloader.getResourceAsStream(key);
+        if (is == null) {
+            logger.severe("Couldn't find " + key + " inside the plugin files, please report to the developer ASAP!");
+            return null;
         }
 
+        return is;
     }
 }

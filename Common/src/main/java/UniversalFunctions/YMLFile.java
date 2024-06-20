@@ -1,70 +1,76 @@
 package UniversalFunctions;
 
 import Others.ConfigSystem;
-import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 @SuppressWarnings("unchecked")
 public final class YMLFile {
 
-    private final Path filePath;
-    private List<String> lines;
+    private final File filePath;
+    private final InputStream is;
     private Map<String, Object> data;
+    private final Map<String, Object> defaultData;
+    private final Map<String, String> comments;
+    private final boolean quoteKeys; // Field for quoting keys
 
-    public YMLFile(final @NotNull Path filePath) {
-        this.filePath = filePath;
-        this.data = new HashMap<>();
+    public YMLFile(final File file, final InputStream is, boolean quoteKeys) {
+        this.is = is;
+        this.filePath = file;
+        this.quoteKeys = quoteKeys;
+
+        data = new HashMap<>();
+        comments = new LinkedHashMap<>();
+        try {
+            defaultData = loadYamlData(getISLines());
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void update() {
         try {
-            lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
-            data = loadYamlData(lines);
+            if (filePath.exists()) {
+                List<String> lines = readAllLines(filePath);
+                data = loadYamlData(lines);
+            } else {
+                data = new HashMap<>();
+            }
+
+            updateIfNeeded(defaultData, data);
+
+            saveYamlData(data, filePath);
         } catch (final IOException e) {
-            ConfigSystem.INSTANCE.getLogger().severe("Couldn't load yaml from file " + filePath.toFile().getName() + ": " + e.getMessage());
-            lines = new ArrayList<>();
-            data = new HashMap<>();
+            ConfigSystem.INSTANCE.getLogger().severe("Couldn't load yaml from file " + filePath.getName() + ": " + e.getMessage());
         }
     }
 
-    private Map<String, Object> loadYamlData(List<String> lines) {
-        Map<String, Object> yamlData = new HashMap<>();
-        try {
-            String content = String.join("\n", lines);
-            yamlData = new Yaml().load(content);
-        } catch (Exception e) {
-            ConfigSystem.INSTANCE.getLogger().severe("Error parsing YAML data: " + e.getMessage());
-        }
-        return yamlData;
-    }
-
-    public boolean getBoolean(final @NotNull String key) {
+    public boolean getBoolean(final String key) {
         final Object o = get(key);
         return o != null && Boolean.parseBoolean(o.toString());
     }
 
-    public boolean getBoolean(final @NotNull String key, final boolean def) {
+    public boolean getBoolean(final String key, final boolean def) {
         final Object o = get(key);
         return o != null ? Boolean.parseBoolean(o.toString()) : def;
     }
 
-    public int getInt(final @NotNull String key) {
+    public int getInt(final String key) {
         final Object o = get(key);
         return o instanceof Integer ? Integer.parseInt(o.toString()) : 0;
     }
 
-    public int getInt(final @NotNull String key, final int def) {
+    public int getInt(final String key, final int def) {
         final Object o = get(key);
         return o instanceof Integer ? Integer.parseInt(o.toString()) : def;
     }
 
-    public float getFloat(final @NotNull String key, final float def) {
+    public float getFloat(final String key, final float def) {
         final Object o = get(key);
         return o instanceof Float ? Float.parseFloat(o.toString()) : def;
     }
@@ -74,12 +80,12 @@ public final class YMLFile {
         return o instanceof HashMap<?, ?> ? (HashMap<String, HashMap<String, Object>>) o : new HashMap<>();
     }
 
-    public List<String> getStringList(final @NotNull String key) {
+    public List<String> getStringList(final String key) {
         final Object o = get(key);
         return o instanceof List<?> ? (List<String>) o : new ArrayList<>();
     }
 
-    public Object get(final @NotNull String key) {
+    public Object get(final String key) {
         Map<String, Object> cache = new HashMap<>(data);
         for (final String k : key.split("\\.")) {
             if (cache.containsKey(k)) {
@@ -95,11 +101,7 @@ public final class YMLFile {
         return cache;
     }
 
-    public Set<String> getKeys() {
-        return data.keySet();
-    }
-
-    public Object get(final @NotNull String key, final @NotNull Object def) {
+    public Object get(final String key, final Object def) {
         Map<String, Object> cache = new HashMap<>(data);
         for (final String k : key.split("\\.")) {
             if (cache.containsKey(k)) {
@@ -115,75 +117,153 @@ public final class YMLFile {
         return cache;
     }
 
-    public void set(final @NotNull String key, final Object value) {
-        if (lines == null) {
-            update();
-        }
+    public void set(final String key, final Object value) {
+        if (filePath == null) return;
 
-        String[] keys = key.split("\\.");
-        boolean found = false;
-        StringBuilder currentPath = new StringBuilder();
+        final String[] keys = key.split("\\.");
 
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            String trimmedLine = line.trim();
-
-            if (trimmedLine.isEmpty() || trimmedLine.startsWith("#")) {
-                continue;
-            }
-
-            String currentKey = trimmedLine.split(":")[0].trim();
-            if (currentPath.length() > 0) {
-                currentPath.append(".");
-            }
-            currentPath.append(currentKey);
-
-            if (currentPath.toString().equals(key)) {
-                int colonIndex = line.indexOf(":");
-                if (colonIndex != -1) {
-                    String comment = "";
-                    int hashIndex = line.indexOf("#", colonIndex);
-                    if (hashIndex != -1) {
-                        comment = line.substring(hashIndex);
-                    }
-                    String newValue = " " + value;
-                    lines.set(i, line.substring(0, colonIndex + 1) + newValue + " " + comment);
-                }
-                found = true;
-                break;
-            }
-
-            if (line.endsWith(":")) {
-                currentPath.append(".");
-            } else if (line.endsWith(",")) {
-                currentPath.setLength(currentPath.lastIndexOf("."));
-            }
-        }
-
-        if (!found) {
-            // Add new key if not found
-            String newLine = key + ": " + value;
-            lines.add(newLine);
-        }
-
-        // Update the in-memory data representation
         setInMemoryData(data, keys, value);
 
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            ConfigSystem.INSTANCE.getLogger().severe("Error while writing in file " + filePath + ": " + e.getMessage());
+        try {
+            saveYamlData(data, filePath);
+        } catch (final IOException e) {
+            ConfigSystem.INSTANCE.getLogger().severe("Error while writing to file " + filePath + ": " + e.getMessage());
         }
     }
 
-    private void setInMemoryData(Map<String, Object> data, String[] keys, Object value) {
+    private List<String> getISLines() throws IOException {
+        final List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+        return lines;
+    }
+
+    private List<String> readAllLines(File file) throws IOException {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+        return lines;
+    }
+
+    private void setInMemoryData(final Map<String, Object> data, final String[] keys, final Object value) {
         Map<String, Object> current = data;
         for (int i = 0; i < keys.length - 1; i++) {
             current = (Map<String, Object>) current.computeIfAbsent(keys[i], k -> new HashMap<>());
         }
         current.put(keys[keys.length - 1], value);
+    }
+
+    private void updateIfNeeded(Map<String, Object> defaultData, Map<String, Object> data) {
+        for (String key : defaultData.keySet()) {
+            if (!data.containsKey(key)) {
+                set(key, defaultData.get(key));
+            } else if (defaultData.get(key) instanceof Map && data.get(key) instanceof Map) {
+                updateIfNeeded((Map<String, Object>) defaultData.get(key), (Map<String, Object>) data.get(key));
+            }
+        }
+    }
+
+    private Map<String, Object> loadYamlData(final List<String> lines) {
+        Yaml yaml = new Yaml();
+        Map<String, Object> result = new LinkedHashMap<>();
+        StringBuilder yamlContent = new StringBuilder();
+        StringBuilder currentComment = new StringBuilder();
+        for (String line : lines) {
+            if (line.trim().startsWith("#")) {
+                currentComment.append(line).append("\n");
+            } else if (!line.trim().isEmpty()) {
+                if (currentComment.length() > 0) {
+                    comments.put(line.split(":")[0].trim(), currentComment.toString());
+                    currentComment.setLength(0);
+                }
+                yamlContent.append(line).append("\n");
+            }
+        }
+        if (yamlContent.length() > 0) {
+            Object yamlPart = yaml.load(yamlContent.toString());
+            if (yamlPart instanceof Map) {
+                result.putAll((Map<String, Object>) yamlPart);
+            } else {
+                throw new IllegalArgumentException("Invalid YAML structure.");
+            }
+        }
+        return result;
+    }
+
+    private void saveYamlDataWithComments(Map<String, Object> data, BufferedWriter writer, Yaml yaml, String parentKey, int indentLevel) throws IOException {
+        Set<String> writtenKeys = new HashSet<>();
+        String indent = repeat(indentLevel);
+
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            String key = parentKey.isEmpty() ? entry.getKey() : parentKey + "." + entry.getKey();
+
+            if (writtenKeys.contains(key)) {
+                continue;
+            }
+
+            // Write comments if present
+            if (comments.containsKey(key)) {
+                writer.write(comments.get(key));
+            }
+
+            // Write the key
+            String formattedKey = quoteKeys ? "\"" + entry.getKey() + "\"" : entry.getKey();
+            writer.write(indent + formattedKey + ":");
+
+            // If the value is a map, recursively write the map with increased indentation
+            if (entry.getValue() instanceof Map) {
+                writer.write("\n");
+                saveYamlDataWithComments((Map<String, Object>) entry.getValue(), writer, yaml, key, indentLevel + 1);
+            } else if (entry.getValue() instanceof List) {
+                // Handle lists properly
+                writer.write("\n");
+                for (Object item : (List<?>) entry.getValue()) {
+                    if (item instanceof String) {
+                        writer.write(indent + "  - \"" + item + "\"\n");
+                    } else {
+                        writer.write(indent + "  - " + item + "\n");
+                    }
+                }
+            } else {
+                // Handle different types of non-map values
+                String dumpedYaml;
+                if (entry.getValue() instanceof String) {
+                    // Escape newlines in strings
+                    String value = ((String) entry.getValue()).replace("\n", "\\n");
+                    dumpedYaml = " \"" + value + "\"\n";
+                } else if (entry.getValue() instanceof Boolean || entry.getValue() instanceof Number) {
+                    dumpedYaml = " " + entry.getValue() + "\n";
+                } else {
+                    // For other types, serialize using YAML
+                    dumpedYaml = " " + yaml.dump(entry.getValue()).trim() + "\n";
+                }
+                // Fix the indentation for non-map values
+                writer.write(dumpedYaml);
+            }
+
+            writtenKeys.add(key);
+        }
+    }
+
+    private void saveYamlData(final Map<String, Object> data, final File file) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8))) {
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml = new Yaml(options);
+
+            saveYamlDataWithComments(data, writer, yaml, "", 0);
+        }
+    }
+
+    private String repeat(final int times) {
+        return new String(new char[times]).replace("\0", "  ");
     }
 }

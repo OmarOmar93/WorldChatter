@@ -29,6 +29,16 @@ public final class CommandSystem implements CommandExecutor {
 
     private final List<String> cleaner = new ArrayList<>();
 
+    private final String helpMessage = "\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"
+            + ChatColor.BLUE + "- wc Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (ChattingSystem.isChatLock() ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.WHITE + ")" + "\n"
+            + ChatColor.BLUE + "- wc update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
+            + ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
+            + ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n"
+            + ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!" + "\n"
+            + ChatColor.BLUE + "- wc config [key] [value]" + ChatColor.WHITE + " Sets any key into any value!" + "\n"
+            + ChatColor.BLUE + "- wc broadcast [message]" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)" + "\n"
+            + ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!" + "\n";
+
     public CommandSystem() {
         for (int i = 0; i < 100; i++) {
             cleaner.add("§f\n");
@@ -44,8 +54,8 @@ public final class CommandSystem implements CommandExecutor {
             } catch (final NoClassDefFoundError ignored) {
                 sender = new LegacySpigotCommandSender(commandSender);
             }
-            if (args.length > 0) {
-                if (sender.hasPermission("worldchatter.control")) {
+            if (sender.hasPermission("worldchatter.control")) {
+                if (args.length > 0) {
                     switch (args[0].toLowerCase()) {
                         case "reload":
                             ConfigSystem.INSTANCE.update();
@@ -157,7 +167,7 @@ public final class CommandSystem implements CommandExecutor {
                                     builder.append(args[i]).append(" ");
                                 }
 
-                                builder.replace(builder.length()-1, builder.length(), "");
+                                builder.replace(builder.length() - 1, builder.length(), "");
                                 if (ConfigSystem.INSTANCE.getClassWithKey(args[1]) != null) {
                                     String value = builder.toString();
                                     Objects.requireNonNull(ConfigSystem.INSTANCE.getClassWithKey(args[1])).set(args[1], value);
@@ -171,20 +181,27 @@ public final class CommandSystem implements CommandExecutor {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatter.INSTANCE.getDescription().getVersion() + "\n"
                                     + ChatColor.YELLOW + "Created By: " + WorldChatter.INSTANCE.getDescription().getAuthors() + "\n"
-                                    + "Update Title: " + ChatColor.GOLD + "The Wildlife Update");
+                                    + "Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " BETA");
                             return;
                         case "help":
-                            sender.sendMessage("\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"
-                                    + ChatColor.BLUE + "- wc Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (ChattingSystem.isChatLock() ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.WHITE + ")" + "\n"
-                                    + ChatColor.BLUE + "- wc update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
-                                    + ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
-                                    + ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n"
-                                    + ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!" + "\n"
-                                    + ChatColor.BLUE + "- wc broadcast" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)" + "\n"
-                                    + ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!" + "\n");
+                            sender.sendMessage(helpMessage);
                             return;
                     }
                     sender.sendMessage(ChatColor.RED + "- INVALID ARGUMENT" + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Type 'wc help' to check for available list!");
+                }else{
+                    sender.sendMessage(helpMessage);
+                }
+            } else {
+                String message = Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("NoPermissionMessage")).toString();
+                try {
+                    message = Expression.translateColors(message);
+                } catch (final NoClassDefFoundError ignored) {
+                    message = ChatColor.translateAlternateColorCodes('&', message);
+                }
+                try {
+                    commandSender.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(message)));
+                } catch (final NoSuchMethodError ignored) {
+                    commandSender.sendMessage(message);
                 }
             }
         });

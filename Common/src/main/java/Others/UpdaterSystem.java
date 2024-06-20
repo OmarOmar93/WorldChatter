@@ -18,13 +18,13 @@ public final class UpdaterSystem {
             final String[] verstring = OtherFunctions.getUrlAsString("https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2").split(",");
             final int update = Integer.parseInt(verstring[1].replace(".", ""));
 
-            CacheSystem.addCache("update", update > 120);
+            CacheSystem.addCache("update", update > 119);
             CacheSystem.removeCacheAfterSeconds("update", ConfigSystem.INSTANCE.getConfig().getInt("CacheTimings.update"));
 
             newupdate = verstring[0];
             updatetitle = verstring[2];
 
-            final boolean updatecheck = update > 120;
+            final boolean updatecheck = update > 119;
 
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                 api.updateChecked(updatecheck);

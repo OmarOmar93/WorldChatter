@@ -4,6 +4,7 @@ DetectedMessage: "&c%player_name%'s message got detected by the following flags 
 DetectedPlayerMessage: "&cYou have been detected by the following flags &e[%flags%]" # Changes how the message is sent to the player (set it to "" if you don't want to send it)
 SpamMessage: "&cYour message is blocked by the &eAnti-Spam\n&7Remaining time: %duration% seconds" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
 ChatClearMessage: "&eThe Chat has been cleared by &a%sender%" # Changes how the cleared chat message gets sent
+NoPermissionMessage: "&eYou're not allowed to use this command!"
 CustomJoinQuit: true # Allow for Custom Join and Quit Messages
 Join:
   message: "&a%player_name% &fhas joined the game!"

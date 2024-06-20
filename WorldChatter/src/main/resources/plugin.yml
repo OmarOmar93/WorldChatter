@@ -1,5 +1,6 @@
 name: WorldChatter
 version: '${project.version}'
+api-version: 1.13
 main: me.omaromar93.worldchatter.WorldChatter
 prefix: WorldChatterLog
 load: POSTWORLD

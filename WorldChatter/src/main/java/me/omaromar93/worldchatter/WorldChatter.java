@@ -37,7 +37,7 @@ public class WorldChatter extends JavaPlugin {
         boolean legacy = false;
         try {
             new BroadcastSystem();
-        } catch (final NoClassDefFoundError ignored){
+        } catch (final NoClassDefFoundError ignored) {
             new LegacyBroadcastSystem();
             legacy = true;
         }
@@ -47,15 +47,16 @@ public class WorldChatter extends JavaPlugin {
         final boolean finalLegacy = legacy;
         ThreadsSystem.runAsync(() -> {
             ConfigSystem.INSTANCE.update();
-            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null,null);
-            if(!finalLegacy)
+            for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null, null);
+            if (!finalLegacy) {
                 getServer().getPluginManager().registerEvents(new PlayerEventHandler(), this);
-            else {
+                final String s = PAPIDependSystem.INSTANCE.isPAPIThere() ? ChatColor.GREEN + "Your server does have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.GREEN + " installed! " + ChatColor.WHITE + "(Unlocking the boundaries with PlaceholderAPI and Unlocking WorldChatter's PlaceHolders!)" : ChatColor.RED + "Your server does not have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.RED + " installed! " + ChatColor.WHITE + "(Limited to only the built-in expressions)";
+                getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + s);
+            } else {
                 getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "Looks like we're going far back! " + ChatColor.LIGHT_PURPLE + "[WorldChatter Legacy Mode]");
                 getServer().getPluginManager().registerEvents(new LegacyPlayerEventHandler(), this);
             }
-            final String s = PAPIDependSystem.INSTANCE.isPAPIThere() ? ChatColor.GREEN + "Your server does have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.GREEN + " installed! " + ChatColor.WHITE + "(Unlocking the boundaries with PlaceholderAPI and Unlocking WorldChatter's PlaceHolders!)" : ChatColor.RED + "Your server does not have " + ChatColor.BLUE + "'PlaceholderAPI'" + ChatColor.RED + " installed! " + ChatColor.WHITE + "(Limited to only the built-in expressions)";
-            getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + s);
+
             try {
                 for (final Player player : getServer().getOnlinePlayers()) {
                     PlayerSystem.INSTANCE.addPlayer(player.getUniqueId(), new SpigotPlayer(player));
@@ -70,14 +71,13 @@ public class WorldChatter extends JavaPlugin {
             }
             final Boolean b = UpdaterSystem.isUpdated();
             if (b == null) {
-                getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.RED + "Error has occurred while fetching the update.");
-                return;
+                getConsoleSender().sendMessage(ChatColor.RED + "Error has occurred while fetching the update.");
             }
-            if (b) {
-                getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
-                return;
+            if (Boolean.TRUE.equals(b)) {
+                getConsoleSender().sendMessage(ChatColor.YELLOW + "WorldChatter has released a new" + (UpdaterSystem.isDev ? ChatColor.GOLD + " DEVELOPMENT" : "") + ChatColor.YELLOW + " update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + " -> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
+            } else {
+                getConsoleSender().sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
             }
-            getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter is in it's latest update!");
         });
         if (PAPIDependSystem.INSTANCE.isPAPIThere()) new PAPIExpansion().register();
     }

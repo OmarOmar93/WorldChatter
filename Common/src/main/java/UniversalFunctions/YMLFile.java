@@ -17,15 +17,19 @@ public final class YMLFile {
     private Map<String, Object> data;
     private final Map<String, Object> defaultData;
     private final Map<String, String> comments;
-    private final boolean quoteKeys; // Field for quoting keys
+    private final Map<String, String> inlineComments;
+    private final boolean quoteKeys;
+    private final Set<String> emptyModeKeys;
 
-    public YMLFile(final File file, final InputStream is, boolean quoteKeys) {
+    public YMLFile(final File file, final InputStream is, boolean quoteKeys, String emptyMode) {
         this.is = is;
         this.filePath = file;
         this.quoteKeys = quoteKeys;
+        this.emptyModeKeys = new HashSet<>(Arrays.asList(emptyMode.split(",")));
 
         data = new HashMap<>();
         comments = new LinkedHashMap<>();
+        inlineComments = new LinkedHashMap<>();
         try {
             defaultData = loadYamlData(getISLines());
         } catch (final IOException e) {
@@ -42,7 +46,7 @@ public final class YMLFile {
                 data = new HashMap<>();
             }
 
-            updateIfNeeded(defaultData, data);
+            updateIfNeeded(defaultData, data, "");
 
             saveYamlData(data, filePath);
         } catch (final IOException e) {
@@ -161,12 +165,16 @@ public final class YMLFile {
         current.put(keys[keys.length - 1], value);
     }
 
-    private void updateIfNeeded(Map<String, Object> defaultData, Map<String, Object> data) {
+    private void updateIfNeeded(Map<String, Object> defaultData, Map<String, Object> data, String parentKey) {
         for (String key : defaultData.keySet()) {
+            String fullKey = parentKey.isEmpty() ? key : parentKey + "." + key;
+
             if (!data.containsKey(key)) {
-                set(key, defaultData.get(key));
+                set(fullKey, defaultData.get(key));
             } else if (defaultData.get(key) instanceof Map && data.get(key) instanceof Map) {
-                updateIfNeeded((Map<String, Object>) defaultData.get(key), (Map<String, Object>) data.get(key));
+                if (!emptyModeKeys.contains(fullKey)) {
+                    updateIfNeeded((Map<String, Object>) defaultData.get(key), (Map<String, Object>) data.get(key), fullKey);
+                }
             }
         }
     }
@@ -176,15 +184,34 @@ public final class YMLFile {
         Map<String, Object> result = new LinkedHashMap<>();
         StringBuilder yamlContent = new StringBuilder();
         StringBuilder currentComment = new StringBuilder();
+        String currentSection = "";
         for (String line : lines) {
             if (line.trim().startsWith("#")) {
                 currentComment.append(line).append("\n");
             } else if (!line.trim().isEmpty()) {
-                if (currentComment.length() > 0) {
-                    comments.put(line.split(":")[0].trim(), currentComment.toString());
-                    currentComment.setLength(0);
+                String[] parts = line.split("#", 2);
+                String yamlPart = parts[0];
+                yamlContent.append(yamlPart).append("\n");
+
+                if (yamlPart.contains(":")) {
+                    String key = yamlPart.split(":")[0].trim();
+                    String fullKey = currentSection.isEmpty() ? key : currentSection + "." + key;
+
+                    if (currentComment.length() > 0) {
+                        comments.put(fullKey, currentComment.toString());
+                        currentComment.setLength(0);
+                    }
+
+                    if (parts.length > 1) {
+                        inlineComments.put(fullKey, parts[1].trim());
+                    }
+
+                    if (yamlPart.endsWith(":")) {
+                        currentSection = fullKey;
+                    } else {
+                        currentSection = "";
+                    }
                 }
-                yamlContent.append(line).append("\n");
             }
         }
         if (yamlContent.length() > 0) {
@@ -210,8 +237,9 @@ public final class YMLFile {
             }
 
             // Write comments if present
-            if (comments.containsKey(key)) {
+            if (comments.containsKey(key) && !writtenKeys.contains(key + "_comment")) {
                 writer.write(comments.get(key));
+                writtenKeys.add(key + "_comment");
             }
 
             // Write the key
@@ -238,14 +266,18 @@ public final class YMLFile {
                 if (entry.getValue() instanceof String) {
                     // Escape newlines in strings
                     String value = ((String) entry.getValue()).replace("\n", "\\n");
-                    dumpedYaml = " \"" + value + "\"\n";
+                    dumpedYaml = " \"" + value + "\"";
                 } else if (entry.getValue() instanceof Boolean || entry.getValue() instanceof Number) {
-                    dumpedYaml = " " + entry.getValue() + "\n";
+                    dumpedYaml = " " + entry.getValue();
                 } else {
                     // For other types, serialize using YAML
-                    dumpedYaml = " " + yaml.dump(entry.getValue()).trim() + "\n";
+                    dumpedYaml = " " + yaml.dump(entry.getValue()).trim();
                 }
-                // Fix the indentation for non-map values
+                // Add inline comments if present
+                if (inlineComments.containsKey(key)) {
+                    dumpedYaml += " # " + inlineComments.get(key);
+                }
+                dumpedYaml += "\n";
                 writer.write(dumpedYaml);
             }
 

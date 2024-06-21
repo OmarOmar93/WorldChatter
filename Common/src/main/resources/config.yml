@@ -38,7 +38,4 @@ notification:
 # ------------------------------------------------------------------------------------
 
 # Deep-in Settings. do not touch unless you know what you're doing
-
 ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"
-CacheTimings:
-  update: 300

@@ -118,32 +118,32 @@ public final class ConfigSystem {
     }
 
     private void updateConfig() {
-        if(config == null) config = new YMLFile(copyFromIDE("config.yml"), copyISFromIDE("config.yml"),false);
+        if(config == null) config = new YMLFile(copyFromIDE("config.yml"), copyISFromIDE("config.yml"),false,"");
         config.update();
     }
 
     private void updateMessages() {
-        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml"), copyISFromIDE("messages.yml"),false);
+        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml"), copyISFromIDE("messages.yml"),false,"");
         messages.update();
     }
 
     private void updateBroadcast() {
-        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml"), copyISFromIDE("broadcast.yml"),false);
+        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml"), copyISFromIDE("broadcast.yml"),false,"broadcast.places");
         broadcast.update();
     }
 
     private void updateFormat() {
-        if(format == null) format = new YMLFile(copyFromIDE("format.yml"), copyISFromIDE("format.yml"),false);
+        if(format == null) format = new YMLFile(copyFromIDE("format.yml"), copyISFromIDE("format.yml"),false,"FormatSettings.Formats");
         format.update();
     }
 
     private void updateSecurity() {
-        if(security == null) security = new YMLFile(copyFromIDE("security.yml"), copyISFromIDE("security.yml"),false);
+        if(security == null) security = new YMLFile(copyFromIDE("security.yml"), copyISFromIDE("security.yml"),false,"");
         security.update();
     }
 
     private void updateTexts() {
-        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml"), copyISFromIDE("texts.yml"),true);
+        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml"), copyISFromIDE("texts.yml"),true,"texts.messages");
         texts.update();
     }
 

@@ -64,13 +64,13 @@ public final class CommandSystem implements CommandExecutor {
                             sender.sendMessage(ChatColor.GREEN + "Reloaded the WorldChatter's Configuration!");
                             return;
                         case "update":
-                            Boolean b = UpdaterSystem.isUpdated();
+                            final Boolean b = UpdaterSystem.isUpdated();
                             if (b == null) {
                                 sender.sendMessage(ChatColor.RED + "Error has occurred while fetching the update.");
                                 return;
                             }
                             if (b) {
-                                sender.sendMessage(ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
+                                sender.sendMessage(ChatColor.YELLOW + "WorldChatter has released a new" + (UpdaterSystem.isDev ? ChatColor.GOLD + " DEVELOPMENT" : "") + ChatColor.YELLOW + " update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + " -> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
                                 return;
                             }
                             sender.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
@@ -188,7 +188,7 @@ public final class CommandSystem implements CommandExecutor {
                             return;
                     }
                     sender.sendMessage(ChatColor.RED + "- INVALID ARGUMENT" + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Type 'wc help' to check for available list!");
-                }else{
+                } else {
                     sender.sendMessage(helpMessage);
                 }
             } else {

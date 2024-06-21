@@ -34,15 +34,12 @@ public final class WorldChatterBungee extends Plugin {
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null, null);
             getProxy().getPluginManager().registerListener(this, new PlayerEventHandler());
             final Boolean b = UpdaterSystem.isUpdated();
-            for (final ProxiedPlayer player : getProxy().getPlayers()) {
-                PlayerSystem.INSTANCE.addPlayer(player.getUniqueId(), new BungeePlayer(player));
-            }
             if (b == null) {
                 UniLogHandler.INSTANCE.sendMessage(ChatColor.RED + "Error has occurred while fetching the update.");
                 return;
             }
             if (b) {
-                UniLogHandler.INSTANCE.sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "WorldChatter has released a new update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + "-> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
+                UniLogHandler.INSTANCE.sendMessage(ChatColor.YELLOW + "WorldChatter has released a new" + (UpdaterSystem.isDev ? ChatColor.GOLD + " DEVELOPMENT" : "") + ChatColor.YELLOW + " update! " + ChatColor.GRAY + "( " + ChatColor.GOLD + UpdaterSystem.updatetitle + ChatColor.GRAY + " )" + ChatColor.WHITE + " -> " + ChatColor.GREEN + UpdaterSystem.newupdate + ChatColor.BLUE + "\nDownload the update at https://www.spigotmc.org/resources/worldchatter.101226/");
                 return;
             }
             UniLogHandler.INSTANCE.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");

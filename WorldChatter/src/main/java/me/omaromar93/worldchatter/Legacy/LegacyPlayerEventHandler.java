@@ -4,6 +4,8 @@ import Others.ConfigSystem;
 import Others.PlayerSystem;
 import UniversalFunctions.LegacyChatColor;
 import UniversalFunctions.Player;
+import UniversalFunctions.PlayerEventConnector;
+import UniversalFunctions.PlayerEventInterface;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.omaromar93.worldchatter.PAPI.PAPIDependSystem;
 import methods.Expression;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class LegacyPlayerEventHandler implements Listener {
+public class LegacyPlayerEventHandler implements Listener, PlayerEventInterface {
 
     private static HashMap<String, HashMap<String, Object>> joinSection, quitSection;
 
@@ -29,6 +31,7 @@ public class LegacyPlayerEventHandler implements Listener {
     private static String greetingmessage;
 
     public LegacyPlayerEventHandler() {
+        PlayerEventConnector.INSTANCE.setPlayerSystem(this);
         update();
     }
 
@@ -129,5 +132,10 @@ public class LegacyPlayerEventHandler implements Listener {
             if (player.hasPermission(permission)) return true;
         }
         return false;
+    }
+
+    @Override
+    public void reloadPlayerEvent() {
+        update();
     }
 }

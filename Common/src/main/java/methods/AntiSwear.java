@@ -4,6 +4,7 @@ import Others.ConfigSystem;
 
 import java.io.*;
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -14,7 +15,7 @@ public final class AntiSwear {
     private static final List<String> list = new ArrayList<>();
 
     public static boolean hasSwearWords(final String message) {
-        return pattern != null && pattern.matcher(message.toLowerCase()).find();
+        return pattern != null && pattern.matcher(removeAccents(message.toLowerCase())).find();
     }
 
     private static String getRegex() {
@@ -49,5 +50,11 @@ public final class AntiSwear {
         reader.close();
         list.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("CustomSwearWords"));
         pattern = Pattern.compile(getRegex());
+    }
+
+    public static String removeAccents(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern1 = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern1.matcher(normalized).replaceAll("");
     }
 }

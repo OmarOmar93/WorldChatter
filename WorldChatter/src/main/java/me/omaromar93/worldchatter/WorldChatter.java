@@ -56,6 +56,8 @@ public class WorldChatter extends JavaPlugin {
                 getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.YELLOW + "Looks like we're going far back! " + ChatColor.LIGHT_PURPLE + "[WorldChatter Legacy Mode]");
                 getServer().getPluginManager().registerEvents(new LegacyPlayerEventHandler(), this);
             }
+            ConfigSystem.INSTANCE.updatePlayerEvent();
+
 
             try {
                 for (final Player player : getServer().getOnlinePlayers()) {

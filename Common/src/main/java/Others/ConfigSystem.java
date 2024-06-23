@@ -1,6 +1,8 @@
 package Others;
 
 import API.APICore;
+import UniversalFunctions.PlayerEventConnector;
+import UniversalFunctions.PlayerEventInterface;
 import UniversalFunctions.UniLogHandler;
 import chatting.BroadcastSystemConnector;
 import chatting.ChattingSystem;
@@ -32,6 +34,7 @@ public final class ConfigSystem {
         new APICore();
         new PlayerSystem();
         new BroadcastSystemConnector();
+        new PlayerEventConnector();
     }
 
     public void update() {
@@ -49,10 +52,12 @@ public final class ConfigSystem {
         updateBroadcast();
 
 
+
         Expression.update();
         SoundSystem.update();
         UserMention.update();
         BroadcastSystemConnector.INSTANCE.update();
+
         try {
             AntiSwear.update();
         } catch (final IOException e) {
@@ -65,6 +70,10 @@ public final class ConfigSystem {
 
         ChattingSystem.cooldowns.clear();
         ChattingSystem.durations.clear();
+    }
+
+    public void updatePlayerEvent(){
+        PlayerEventConnector.INSTANCE.update();
     }
 
     public YMLFile getClassWithKey(String key) {

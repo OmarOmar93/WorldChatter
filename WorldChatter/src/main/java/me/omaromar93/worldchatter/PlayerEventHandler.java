@@ -3,6 +3,8 @@ package me.omaromar93.worldchatter;
 import Others.ConfigSystem;
 import Others.PlayerSystem;
 import UniversalFunctions.Player;
+import UniversalFunctions.PlayerEventConnector;
+import UniversalFunctions.PlayerEventInterface;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.omaromar93.worldchatter.PAPI.PAPIDependSystem;
 import me.omaromar93.worldchatter.functions.SpigotPlayer;
@@ -19,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class PlayerEventHandler implements Listener {
+public class PlayerEventHandler implements Listener, PlayerEventInterface {
 
     private static HashMap<String, HashMap<String, Object>> joinSection, quitSection;
 
@@ -30,6 +32,7 @@ public class PlayerEventHandler implements Listener {
     private static String greetingmessage;
 
     public PlayerEventHandler() {
+        PlayerEventConnector.INSTANCE.setPlayerSystem(this);
         update();
     }
 
@@ -137,5 +140,11 @@ public class PlayerEventHandler implements Listener {
             if (player.hasPermission(permission)) return true;
         }
         return false;
+    }
+
+
+    @Override
+    public void reloadPlayerEvent() {
+        update();
     }
 }

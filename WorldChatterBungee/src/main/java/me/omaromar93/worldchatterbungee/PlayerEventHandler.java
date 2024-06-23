@@ -3,6 +3,8 @@ package me.omaromar93.worldchatterbungee;
 import Others.ConfigSystem;
 import Others.PlayerSystem;
 import UniversalFunctions.Player;
+import UniversalFunctions.PlayerEventConnector;
+import UniversalFunctions.PlayerEventInterface;
 import functions.BungeePlayer;
 import methods.Expression;
 import methods.MoreFormat;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class PlayerEventHandler implements Listener {
+public class PlayerEventHandler implements Listener, PlayerEventInterface {
 
     private static HashMap<String, HashMap<String, Object>> joinSection, quitSection;
 
@@ -29,6 +31,7 @@ public class PlayerEventHandler implements Listener {
     private static String greetingmessage;
 
     public PlayerEventHandler() {
+        PlayerEventConnector.INSTANCE.setPlayerSystem(this);
         update();
     }
 
@@ -113,5 +116,11 @@ public class PlayerEventHandler implements Listener {
             if (player.hasPermission(permission)) return true;
         }
         return false;
+    }
+
+
+    @Override
+    public void reloadPlayerEvent() {
+        update();
     }
 }

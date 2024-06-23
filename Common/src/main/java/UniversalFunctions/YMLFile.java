@@ -185,11 +185,12 @@ public final class YMLFile {
         StringBuilder yamlContent = new StringBuilder();
         StringBuilder currentComment = new StringBuilder();
         String currentSection = "";
+
         for (String line : lines) {
             if (line.trim().startsWith("#")) {
                 currentComment.append(line).append("\n");
             } else if (!line.trim().isEmpty()) {
-                String[] parts = line.split("#", 2);
+                String[] parts = splitYamlLine(line);
                 String yamlPart = parts[0];
                 yamlContent.append(yamlPart).append("\n");
 
@@ -202,18 +203,20 @@ public final class YMLFile {
                         currentComment.setLength(0);
                     }
 
-                    if (parts.length > 1) {
-                        inlineComments.put(fullKey, parts[1].trim());
-                    }
-
                     if (yamlPart.endsWith(":")) {
                         currentSection = fullKey;
                     } else {
                         currentSection = "";
                     }
+
+                    // Only add inline comment if it is not inside a string
+                    if (parts.length > 1) {
+                        inlineComments.put(fullKey, parts[1].trim());
+                    }
                 }
             }
         }
+
         if (yamlContent.length() > 0) {
             Object yamlPart = yaml.load(yamlContent.toString());
             if (yamlPart instanceof Map) {
@@ -223,6 +226,22 @@ public final class YMLFile {
             }
         }
         return result;
+    }
+
+    private String[] splitYamlLine(String line) {
+        boolean insideSingleQuotes = false;
+        boolean insideDoubleQuotes = false;
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '\'' && !insideDoubleQuotes) {
+                insideSingleQuotes = !insideSingleQuotes;
+            } else if (c == '\"' && !insideSingleQuotes) {
+                insideDoubleQuotes = !insideDoubleQuotes;
+            } else if (c == '#' && !insideSingleQuotes && !insideDoubleQuotes) {
+                return new String[]{line.substring(0, i), line.substring(i + 1)};
+            }
+        }
+        return new String[]{line};
     }
 
     private void saveYamlDataWithComments(Map<String, Object> data, BufferedWriter writer, Yaml yaml, String parentKey, int indentLevel) throws IOException {
@@ -255,7 +274,7 @@ public final class YMLFile {
                 writer.write("\n");
                 for (Object item : (List<?>) entry.getValue()) {
                     if (item instanceof String) {
-                        writer.write(indent + "  - \"" + item + "\"\n");
+                        writer.write(indent + "  - \"" + item.toString().replace("\n", "\\n") + "\"\n");
                     } else {
                         writer.write(indent + "  - " + item + "\n");
                     }
@@ -264,8 +283,8 @@ public final class YMLFile {
                 // Handle different types of non-map values
                 String dumpedYaml;
                 if (entry.getValue() instanceof String) {
-                    // Escape newlines in strings
-                    String value = ((String) entry.getValue()).replace("\n", "\\n");
+                    // Escape newlines in strings and quote the string
+                    String value = ((String) entry.getValue()).replace("\n", "\\n").replace("\"", "\\\"");
                     dumpedYaml = " \"" + value + "\"";
                 } else if (entry.getValue() instanceof Boolean || entry.getValue() instanceof Number) {
                     dumpedYaml = " " + entry.getValue();

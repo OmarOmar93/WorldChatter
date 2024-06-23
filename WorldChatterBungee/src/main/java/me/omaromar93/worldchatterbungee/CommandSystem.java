@@ -52,6 +52,7 @@ public class CommandSystem extends Command {
                     switch (args[0].toLowerCase()) {
                         case "reload":
                             ConfigSystem.INSTANCE.update();
+                            ConfigSystem.INSTANCE.updatePlayerEvent();
                             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                                 api.configReload(sender, commandSender);
                             sender.sendMessage(ChatColor.GREEN + "Reloaded the WorldChatter's Configuration!");

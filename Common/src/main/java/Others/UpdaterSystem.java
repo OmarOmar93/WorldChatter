@@ -3,6 +3,9 @@ package Others;
 import API.APICore;
 import API.WorldChatterAPI;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public final class UpdaterSystem {
 
     public static String newupdate, updatetitle;
@@ -23,8 +26,16 @@ public final class UpdaterSystem {
             newupdate = verstring[0];
             updatetitle = verstring[2];
             isDev = Boolean.parseBoolean(verstring[3]);
-            needsUpdate = update > 120;
-
+            needsUpdate = update > 121;
+            ThreadsSystem.runAsync(() -> new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    newupdate = null;
+                    updatetitle = null;
+                    isDev = null;
+                    needsUpdate = null;
+                }
+            }, ConfigSystem.INSTANCE.getConfig().getInt("UpdateTimings") * 1000L));
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                 api.updateChecked(needsUpdate,isDev);
             return needsUpdate;

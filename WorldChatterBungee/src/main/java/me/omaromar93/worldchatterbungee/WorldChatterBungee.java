@@ -33,6 +33,7 @@ public final class WorldChatterBungee extends Plugin {
             ConfigSystem.INSTANCE.update();
             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners()) api.configReload(null, null);
             getProxy().getPluginManager().registerListener(this, new PlayerEventHandler());
+            ConfigSystem.INSTANCE.updatePlayerEvent();
             final Boolean b = UpdaterSystem.isUpdated();
             if (b == null) {
                 UniLogHandler.INSTANCE.sendMessage(ChatColor.RED + "Error has occurred while fetching the update.");

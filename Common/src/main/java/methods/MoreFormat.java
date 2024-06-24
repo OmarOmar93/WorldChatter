@@ -2,7 +2,11 @@ package methods;
 
 import Others.ConfigSystem;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.*;
+
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
 import java.util.*;

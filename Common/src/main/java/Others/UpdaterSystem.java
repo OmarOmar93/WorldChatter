@@ -26,7 +26,7 @@ public final class UpdaterSystem {
             newupdate = verstring[0];
             updatetitle = verstring[2];
             isDev = Boolean.parseBoolean(verstring[3]);
-            needsUpdate = update > 121;
+            needsUpdate = update > 122;
             ThreadsSystem.runAsync(() -> new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {

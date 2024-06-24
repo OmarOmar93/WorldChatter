@@ -56,7 +56,7 @@ public class LegacyPlayerEventHandler implements Listener, PlayerEventInterface 
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
             final String messagedefault = LegacyChatColor.translateAlternateColorCodes('&', getDefaultMessage(event.getPlayer(), false));
             event.setJoinMessage(null);
-            for (final OfflinePlayer p1 : Bukkit.getOfflinePlayers()) {
+            for (final OfflinePlayer p1 : Bukkit.getServer().getOfflinePlayers()) {
                 if (p1.isOnline()) {
                     final org.bukkit.entity.Player p = (org.bukkit.entity.Player) p1;
                     if (p != event.getPlayer()) {
@@ -91,7 +91,7 @@ public class LegacyPlayerEventHandler implements Listener, PlayerEventInterface 
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
             final String messagedefault = LegacyChatColor.translateAlternateColorCodes('&',getDefaultMessage(event.getPlayer(), true));
             event.setQuitMessage(null);
-            for (final OfflinePlayer p1 : Bukkit.getOfflinePlayers()) {
+            for (final OfflinePlayer p1 : Bukkit.getServer().getOfflinePlayers()) {
                 if (p1.isOnline()) {
                     final org.bukkit.entity.Player p = (org.bukkit.entity.Player) p1;
                     if (p != event.getPlayer()) {

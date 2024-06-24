@@ -274,7 +274,7 @@ public final class YMLFile {
                 writer.write("\n");
                 for (Object item : (List<?>) entry.getValue()) {
                     if (item instanceof String) {
-                        writer.write(indent + "  - \"" + item.toString().replace("\n", "\\n") + "\"\n");
+                        writer.write(indent + "  - \"" + ((String) item).replace("\n", "\\n").replace("\r", "\\r") + "\"\n");
                     } else {
                         writer.write(indent + "  - " + item + "\n");
                     }
@@ -283,8 +283,8 @@ public final class YMLFile {
                 // Handle different types of non-map values
                 String dumpedYaml;
                 if (entry.getValue() instanceof String) {
-                    // Escape newlines in strings and quote the string
-                    String value = ((String) entry.getValue()).replace("\n", "\\n").replace("\"", "\\\"");
+                    // Escape newlines and carriage returns in strings and quote the string
+                    String value = ((String) entry.getValue()).replace("\n", "\\n").replace("\r", "\\r").replace("\"", "\\\"");
                     dumpedYaml = " \"" + value + "\"";
                 } else if (entry.getValue() instanceof Boolean || entry.getValue() instanceof Number) {
                     dumpedYaml = " " + entry.getValue();

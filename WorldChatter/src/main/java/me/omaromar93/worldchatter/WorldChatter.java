@@ -8,6 +8,7 @@ import Others.ThreadsSystem;
 import Others.UpdaterSystem;
 import UniversalFunctions.UniLogHandler;
 import me.omaromar93.worldchatter.Legacy.LegacyBroadcastSystem;
+import me.omaromar93.worldchatter.Legacy.LegacyChatEventHandler;
 import me.omaromar93.worldchatter.Legacy.LegacyPlayerEventHandler;
 import me.omaromar93.worldchatter.Legacy.LegacySpigotPlayer;
 import me.omaromar93.worldchatter.PAPI.PAPIDependSystem;
@@ -42,7 +43,11 @@ public class WorldChatter extends JavaPlugin {
             legacy = true;
         }
         new UniLogHandler(new SpigotLog());
-        getServer().getPluginManager().registerEvents(new ChatEventHandler(), this);
+        if(isBeforeVersion()){
+            getServer().getPluginManager().registerEvents(new LegacyChatEventHandler(), this);
+        } else{
+            getServer().getPluginManager().registerEvents(new ChatEventHandler(), this);
+        }
         Objects.requireNonNull(getCommand("worldchatter")).setExecutor(new CommandSystem());
         final boolean finalLegacy = legacy;
         ThreadsSystem.runAsync(() -> {
@@ -88,4 +93,18 @@ public class WorldChatter extends JavaPlugin {
     public void onDisable() {
         getConsoleSender().sendMessage(ChatColor.GOLD + "[WorldChatter] " + ChatColor.BLUE + "Goodbye and thanks for using WorldChatter ^ - ^");
     }
+
+    private boolean isBeforeVersion() {
+        final String[] currentVersionParts = Bukkit.getServer().getBukkitVersion().split("-")[0].split("\\.");
+        final String[] targetVersionParts = "1.3.1".split("\\.");
+
+        for (int i = 0; i < targetVersionParts.length; i++) {
+            final int current = i < currentVersionParts.length ? Integer.parseInt(currentVersionParts[i]) : 0;
+            final int target = Integer.parseInt(targetVersionParts[i]);
+            if (current < target) return true;
+            if (current > target) return false;
+        }
+        return false;
+    }
+
 }

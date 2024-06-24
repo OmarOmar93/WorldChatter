@@ -19,6 +19,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,20 +27,22 @@ import java.util.Objects;
 public class CommandSystem extends Command {
 
     final List<String> cleaner = new ArrayList<>();
-    private final String helpMessage = "\n" + ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-\n"
-            + ChatColor.BLUE + "- wc Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (ChattingSystem.isChatLock() ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.WHITE + ")" + "\n"
-            + ChatColor.BLUE + "- wc update" + ChatColor.WHITE + " Checks for any available updates for the plugin" + "\n"
-            + ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration" + "\n"
-            + ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!" + "\n"
-            + ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!" + "\n"
-            + ChatColor.BLUE + "- wc config [key] [value]" + ChatColor.WHITE + " Sets any key into any value!" + "\n"
-            + ChatColor.BLUE + "- wc broadcast [message]" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)" + "\n"
-            + ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!" + "\n";
+    private final List<String> helpMessages = Arrays.asList(
+            ChatColor.WHITE + "- " + ChatColor.GREEN + "WorldChatter Help List " + ChatColor.WHITE + "-",
+            ChatColor.BLUE + "- wc Lock" + ChatColor.WHITE + " Toggles the ability to chat in the server (Lock status: " + (ChattingSystem.isChatLock() ? ChatColor.RED + "Locked" : ChatColor.GREEN + "UnLocked") + ChatColor.WHITE + ")",
+            ChatColor.BLUE + "- wc update" + ChatColor.WHITE + " Checks for any available updates for the plugin",
+            ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration",
+            ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!",
+            ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!",
+            ChatColor.BLUE + "- wc config [key] [value]" + ChatColor.WHITE + " Sets any key into any value!",
+            ChatColor.BLUE + "- wc broadcast [message]" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)",
+            ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!"
+    );
 
     public CommandSystem() {
         super("worldchatter", "worlcchatter.control", "wc"); // Command name
         while (cleaner.size() < 100) {
-            cleaner.add("§f\n");
+            cleaner.add("§f                                            \n");
         }
     }
 
@@ -69,22 +72,13 @@ public class CommandSystem extends Command {
                             }
                             sender.sendMessage(ChatColor.YELLOW + "WorldChatter is in it's latest update!");
                             return;
-                        case "cc":
-                        case "clearchat":
-                        case "clear":
-                            for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
-                                player.sendMessage(new TextComponent(String.join(" ", cleaner)
-                                        + Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString()
-                                        .replace("%sender%", sender.getName()))));
-                            sender.sendMessage(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString());
-                            return;
                         case "lock":
                             if (!ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLock")) {
                                 sender.sendMessage(ChatColor.YELLOW + "The " + ChatColor.BLUE + "'ChatLock' " + ChatColor.YELLOW + "is disabled, toggling it won't do anything");
                                 return;
                             }
                             final boolean lock = ChattingSystem.toggleChatLock();
-                            final String s = ChatColor.translateAlternateColorCodes('&', !lock ? Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.unlocked")).toString() : Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.locked")).toString());
+                            final String s = Expression.translateColors(!lock ? Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.unlocked")).toString() : Objects.requireNonNull(ConfigSystem.INSTANCE.getSecurity().get("ChatLockMessage.locked")).toString());
                             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                                 api.chatLockToggle(sender, lock, commandSender);
                             if (ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLockMessage.public"))
@@ -143,19 +137,33 @@ public class CommandSystem extends Command {
                                 }
                             }
                             return;
+                        case "cc":
+                        case "clearchat":
+                        case "clear":
+                            for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                                player.sendMessage(new TextComponent(String.join(" ", cleaner)));
+                                player.sendMessage(MoreFormat.FormatMore(Expression.translateColors(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString()
+                                        .replace("%sender%", sender.getName()))));
+                            }
+                            sender.sendMessage(Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString());
+                            return;
                         case "version":
                         case "info":
-                            sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion() + "\n"
-                                    + ChatColor.YELLOW + "Created By: " + WorldChatterBungee.INSTANCE.getDescription().getAuthor() + "\n"
-                                    + "Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " BETA");
+                            sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion());
+                            sender.sendMessage(ChatColor.YELLOW + "Created By: OmarOmar93");
+                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " BETA");
                             return;
                         case "help":
-                            sender.sendMessage(helpMessage);
+                            for (String msg : helpMessages) {
+                                sender.sendMessage(msg);
+                            }
                             return;
                     }
                     sender.sendMessage(ChatColor.RED + "- INVALID ARGUMENT" + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Type 'wc help' to check for available list!");
                 } else {
-                    sender.sendMessage(helpMessage);
+                    for (String msg : helpMessages) {
+                        sender.sendMessage(msg);
+                    }
                 }
             } else {
                 String message = Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("NoPermissionMessage")).toString();

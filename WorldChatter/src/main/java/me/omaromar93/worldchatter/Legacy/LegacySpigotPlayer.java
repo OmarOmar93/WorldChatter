@@ -37,6 +37,8 @@ public class LegacySpigotPlayer implements UniversalFunctions.Player {
             player.playSound(player.getLocation(), Sound.valueOf(soundName), volume, pitch);
         } catch (final Exception ignored) {
             UniLogHandler.INSTANCE.sendMessage(ChatColor.YELLOW + "The sound can't be find try checking the config for more information!");
+        } catch (NoClassDefFoundError ignored ){
+            // no sounds
         }
     }
 

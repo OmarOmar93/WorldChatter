@@ -38,7 +38,6 @@ public final class CommandSystem implements CommandExecutor {
             ChatColor.BLUE + "- wc reload" + ChatColor.WHITE + " Reloads the plugin's configuration",
             ChatColor.BLUE + "- wc addons" + ChatColor.WHITE + " Check the connected Addons in WorldChatter!",
             ChatColor.BLUE + "- wc clear" + ChatColor.WHITE + " Clears the chat!",
-            ChatColor.BLUE + "- wc config [key] [value]" + ChatColor.WHITE + " Sets any key into any value!",
             ChatColor.BLUE + "- wc broadcast [message]" + ChatColor.WHITE + " Broadcast a message to every single world (not for the blacklist tho)",
             ChatColor.BLUE + "- wc version" + ChatColor.WHITE + " Shows the version/Information about WorldChatter!"
     );
@@ -154,24 +153,6 @@ public final class CommandSystem implements CommandExecutor {
                                 }
                             }
                             return;
-                        case "config":
-                        case "c":
-                            if (args.length > 2) {
-                                final StringBuilder builder = new StringBuilder();
-                                for (int i = 2; i < args.length; i++) {
-                                    builder.append(args[i]).append(" ");
-                                }
-
-                                builder.replace(builder.length() - 1, builder.length(), "");
-                                if (ConfigSystem.INSTANCE.getClassWithKey(args[1]) != null) {
-                                    String value = builder.toString();
-                                    Objects.requireNonNull(ConfigSystem.INSTANCE.getClassWithKey(args[1])).set(args[1], value);
-                                    sender.sendMessage(ChatColor.GREEN + "Sucessfully Changed [ " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " ] to " + ChatColor.RESET + value);
-                                } else {
-                                    sender.sendMessage(ChatColor.RED + "- INVALID KEY" + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Couldn't find the provided key.");
-                                }
-                            }
-                            return;
                         case "cc":
                         case "clearchat":
                         case "clear":
@@ -200,7 +181,7 @@ public final class CommandSystem implements CommandExecutor {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatter.INSTANCE.getDescription().getVersion());
                             sender.sendMessage(ChatColor.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " BETA");
+                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " Part 1");
                             return;
                         case "help":
                             for (String msg : helpMessages) {

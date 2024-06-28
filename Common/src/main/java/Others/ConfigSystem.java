@@ -2,7 +2,6 @@ package Others;
 
 import API.APICore;
 import UniversalFunctions.PlayerEventConnector;
-import UniversalFunctions.PlayerEventInterface;
 import UniversalFunctions.UniLogHandler;
 import chatting.BroadcastSystemConnector;
 import chatting.ChattingSystem;
@@ -127,32 +126,32 @@ public final class ConfigSystem {
     }
 
     private void updateConfig() {
-        if(config == null) config = new YMLFile(copyFromIDE("config.yml"), copyISFromIDE("config.yml"),false,"");
+        if(config == null) config = new YMLFile(copyFromIDE("config.yml").toPath());
         config.update();
     }
 
     private void updateMessages() {
-        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml"), copyISFromIDE("messages.yml"),false,"");
+        if(messages == null) messages = new YMLFile(copyFromIDE("messages.yml").toPath());
         messages.update();
     }
 
     private void updateBroadcast() {
-        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml"), copyISFromIDE("broadcast.yml"),false,"broadcast.places");
+        if(broadcast == null) broadcast = new YMLFile(copyFromIDE("broadcast.yml").toPath());
         broadcast.update();
     }
 
     private void updateFormat() {
-        if(format == null) format = new YMLFile(copyFromIDE("format.yml"), copyISFromIDE("format.yml"),false,"FormatSettings.Formats");
+        if(format == null) format = new YMLFile(copyFromIDE("format.yml").toPath());
         format.update();
     }
 
     private void updateSecurity() {
-        if(security == null) security = new YMLFile(copyFromIDE("security.yml"), copyISFromIDE("security.yml"),false,"");
+        if(security == null) security = new YMLFile(copyFromIDE("security.yml").toPath());
         security.update();
     }
 
     private void updateTexts() {
-        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml"), copyISFromIDE("texts.yml"),true,"texts.messages");
+        if(texts == null) texts = new YMLFile(copyFromIDE("texts.yml").toPath());
         texts.update();
     }
 
@@ -178,15 +177,4 @@ public final class ConfigSystem {
         return file;
     }
 
-    private InputStream copyISFromIDE(final String key) {
-        final ClassLoader classloader = getClass().getClassLoader();
-
-        final InputStream is = classloader.getResourceAsStream(key);
-        if (is == null) {
-            logger.severe("Couldn't find " + key + " inside the plugin files, please report to the developer ASAP!");
-            return null;
-        }
-
-        return is;
-    }
 }

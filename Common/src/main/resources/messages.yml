@@ -23,6 +23,8 @@ Quit:
       permissions: ["worldchatter.control", "*"]
       message: "&a%player_name% &fhas left the game &8You have nothing to do to that player :P"
 
+# ------------------------------------------------------------------------------------
+# Greetings Settings
 Greetings:
   enabled: true
   message: "&7->> &eWelcome, &a%player_name% &eto the Minecraft Server!"

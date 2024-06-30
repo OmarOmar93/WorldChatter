@@ -4,6 +4,7 @@ import API.APICore;
 import API.Addon;
 import API.WorldChatterAPI;
 import Others.ConfigSystem;
+import Others.PlayerSystem;
 import Others.ThreadsSystem;
 import Others.UpdaterSystem;
 import UniversalFunctions.LegacyChatColor;
@@ -14,7 +15,6 @@ import methods.Expression;
 import methods.MoreFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -97,18 +97,9 @@ public final class CommandSystem implements CommandExecutor {
                             for (final WorldChatterAPI api : APICore.INSTANCE.getListeners())
                                 api.chatLockToggle(sender, lock, commandSender);
                             if (ConfigSystem.INSTANCE.getSecurity().getBoolean("ChatLockMessage.public")) {
-                                try {
-                                    for (final Player player : Bukkit.getOnlinePlayers()) {
-                                        if (!player.getName().equals(sender.getName()))
-                                            player.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(s)));
-                                    }
-                                } catch (final NoSuchMethodError ignored) {
-                                    for (final OfflinePlayer offlinePlayer : Bukkit.getServer().getOfflinePlayers()) {
-                                        if (offlinePlayer.isOnline() && !Objects.equals(sender.getName(), offlinePlayer.getName())) {
-                                            Player newplayer = (Player) offlinePlayer;
-                                            newplayer.sendMessage(s);
-                                        }
-                                    }
+                                for (final UniversalFunctions.Player player : PlayerSystem.INSTANCE.getPlayers()) {
+                                    if (!player.getName().equals(sender.getName()))
+                                        player.sendMessage(s);
                                 }
                             }
                             sender.sendMessage(ChatColor.YELLOW + "Successfully Toggled the Chat: " + (lock ? ChatColor.RED + "LOCKED" : ChatColor.GREEN + "UNLOCKED"));
@@ -162,18 +153,9 @@ public final class CommandSystem implements CommandExecutor {
                             } catch (final NoClassDefFoundError ignored) {
                                 message = LegacyChatColor.translateAlternateColorCodes('&', (Objects.requireNonNull(ConfigSystem.INSTANCE.getMessages().get("ChatClearMessage")).toString().replace("%sender%", sender.getName())));
                             }
-                            try {
-                                for (final Player player : Bukkit.getOnlinePlayers()) {
-                                    player.sendMessage(String.join(" ", cleaner));
-                                    player.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(message)));
-                                }
-                            } catch (final NoSuchMethodError ignored) {
-                                for (final OfflinePlayer offlinePlayer : Bukkit.getServer().getOfflinePlayers()) {
-                                    if (offlinePlayer.isOnline()) {
-                                        ((Player) offlinePlayer).sendMessage(String.join(" ", cleaner));
-                                        ((Player) offlinePlayer).sendMessage(message);
-                                    }
-                                }
+                            for (final UniversalFunctions.Player player : PlayerSystem.INSTANCE.getPlayers()) {
+                                player.sendMessage(String.join(" ", cleaner));
+                                player.sendMessage(message);
                             }
                             sender.sendMessage(ChatColor.YELLOW + "Successfully Cleared the Chat!");
                             return;
@@ -181,7 +163,7 @@ public final class CommandSystem implements CommandExecutor {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatter.INSTANCE.getDescription().getVersion());
                             sender.sendMessage(ChatColor.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " Part 1");
+                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update");
                             return;
                         case "help":
                             for (String msg : helpMessages) {
@@ -202,11 +184,7 @@ public final class CommandSystem implements CommandExecutor {
                 } catch (final NoClassDefFoundError ignored) {
                     message = LegacyChatColor.translateAlternateColorCodes('&', message);
                 }
-                try {
-                    commandSender.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(message)));
-                } catch (final NoSuchMethodError ignored) {
-                    commandSender.sendMessage(message);
-                }
+                sender.sendMessage(message);
             }
         });
         return true;

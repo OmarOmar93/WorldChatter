@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class LegacySpigotPlayer implements UniversalFunctions.Player {
@@ -23,7 +24,7 @@ public class LegacySpigotPlayer implements UniversalFunctions.Player {
 
     @Override
     public void sendMessage(final String message) {
-        player.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
+        if(!message.isEmpty()) player.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
     }
 
     @Override

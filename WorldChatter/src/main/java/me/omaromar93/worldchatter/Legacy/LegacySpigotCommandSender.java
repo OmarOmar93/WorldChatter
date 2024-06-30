@@ -19,7 +19,7 @@ public class LegacySpigotCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(final String message) {
-            sender.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
+        if(!message.isEmpty()) sender.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',message));
     }
 
     @Override

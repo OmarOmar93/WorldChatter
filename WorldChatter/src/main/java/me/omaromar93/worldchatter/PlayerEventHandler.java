@@ -55,39 +55,39 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
         final Player player = new SpigotPlayer(event.getPlayer());
         PlayerSystem.INSTANCE.addPlayer(player.getUUID(), player);
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final TextComponent messagedefault = MoreFormat.FormatMore(getDefaultMessage(event.getPlayer(), false));
+            final String messagedefault = getDefaultMessage(event.getPlayer(), false);
             event.setJoinMessage(null);
-            for (final org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
-                if (p != event.getPlayer()) {
+            for (final Player p : PlayerSystem.INSTANCE.getPlayers()) {
+                if (p != player) {
                     if (joinMode) {
                         for (final HashMap<String, Object> map : joinSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player_name%", event.getPlayer().getName())))));
+                                p.sendMessage(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName())));
                                 continue;
                             }
-                            p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
+                            p.sendMessage(messagedefault);
                         }
                         continue;
                     }
-                    p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
+                    p.sendMessage(messagedefault);
                 }
             }
             try {
-                Bukkit.getConsoleSender().spigot().sendMessage(Objects.requireNonNull(messagedefault));
+                Bukkit.getConsoleSender().spigot().sendMessage(MoreFormat.FormatMore(messagedefault));
             } catch (final NoSuchMethodError ignored) {
                 assert messagedefault != null;
-                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault.toLegacyText()));
+                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault));
             }
         }
         if (greetingmode) {
-            event.getPlayer().spigot().sendMessage(MoreFormat.FormatMore(
+            player.sendMessage(
                     Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ?
                             PlaceholderAPI.setPlaceholders(event.getPlayer(), greetingmessage) :
                             greetingmessage
                                     .replace("%player_name%", event.getPlayer().getName())
                                     .replace("%player_displayname%", event.getPlayer().getDisplayName())
-                    )));
+                    ));
         }
     }
 
@@ -95,29 +95,27 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         PlayerSystem.INSTANCE.removePlayer(event.getPlayer().getUniqueId());
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final TextComponent messagedefault = MoreFormat.FormatMore(getDefaultMessage(event.getPlayer(), true));
+            final String messagedefault = getDefaultMessage(event.getPlayer(), true);
             event.setQuitMessage(null);
-            for (final org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
-                if (p != event.getPlayer()) {
-                    if (quitMode) {
-                        for (final HashMap<String, Object> map : quitSection.values()) {
-                            if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.spigot().sendMessage(Objects.requireNonNull(MoreFormat.FormatMore(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                        .replace("%player_name%", event.getPlayer().getName())))));
-                                continue;
-                            }
-                            p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
+            for (final Player p : PlayerSystem.INSTANCE.getPlayers()) {
+                if (quitMode) {
+                    for (final HashMap<String, Object> map : quitSection.values()) {
+                        if (hasPermission(p, (List<String>) map.get("permissions"))) {
+                            p.sendMessage(Expression.translateColors(PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                    .replace("%player_name%", event.getPlayer().getName())));
+                            continue;
                         }
-                        continue;
+                        p.sendMessage(messagedefault);
                     }
-                    p.spigot().sendMessage(Objects.requireNonNull(messagedefault));
+                    continue;
                 }
+                p.sendMessage(messagedefault);
             }
             try {
-                Bukkit.getConsoleSender().spigot().sendMessage(Objects.requireNonNull(messagedefault));
+                Bukkit.getConsoleSender().spigot().sendMessage(MoreFormat.FormatMore(messagedefault));
             } catch (final NoSuchMethodError ignored) {
                 assert messagedefault != null;
-                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault.toLegacyText()));
+                Bukkit.getConsoleSender().sendMessage(Expression.translateColors(messagedefault));
             }
         }
     }
@@ -135,7 +133,7 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
                                 .replace("%player_name%", player.getName()));
     }
 
-    private boolean hasPermission(final org.bukkit.entity.Player player, final List<String> permissions) {
+    private boolean hasPermission(final Player player, final List<String> permissions) {
         for (final String permission : permissions) {
             if (player.hasPermission(permission)) return true;
         }

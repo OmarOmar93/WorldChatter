@@ -19,10 +19,12 @@ public class SpigotCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(final String message) {
-        try {
-            sender.spigot().sendMessage(MoreFormat.FormatMore(message));
-        } catch (final NoSuchMethodError ignored){
-            sender.sendMessage(message);
+        if(!message.isEmpty()) {
+            try {
+                sender.spigot().sendMessage(MoreFormat.FormatMore(message));
+            } catch (final NoSuchMethodError ignored) {
+                sender.sendMessage(message);
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package me.omaromar93.worldchatter;
 
 import Others.ConfigSystem;
+import Others.PlayerSystem;
 import Others.ThreadsSystem;
 import chatting.BroadcastSystemConnector;
 import chatting.BroadcastSystemInterface;
@@ -54,14 +55,14 @@ public class BroadcastSystem implements BroadcastSystemInterface {
                     }
                     final List<String> messages = ConfigSystem.INSTANCE.getBroadcast().getStringList("broadcast.commonmessages");
                     if (ConfigSystem.INSTANCE.getBroadcast().getBoolean("broadcast.shufflemessages")) {
-                        for (final Player player : Bukkit.getOnlinePlayers()) {
-                            player.spigot().sendMessage(MoreFormat.FormatMore(Expression.translateColors(messages.get(getrandomint(messages.size())))));
+                        for (final UniversalFunctions.Player player : PlayerSystem.INSTANCE.getPlayers()) {
+                            player.sendMessage(Expression.translateColors(messages.get(getrandomint(messages.size()))));
                         }
                         return;
                     }
                     final String message = Expression.translateColors(messages.get(getrandomint(messages.size())));
-                    for (final Player player : Bukkit.getOnlinePlayers()) {
-                        player.spigot().sendMessage(MoreFormat.FormatMore(message));
+                    for (final UniversalFunctions.Player player : PlayerSystem.INSTANCE.getPlayers()) {
+                        player.sendMessage(message);
                     }
                 }, 0L, ConfigSystem.INSTANCE.getBroadcast().getInt("broadcast.messagecycle") * 20L);
             }

@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SpigotPlayer implements UniversalFunctions.Player {
@@ -23,10 +24,12 @@ public class SpigotPlayer implements UniversalFunctions.Player {
 
     @Override
     public void sendMessage(final String message) {
-        try {
-            player.spigot().sendMessage(MoreFormat.FormatMore(message));
-        } catch (final NoSuchMethodError ignored) {
-            player.sendMessage(message);
+        if(!message.isEmpty()) {
+            try {
+                player.spigot().sendMessage(MoreFormat.FormatMore(message));
+            } catch (final NoSuchMethodError ignored) {
+                player.sendMessage(message);
+            }
         }
     }
 

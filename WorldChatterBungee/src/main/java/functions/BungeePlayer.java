@@ -29,7 +29,7 @@ public class BungeePlayer implements Player {
 
     @Override
     public void sendMessage(final String message) {
-        player.sendMessage(new TextComponent(Objects.requireNonNull(MoreFormat.FormatMore(message))));
+        if(!message.isEmpty()) player.sendMessage(new TextComponent(Objects.requireNonNull(MoreFormat.FormatMore(message))));
     }
 
     @Override

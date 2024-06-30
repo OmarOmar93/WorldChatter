@@ -22,7 +22,7 @@ public class BungeeCommandSender implements UniversalFunctions.CommandSender {
 
     @Override
     public void sendMessage(final String message) {
-        sender.sendMessage(new TextComponent(Objects.requireNonNull(MoreFormat.FormatMore(message))));
+        if(!message.isEmpty()) sender.sendMessage(new TextComponent(Objects.requireNonNull(MoreFormat.FormatMore(message))));
     }
 
     @Override

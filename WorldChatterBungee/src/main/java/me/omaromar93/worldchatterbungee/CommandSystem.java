@@ -132,7 +132,7 @@ public class CommandSystem extends Command {
                         case "info":
                             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "WorldChatter" + ChatColor.GRAY + " - " + ChatColor.GREEN + WorldChatterBungee.INSTANCE.getDescription().getVersion());
                             sender.sendMessage(ChatColor.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update" + ChatColor.YELLOW + " Part 1");
+                            sender.sendMessage("Update Title: " + ChatColor.GOLD + "The Quality Update");
                             return;
                         case "help":
                             for (String msg : helpMessages) {

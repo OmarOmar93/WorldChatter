@@ -54,14 +54,14 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
         final Player player = new BungeePlayer(event.getPlayer());
         PlayerSystem.INSTANCE.addPlayer(player.getUUID(), player);
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final TextComponent messagedefault = MoreFormat.FormatMore(getDefaultMessage(event.getPlayer(), false));
-            for (final ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-                if (p != event.getPlayer()) {
+            final String messagedefault = getDefaultMessage(event.getPlayer(), false);
+            for (final Player p : PlayerSystem.INSTANCE.getPlayers()) {
+                if (p != player) {
                     if (joinMode) {
                         for (final HashMap<String, Object> map : joinSection.values()) {
                             if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.sendMessage(MoreFormat.FormatMore(Expression.translateColors(map.get("message").toString())
-                                        .replace("%player_name%", event.getPlayer().getName())));
+                                p.sendMessage(Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName()));
                                 continue;
                             }
                             p.sendMessage(messagedefault);
@@ -84,21 +84,19 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event) {
         if (ConfigSystem.INSTANCE.getMessages().getBoolean("CustomJoinQuit")) {
-            final TextComponent messagedefault = MoreFormat.FormatMore(getDefaultMessage(event.getPlayer(), true));
-            for (final ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-                if (p != event.getPlayer()) {
-                    if (quitMode) {
-                        for (final HashMap<String, Object> map : quitSection.values()) {
-                            if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                p.sendMessage(MoreFormat.FormatMore(map.get("message").toString()));
-                                continue;
-                            }
-                            p.sendMessage(messagedefault);
+            final String messagedefault = getDefaultMessage(event.getPlayer(), true);
+            for (final Player p : PlayerSystem.INSTANCE.getPlayers()) {
+                if (quitMode) {
+                    for (final HashMap<String, Object> map : quitSection.values()) {
+                        if (hasPermission(p, (List<String>) map.get("permissions"))) {
+                            p.sendMessage(map.get("message").toString());
+                            continue;
                         }
-                        continue;
+                        p.sendMessage(messagedefault);
                     }
-                    p.sendMessage(messagedefault);
+                    continue;
                 }
+                p.sendMessage(messagedefault);
             }
         }
         PlayerSystem.INSTANCE.removePlayer(event.getPlayer().getUniqueId());
@@ -111,7 +109,7 @@ public class PlayerEventHandler implements Listener, PlayerEventInterface {
                         .replace("%player_name%", player.getName()));
     }
 
-    private boolean hasPermission(final ProxiedPlayer player, final List<String> permissions) {
+    private boolean hasPermission(final Player player, final List<String> permissions) {
         for (final String permission : permissions) {
             if (player.hasPermission(permission)) return true;
         }

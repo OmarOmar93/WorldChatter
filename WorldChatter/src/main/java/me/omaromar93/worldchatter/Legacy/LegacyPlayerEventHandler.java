@@ -59,20 +59,18 @@ public class LegacyPlayerEventHandler implements Listener, PlayerEventInterface 
             for (final OfflinePlayer p1 : Bukkit.getServer().getOfflinePlayers()) {
                 if (p1.isOnline()) {
                     final org.bukkit.entity.Player p = (org.bukkit.entity.Player) p1;
-                    if (p != event.getPlayer()) {
-                        if (joinMode) {
-                            for (final HashMap<String, Object> map : joinSection.values()) {
-                                if (hasPermission(p, (List<String>) map.get("permissions"))) {
-                                    p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
-                                            .replace("%player_name%", event.getPlayer().getName())));
-                                    continue;
-                                }
-                                p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', messagedefault));
+                    if (joinMode) {
+                        for (final HashMap<String, Object> map : joinSection.values()) {
+                            if (hasPermission(p, (List<String>) map.get("permissions"))) {
+                                p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
+                                        .replace("%player_name%", event.getPlayer().getName())));
+                                continue;
                             }
-                            continue;
+                            p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', messagedefault));
                         }
-                        p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', messagedefault));
+                        continue;
                     }
+                    p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&', messagedefault));
                 }
             }
             Bukkit.getConsoleSender().sendMessage(LegacyChatColor.translateAlternateColorCodes('&', messagedefault));
@@ -100,6 +98,7 @@ public class LegacyPlayerEventHandler implements Listener, PlayerEventInterface 
                                 if (hasPermission(p, (List<String>) map.get("permissions"))) {
                                     p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',PAPIDependSystem.INSTANCE.isPAPIThere() ? PlaceholderAPI.setPlaceholders(event.getPlayer(), Expression.translateColors(map.get("message").toString())) : Expression.translateColors(map.get("message").toString())
                                             .replace("%player_name%", event.getPlayer().getName())));
+
                                     continue;
                                 }
                                 p.sendMessage(LegacyChatColor.translateAlternateColorCodes('&',messagedefault));

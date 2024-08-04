@@ -1,0 +1,37 @@
+name: Dev Build
+
+on:
+  push:
+    branches:
+      - 'dev'
+  pull_request:
+    branches:
+      - 'dev'
+
+jobs:
+  build:
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: maven
+      - name: Set up Maven cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build WorldChatter and run tests
+        run: mvn clean install
+      - name: Upload Dev Build
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: worldchatter-dev-build
+          path: target/*.jar

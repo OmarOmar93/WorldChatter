@@ -47,8 +47,10 @@ public class ConfigSystem {
         new AntiCaps();
         new AntiSpam();
         new ChatLock();
-        new Command();
         update();
+
+
+        new Command();
 
     }
 

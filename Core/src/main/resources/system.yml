@@ -1,0 +1,26 @@
+
+Join:
+  enabled: true
+  level: 1 # 1 is just current place / 2 the whole server
+  place: "world" # place to send the message
+  message: "&a%player_name% &fhas joined the game!"
+  permmode: true # Checks to use the permissions mode to send messages / disabled will use default message
+  permissions:
+    "admin":
+      permissions: [ "worldchatter.control", "*" ]
+      message: "&a%player_name% &fhas joined the game\n<;hover_text;&aClick to teleport to %player_name%;run_command;/tp %player_name%;&e[Teleport to %player_name%];>"
+
+Quit:
+  enabled: true
+  level: 1 # 1 is just current place / 2 the whole server
+  place: "world" # place to send the message - type true as a boolean to make it the last player's place
+  message: "&a%player_name% &fhas left the game!"
+  permmode: false # Checks to use the permissions below to show a different message or no!
+  permissions:
+    "admin":
+      permissions: [ "worldchatter.control", "*" ]
+      message: "&a%player_name% &fhas left the game &8You have nothing to do to that player :P"
+
+
+# Advanced Settings (Edit if you know what you're doing)
+ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"

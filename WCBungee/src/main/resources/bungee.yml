@@ -1,0 +1,6 @@
+name: WorldChatterPREVIEW
+version: '${project.version}'
+main: me.omaromar93.wcbungee.WCBungee
+softdepend: [ Protocolize ]
+author: OmarOmar93
+description: Enhance your Chatting Experience.

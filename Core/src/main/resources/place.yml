@@ -1,0 +1,23 @@
+BlackList: # disallow worlds from getting checked by the plugin
+  enabled: true
+  places: # worlds that are blacklisted
+    - "world_the_end"
+
+
+GlobalChat: false # makes the message visible to every world
+
+ChatLockMessage:
+  enabled: true
+  public: true # TRUE | Shows the message to everyone or FALSE | just the sender
+  locked: "&eThe Chat is now &cLOCKED &eby &a%sender%"
+  unlocked: "&eThe Chat is now &aUNLOCKED &eby &a%sender%"
+  currently: "&eThe Chat is Currently &clocked"
+
+broadcast:
+  enabled: false
+  shufflemessages: true # each player has a different message false will make the same message to all players
+  places: # represents Worlds in bukkit/spigot but in bungeecord it represents servers!
+    "world": # enter the place name here
+      messages: ["Message 1", "Message 2", "Message 3"] # messages for the place
+      timer: 10 # how long will it take to send!
+      randomized: true # randomize from range of 0 to number you added in timer

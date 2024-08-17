@@ -1,0 +1,17 @@
+ChatFormat:
+  enabled: true
+  FormatSettings: # the slash will represent each mode for better understanding.
+    DefaultFormat: "[%player_place%] %player_name%: " # Default Format to use
+    Mode: 1 # 1 represents permissions mode / 2 represents player mode
+    Formats:
+      "control":
+        name: "worldchatter.control" # permission name / player name
+        format: "&a- WorldChatter Controller - &r%player_name%: &r" # format result from permission / - - from player
+      "op":
+        name: "*"
+        format: "&a- Overpowered -> %player_name%: &r"
+# If you're on player mode here is a small example
+#    steve:
+#      name: "steve" # permission name / player name
+#      format: "&b%player_name%: &r" # format result from permission / - - from player
+

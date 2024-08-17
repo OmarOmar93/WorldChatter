@@ -1,0 +1,27 @@
+ColoredText: true # It checks whether you can change the & to § in chat.
+newline: false # Allows players to place new lines in their messages '\n'
+
+UserMention:
+  enabled: true
+  prefix: '@' # prefix character to mention the user with @omaromar93
+  format: "&a%player_name%"
+  sound:
+    name: "BLOCK_NOTE_BLOCK_PLING"
+    volume: 1
+    pitch: 1
+
+notification:
+  enabled: true
+  staff: # notification detection for staff
+    sound: "BLOCK_NOTE_BLOCK_PLING" # the sound to play as the notification you can find it here by https://helpch.at/docs/SERVER_VERSION_GOES_HERE/index.html?org/bukkit/Sound.html
+    volume: 1 # volume of the sound
+    pitch: 1 # pitch of the sound
+  player: # notification detection to the player
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+    volume: 1
+    pitch: 1
+
+
+Greetings:
+  enabled: true
+  message: "&7->> &eWelcome, &a%player_name% &eto the Minecraft Server!"

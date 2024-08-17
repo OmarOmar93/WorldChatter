@@ -1,0 +1,13 @@
+AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
+AntiADS: true # Any Ads from the player's message is blocked. (it's bypassable for people with "worldchatter.bypass.antiads" permission)
+AntiCaps:
+  enabled: true
+  maxletters: 3 # minimum Capped letters per word
+  maximum: 2 # minimum detected words to block
+AntiSwear: # Blocks any negative words from the player's message. - (it's bypassable for people with "worldchatter.bypass.antiswear" permission)
+  enabled: true
+  blacklist: # add other words to the blacklist
+    - "word"
+    - "word2"
+  whitelist: # whitelists the current blocked words
+    - "im not adding a swear word"

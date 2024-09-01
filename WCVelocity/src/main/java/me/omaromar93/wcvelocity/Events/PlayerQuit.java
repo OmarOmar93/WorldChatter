@@ -6,9 +6,9 @@ import WorldChatterCore.Players.PlayerHandler;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 
-public class PlayerQuit {
+public final class PlayerQuit {
     @Subscribe
-    public void onPlayerLeave(DisconnectEvent event) {
+    public void onPlayerLeave(final DisconnectEvent event) {
         final Player player = PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId());
         PlayerJoiningQuitting.INSTANCE.commitPlayerActivities(player,false);
         PlayerHandler.INSTANCE.removePlayer(player);

@@ -7,7 +7,7 @@ import WorldChatterCore.Players.Player;
 
 import java.util.List;
 
-public class FeatureSystem {
+public final class FeatureSystem {
 
     private final FeatureIterator featureIterator = new FeatureIterator();
     private final PlaceBlacklist worldBlacklist = new PlaceBlacklist();
@@ -31,7 +31,7 @@ public class FeatureSystem {
     - format the new line in the message ✅
     - FORMAT -
     - add the format that is before the message with Chat Formatter ✅
-    - replace the PlaceHolder with Built-in or PlaceHolderAPI's PlaceHolders ✅
+    - replace the PlaceHolder with Built-in or PlaceholderAPI's PlaceHolders ✅
     - add the MiniMessage format into the format ✅
     - Colors are automatic ✅
      */
@@ -61,7 +61,7 @@ public class FeatureSystem {
                     && worldBlacklist.isPlaceBlackListed(player.getPlace())) {
                 return false;
             }
-            if (AntiSpam.INSTANCE.getTimeLeft(player) != null && !player.hasPermission("worldchatter.bypass.antispam")) {
+            if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
                 reason = PlaceHolders.applyPlaceHoldersifPossible(
                         ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
                                 .replace("%duration%", AntiSpam.INSTANCE.getTimeLeft(player))
@@ -76,7 +76,7 @@ public class FeatureSystem {
                 final List<String> flags = featureIterator.securityCheck(player, message);
                 if (!flags.isEmpty()) {
                     Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
-                    for(WCListener listener: WCA.INSTANCE.getListeners()) {
+                    if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
                         listener.messageDetect(flags, player, message);
                     }
                     return false;

@@ -5,7 +5,7 @@ import WorldChatterCore.Players.Player;
 import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class ChatFormatter {
+public final class ChatFormatter {
 
     public static ChatFormatter INSTANCE;
     private boolean newLine, userMention, coloredText;
@@ -27,6 +27,9 @@ public class ChatFormatter {
             mode = ConfigSystem.INSTANCE.getChatFormatter().getInt("ChatFormat.FormatSettings.Mode");
             DefaultFormat = ConfigSystem.INSTANCE.getChatFormatter().getString("ChatFormat.FormatSettings.DefaultFormat");
             formats = ConfigSystem.INSTANCE.getChatFormatter().getSection("ChatFormat.FormatSettings.Formats");
+        } else {
+            DefaultFormat = null;
+            formats = null;
         }
     }
 
@@ -39,13 +42,14 @@ public class ChatFormatter {
                     .replace("\\n", "\n")
                     .replace("\\r", "\n");
         }
-        if (userMention) {
-            message = UserMention.INSTANCE.mentionUsers(message, player);
-        }
         if (!coloredText) {
             message = ColorSystem.stripColor(message);
         }
-        return TextReplacer.INSTANCE.formatTexts(message, player);
+        message = TextReplacer.INSTANCE.formatTexts(message, player);
+        if (userMention) {
+            message = UserMention.INSTANCE.mentionUsers(message, player);
+        }
+        return message;
     }
 
     public String createFormat(final Player player) {
@@ -59,14 +63,14 @@ public class ChatFormatter {
 
     private String getPlayerFormatIfPossible(final Player player) {
         if (mode == 1) {
-            for (String key : formats.getKeys()) {
+            for (final String key : formats.getKeys()) {
                 if (player.hasPermission(formats.getString(key + ".name"))) {
                     return formats.getString(key + ".format");
                 }
             }
         }
         if (mode == 2) {
-            for (String key : formats.getKeys()) {
+            for (final String key : formats.getKeys()) {
                 if (player.getName().equalsIgnoreCase(formats.getString(key + ".name"))) {
                     return formats.getString(key + ".format");
                 }

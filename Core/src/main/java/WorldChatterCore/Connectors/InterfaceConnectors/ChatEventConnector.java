@@ -4,7 +4,7 @@ import WorldChatterCore.Connectors.Interfaces.PlayerChatEvent;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Systems.FeatureSystem;
 
-public class ChatEventConnector implements PlayerChatEvent {
+public final class ChatEventConnector implements PlayerChatEvent {
 
     private final Player player;
     private final String message;

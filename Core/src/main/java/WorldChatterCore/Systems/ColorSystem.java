@@ -192,6 +192,27 @@ public final class ColorSystem {
         return new String(b);
     }
 
+    public static String getLastColors(String input) {
+        String result = "";
+        int length = input.length();
+
+        for(int index = length - 1; index > -1; --index) {
+            char section = input.charAt(index);
+            if (section == 167 && index < length - 1) {
+                char c = input.charAt(index + 1);
+                ColorSystem color = getByChar(c);
+                if (color != null) {
+                    result = color.toString() + result;
+                    if (color.color == null || color.equals(RESET)) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 
 
     public static ColorSystem getByChar(char code) {

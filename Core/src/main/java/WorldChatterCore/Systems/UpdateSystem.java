@@ -6,7 +6,7 @@ import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Others.Util;
 
-public class UpdateSystem {
+public final class UpdateSystem {
 
     public static UpdateSystem INSTANCE;
 
@@ -40,7 +40,7 @@ public class UpdateSystem {
     }
 
 
-    public void messageCheck(CommandSender sender) {
+    public void messageCheck(final CommandSender sender) {
         if (sender != null) {
             switch (checkforUpdates()) {
                 case 0:
@@ -74,7 +74,7 @@ public class UpdateSystem {
             case -1:
                 MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.");
         }
-        for(WCListener listener: WCA.INSTANCE.getListeners()) {
+        if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
             listener.updateChecked(sender);
         }
     }

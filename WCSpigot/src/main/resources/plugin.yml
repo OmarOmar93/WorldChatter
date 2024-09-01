@@ -2,9 +2,10 @@ name: WorldChatterPREVIEW
 version: '${project.version}'
 main: me.omaromar93.wcspigot.WCSpigot
 api-version: '1.13'
+load: POSTWORLD
 prefix: WorldChatter
 softdepend:
-  - PlaceHolderAPI
+  - PlaceholderAPI
   - Multiverse-Core
 authors: [ OmarOmar93 ]
 description: Enhance your Chatting Experience.

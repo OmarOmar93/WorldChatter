@@ -7,7 +7,7 @@ import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class PlayerChat implements Listener {
+public final class PlayerChat implements Listener {
 
     @EventHandler
     public void onChat(final ChatEvent event) {

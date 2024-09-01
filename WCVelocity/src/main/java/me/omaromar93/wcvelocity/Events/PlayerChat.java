@@ -6,7 +6,7 @@ import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 
-public class PlayerChat {
+public final class PlayerChat {
     @Subscribe(order = PostOrder.EARLY)
     public void onPlayerChat(PlayerChatEvent event) {
         event.setResult(PlayerChatEvent.ChatResult.denied());

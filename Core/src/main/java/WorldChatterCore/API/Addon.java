@@ -1,6 +1,6 @@
 package WorldChatterCore.API;
 
-public class Addon {
+public final class Addon {
     private final String name, author, description, signature, version;
 
     /**

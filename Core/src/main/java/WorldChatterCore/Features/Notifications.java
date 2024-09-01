@@ -6,7 +6,7 @@ import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class Notifications {
+public final class Notifications {
 
     public static Notifications INSTANCE;
 
@@ -31,6 +31,11 @@ public class Notifications {
             playersound = ConfigSystem.INSTANCE.getPlayer().getString("notification.player.sound", "BLOCK_NOTE_BLOCK_PLING");
             playervolume = ConfigSystem.INSTANCE.getPlayer().getFloat("notification.player.volume", 1f);
             playerpitch = ConfigSystem.INSTANCE.getPlayer().getFloat("notification.player.pitch", 1f);
+        } else {
+            staffMessage = null;
+            playerMessage = null;
+            staffsound = null;
+            playersound = null;
         }
     }
 
@@ -41,7 +46,7 @@ public class Notifications {
         final String sM = ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(staffMessage
                 .replace("%flags%", methods)
                 .replace("%message%",message), detectedPlayer));
-        for (Player player : PlayerHandler.INSTANCE.getPlayers().values()) {
+        for (final Player player : PlayerHandler.INSTANCE.getPlayers().values()) {
             if (player.hasPermission("worldchatter.control")) {
                 player.playSound(staffsound, staffvolume, staffpitch);
                 player.sendMessage(sM);

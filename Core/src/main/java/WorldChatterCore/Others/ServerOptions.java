@@ -7,7 +7,7 @@ import WorldChatterCore.Systems.ConfigSystem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerOptions {
+public final class ServerOptions {
 
     public static ServerOptions INSTANCE;
     private boolean globalChat;
@@ -22,8 +22,8 @@ public class ServerOptions {
 
     public List<Player> getPlayersinPlace(final String place) {
         final List<Player> placePlayers = new ArrayList<>();
-        for (Player p : PlayerHandler.INSTANCE.getPlayers().values()) {
-            if (p.getPlace().equalsIgnoreCase(place)) {
+        for (final Player p : PlayerHandler.INSTANCE.getPlayers().values()) {
+            if (place.equalsIgnoreCase(p.getPlace())) {
                 placePlayers.add(p);
             }
         }

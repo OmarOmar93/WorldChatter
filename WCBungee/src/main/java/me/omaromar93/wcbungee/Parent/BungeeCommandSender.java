@@ -8,7 +8,7 @@ import me.omaromar93.wcbungee.WCBungee;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-public class BungeeCommandSender implements CommandSender {
+public final class BungeeCommandSender implements CommandSender {
 
     net.md_5.bungee.api.CommandSender sender;
 

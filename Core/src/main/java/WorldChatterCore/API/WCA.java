@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class WCA {
+public final class WCA {
 
     private final HashMap<Addon, ArrayList<WCListener>> addonsAndListeners;
     public static WCA INSTANCE;
@@ -28,7 +28,7 @@ public class WCA {
      */
     public void createWCAddon(final String name, final String author, final String description, final String signature, final String version) {
         boolean b = false;
-        for (Addon addon : addonsAndListeners.keySet()) {
+        for (final Addon addon : addonsAndListeners.keySet()) {
             if (addon.getSignature().equals(signature.toLowerCase())) {
                 b = true;
                 break;
@@ -65,7 +65,7 @@ public class WCA {
 
     public ArrayList<WCListener> getListeners() {
         final ArrayList<WCListener> list = new ArrayList<>();
-        for(Addon addon: addonsAndListeners.keySet()) {
+        for(final Addon addon: addonsAndListeners.keySet()) {
             list.addAll(addonsAndListeners.get(addon));
         }
         return list;

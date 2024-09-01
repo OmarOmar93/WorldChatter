@@ -2,7 +2,7 @@ package WorldChatterCore.Features;
 
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class PlaceBlacklist {
+public final class PlaceBlacklist {
 
     public static PlaceBlacklist INSTANCE;
 

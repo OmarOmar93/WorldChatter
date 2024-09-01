@@ -3,14 +3,14 @@ package WorldChatterCore.Features;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Players.Player;
 
-public class PlaceHolders {
+public final class PlaceHolders {
 
     public static String applyPlaceHoldersifPossible(String message, final Player player) {
         if (MiniMessageConnector.INSTANCE != null) {
             message = MiniMessageConnector.INSTANCE.returnFormattedString(message);
         }
         if (player != null) {
-            if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceHolderAPI")) {
+            if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
                 return MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                         .replace("\\n", "\r")
                         .replace("\\r", "\r"), player);

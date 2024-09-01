@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AntiSwear {
+public final class AntiSwear {
 
     private Pattern curseWordPattern;
 
@@ -24,24 +24,29 @@ public class AntiSwear {
     }
 
     public void update() {
-        whitelist = ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.whitelist");
-        final List<String> words = new ArrayList<>(Arrays.asList(Objects.requireNonNull(Util.getContentfromURl(
-                        ConfigSystem.INSTANCE.getSystem().getString("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt")))
-                .split("\n")));
-        words.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.blacklist"));
-        final String patternString = buildPattern(words);
-        curseWordPattern = Pattern.compile(patternString, Pattern.UNICODE_CHARACTER_CLASS);
+        if(ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+            whitelist = ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.whitelist");
+            final List<String> words = new ArrayList<>(Arrays.asList(Objects.requireNonNull(Util.getContentfromURl(
+                            ConfigSystem.INSTANCE.getSystem().getString("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt")))
+                    .split("\n")));
+            words.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.blacklist"));
+            final String patternString = buildPattern(words);
+            curseWordPattern = Pattern.compile(patternString, Pattern.UNICODE_CHARACTER_CLASS);
+        } else {
+            whitelist = null;
+            curseWordPattern = null;
+        }
     }
 
     private String buildPattern(final List<String> curseWords) {
         final StringBuilder patternBuilder = new StringBuilder();
-        for (String word : curseWords) {
+        for (final String word : curseWords) {
             if (!whitelist.contains(word)) {
                 if (patternBuilder.length() > 0) {
                     patternBuilder.append("|");
                 }
                 final StringBuilder wordPattern = new StringBuilder();
-                for (char c : word.toCharArray()) {
+                for (final char c : word.toCharArray()) {
                     wordPattern.append("[").append(getAllSupportedVariants(c)).append("][\\W_]*");
                 }
                 patternBuilder.append("(?i)\\b").append(wordPattern).append("\\b");
@@ -136,8 +141,8 @@ public class AntiSwear {
     }
 
     public boolean containsCurseWord(final String message) {
-        String normalizedMessage = removeAccents(message.toLowerCase());
-        Matcher matcher = curseWordPattern.matcher(normalizedMessage);
+        final String normalizedMessage = removeAccents(message.toLowerCase());
+        final Matcher matcher = curseWordPattern.matcher(normalizedMessage);
         return matcher.find();
     }
 

@@ -8,7 +8,7 @@ import WorldChatterCore.Players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeatureIterator {
+public final class FeatureIterator {
 
     public static FeatureIterator INSTANCE;
     private final List<String> security = new ArrayList<>();
@@ -46,12 +46,12 @@ public class FeatureIterator {
 
     public void initalizeTheMessage(final String format, final String message, final Player player) {
         if (ServerOptions.INSTANCE.isGlobalChat()) {
-            MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(format + MiniMessageConnector.INSTANCE.returnFormattedString(message));
+            MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(MiniMessageConnector.INSTANCE.returnFormattedString(format + message));
             return;
         }
         final List<Player> placePlayers = ServerOptions.INSTANCE.getPlayersinPlace(player.getPlace());
-        for (Player p : placePlayers) {
-            p.sendMessage(format + MiniMessageConnector.INSTANCE.returnFormattedString(message));
+        for (final Player p : placePlayers) {
+            p.sendMessage(MiniMessageConnector.INSTANCE.returnFormattedString(format + message));
         }
     }
 

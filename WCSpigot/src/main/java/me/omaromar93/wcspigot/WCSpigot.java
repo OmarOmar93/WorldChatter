@@ -73,12 +73,13 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
     @Override
     public void refreshPlayers() {
         try {
-            if (!getServer().getOnlinePlayers().isEmpty())
-                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (!getServer().getOnlinePlayers().isEmpty()) {
+                for (final Player p : Bukkit.getServer().getOnlinePlayers()) {
                     PlayerHandler.INSTANCE.addPlayer(new SpigotPlayer(p));
                 }
-        } catch (NoSuchMethodError ignored) {
-            for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
+            }
+        } catch (final NoSuchMethodError ignored) {
+            for (final OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 if (p.isOnline()) PlayerHandler.INSTANCE.addPlayer(new SpigotPlayer((Player) p));
             }
         }
@@ -95,7 +96,7 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
 
     @Override
     public String supporttheMessage(final String message, final WorldChatterCore.Players.Player player) {
-        if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceHolderAPI")) {
+        if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(getServer().getPlayer(player.getUniqueId()), message);
         }
         return message;

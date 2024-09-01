@@ -11,7 +11,7 @@ import org.intellij.lang.annotations.Subst;
 
 import java.util.UUID;
 
-public class BungeePlayer implements Player {
+public final class BungeePlayer implements Player {
 
     private final ProxiedPlayer player;
 

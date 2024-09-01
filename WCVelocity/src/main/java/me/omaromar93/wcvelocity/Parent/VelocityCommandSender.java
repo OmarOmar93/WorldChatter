@@ -7,7 +7,7 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-public class VelocityCommandSender implements CommandSender {
+public final class VelocityCommandSender implements CommandSender {
 
     final CommandSource sender;
 

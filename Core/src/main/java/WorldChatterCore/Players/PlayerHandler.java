@@ -3,7 +3,7 @@ package WorldChatterCore.Players;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PlayerHandler {
+public final class PlayerHandler {
     private final HashMap<UUID, Player> players = new HashMap<>();
     public static PlayerHandler INSTANCE;
 
@@ -14,16 +14,6 @@ public class PlayerHandler {
 
     public HashMap<UUID, Player> getPlayers() {
         return players;
-    }
-
-    public HashMap<UUID, Player> getPlayersFromPlace(final String place) {
-        final HashMap<UUID, Player> places = new HashMap<>();
-        for (Player player : getPlayers().values()) {
-            if (player.getPlace().equalsIgnoreCase(place)) {
-                places.put(player.getUniqueId(), player);
-            }
-        }
-        return places;
     }
 
     public Player getPlayerUUID(final UUID uuid) {

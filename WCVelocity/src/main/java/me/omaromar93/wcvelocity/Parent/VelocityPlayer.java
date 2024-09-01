@@ -2,20 +2,26 @@ package me.omaromar93.wcvelocity.Parent;
 
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
+import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.intellij.lang.annotations.Subst;
 
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Stream;
 
-public class VelocityPlayer implements WorldChatterCore.Players.Player {
+public final class VelocityPlayer implements WorldChatterCore.Players.Player {
 
+    private final String firstServer;
     private final com.velocitypowered.api.proxy.Player player;
 
-
-    public VelocityPlayer(final com.velocitypowered.api.proxy.Player player) {
+    public VelocityPlayer(final com.velocitypowered.api.proxy.Player player, final String firstServer) {
         this.player = player;
+        this.firstServer = firstServer;
     }
 
     @Override
@@ -35,7 +41,7 @@ public class VelocityPlayer implements WorldChatterCore.Players.Player {
 
     @Override
     public void playSound(@Subst("") final String soundName, final float volume, final float pitch) {
-        player.playSound(Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume, pitch));
+        ((ConnectedPlayer) player).getConnection().write(new NamedSo);
     }
 
     @Override
@@ -53,9 +59,19 @@ public class VelocityPlayer implements WorldChatterCore.Players.Player {
         return PlayerHandler.INSTANCE.getPlayerUUID(player.getUniqueId());
     }
 
+    public com.velocitypowered.api.proxy.Player getVelocityPlayer() {
+        return player;
+    }
+
     @Override
     public String getPlace() {
-        return player.getCurrentServer().get().getServerInfo().getName();
+        return player.getCurrentServer().isEmpty() && firstServer != null
+                ? firstServer
+                : Stream.of(player.getCurrentServer().orElse(null))
+                .filter(Objects::nonNull)
+                .map(serverConnection -> serverConnection.getServerInfo().getName())
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

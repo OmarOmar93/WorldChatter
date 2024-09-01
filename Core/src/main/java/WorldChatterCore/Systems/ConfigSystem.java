@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public class ConfigSystem {
+public final class ConfigSystem {
 
     public static ConfigSystem INSTANCE;
     private Configuration chatFormatter, player, security, system, messages, texts, place;

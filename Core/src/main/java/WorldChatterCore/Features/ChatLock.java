@@ -7,13 +7,12 @@ import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class ChatLock {
+public final class ChatLock {
 
     private boolean locked;
-    private boolean enabled;
-    private boolean global;
 
     public static ChatLock INSTANCE;
+    private boolean global;
 
     private String lockedMessage, unlockedMessage;
 
@@ -22,17 +21,19 @@ public class ChatLock {
     }
 
     public void update() {
-        enabled = ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.enabled");
         global = ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.public");
-        if (enabled && global) {
+        if (ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.enabled") && global) {
             lockedMessage = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.locked");
             unlockedMessage = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.unlocked");
+        } else {
+            lockedMessage = null;
+            unlockedMessage = null;
         }
     }
 
 
     public void toggleLocked(final CommandSender sender) {
-        if (enabled) {
+        if (lockedMessage != null && unlockedMessage != null) {
             locked = !locked;
             if (global) {
                 MainPluginConnector.INSTANCE.getWorldChatter()
@@ -41,7 +42,7 @@ public class ChatLock {
             return;
         }
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "You cannot toggle while it's disabled in the config!");
-        for (WCListener listener : WCA.INSTANCE.getListeners()) {
+        if(WCA.INSTANCE != null) for (final WCListener listener : WCA.INSTANCE.getListeners()) {
             listener.chatLockToggle(sender);
         }
     }

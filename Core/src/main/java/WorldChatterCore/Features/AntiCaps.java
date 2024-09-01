@@ -2,7 +2,7 @@ package WorldChatterCore.Features;
 
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class AntiCaps {
+public final class AntiCaps {
 
     public static AntiCaps INSTANCE;
     private int minCapsPerWord;

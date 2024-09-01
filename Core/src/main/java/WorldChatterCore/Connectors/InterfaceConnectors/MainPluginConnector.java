@@ -8,7 +8,7 @@ import WorldChatterCore.Systems.ConfigSystem;
 import WorldChatterCore.Systems.UpdateSystem;
 
 
-public class MainPluginConnector {
+public final class MainPluginConnector {
 
     public static MainPluginConnector INSTANCE;
     private MainPlugin WorldChatter;
@@ -28,22 +28,22 @@ public class MainPluginConnector {
 
     private void onEnable() {
         new PlayerHandler();
-        new ConfigSystem();
         try {
             new MiniMessageConnector();
             getWorldChatter().tryToSupportMiniMessage();
             getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled MiniMessage Support!");
-        } catch (NoSuchMethodError e) {
+        } catch (final NoSuchMethodError e) {
             getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "MiniMessage isn't supported in this version.");
         }
+        new ConfigSystem();
         getWorldChatter().refreshPlayers();
-        for (final String plugin : new String[]{"PlaceHolderAPI", "Multiverse-Core"}) {
+        new UpdateSystem();
+        UpdateSystem.INSTANCE.messageCheck(null);
+        for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core"}) {
             if (getWorldChatter().isPluginEnabled(plugin)) {
                 getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
             }
         }
-        new UpdateSystem();
-        UpdateSystem.INSTANCE.messageCheck(null);
     }
 
     public void onDisable() {

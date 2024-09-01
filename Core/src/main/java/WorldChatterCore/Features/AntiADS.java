@@ -2,7 +2,7 @@ package WorldChatterCore.Features;
 
 import java.util.regex.Pattern;
 
-public class AntiADS {
+public final class AntiADS {
     private final static Pattern pattern = Pattern.compile("([\\w+]+://)?([\\w-]+\\.)*[\\w-]+[.:]\\w+([/?=&#.]?[\\w-]+)*/?", Pattern.CASE_INSENSITIVE);
 
     @SuppressWarnings("ALL")

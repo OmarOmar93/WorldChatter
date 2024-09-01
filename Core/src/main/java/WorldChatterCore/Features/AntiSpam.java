@@ -4,10 +4,8 @@ import WorldChatterCore.Players.Player;
 import WorldChatterCore.Systems.ConfigSystem;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class AntiSpam {
+public final class AntiSpam {
 
     public static AntiSpam INSTANCE;
 
@@ -16,20 +14,14 @@ public class AntiSpam {
     }
 
     private final HashMap<Player, Long> cooldowns = new HashMap<>();
-
+    private long endtime;
 
     public void update() {
         cooldowns.clear();
+        endtime = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") * 1000L;
     }
 
     public void coolThatPlayerDown(final Player player) {
-        final long endtime = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") * 1000L;
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                cooldowns.remove(player);
-            }
-        }, endtime);
         cooldowns.put(player, System.currentTimeMillis() + endtime);
     }
 
@@ -41,4 +33,14 @@ public class AntiSpam {
         return null;
     }
 
+    public boolean isTimeLeft(final Player player) {
+        if (cooldowns.containsKey(player)) {
+            if (cooldowns.get(player) < System.currentTimeMillis()) {
+                cooldowns.remove(player);
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }

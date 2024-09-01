@@ -14,7 +14,7 @@ public interface WCListener {
      * @param player Detected Player who caused these flags
      * @param message Detected Message
      */
-    void messageDetect(List<String> flags, final Player player, String message);
+    void messageDetect(final List<String> flags, final Player player, final String message);
 
 
     /**

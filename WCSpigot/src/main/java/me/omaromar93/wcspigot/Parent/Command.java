@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 public final class Command implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command command, final String label, final String[] args) {
         WorldChatterCore.Features.Command.INSTANCE.executeCommand(new SpigotCommandSender(sender), args);
         return true;
     }

@@ -9,15 +9,19 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.intellij.lang.annotations.Subst;
 
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public final class BungeePlayer implements Player {
 
+    private final String firstServer;
     private final ProxiedPlayer player;
 
 
-    public BungeePlayer(final ProxiedPlayer player) {
+    public BungeePlayer(final ProxiedPlayer player, final String firstServer) {
         this.player = player;
+        this.firstServer = firstServer;
     }
 
     @Override
@@ -58,7 +62,13 @@ public final class BungeePlayer implements Player {
 
     @Override
     public String getPlace() {
-        return player.getServer().getInfo().getName();
+        return player.getServer() == null && firstServer != null
+                ? firstServer
+                : Stream.of(player.getServer())
+                .filter(Objects::nonNull)
+                .map(server -> server.getInfo().getName())
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

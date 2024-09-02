@@ -124,11 +124,11 @@ public final class ColorSystem {
 
     private final Color color;
 
-    private ColorSystem(char code, String name) {
+    private ColorSystem(final char code, final String name) {
         this(code, name, null);
     }
 
-    private ColorSystem(char code, String name, Color color) {
+    private ColorSystem(final char code, final String name, final Color color) {
         this.name = name;
         this.toString = new String(new char[]
                 {
@@ -141,7 +141,7 @@ public final class ColorSystem {
         BY_NAME.put(name.toUpperCase(Locale.ROOT), this);
     }
 
-    private ColorSystem(String name, String toString, int rgb) {
+    private ColorSystem(final String name, final String toString, final int rgb) {
         this.name = name;
         this.toString = toString;
         this.ordinal = -1;
@@ -156,7 +156,7 @@ public final class ColorSystem {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -181,8 +181,8 @@ public final class ColorSystem {
         return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
     }
 
-    public static String tCC(String message) {
-        char[] b = message.toCharArray();
+    public static String tCC(final String message) {
+        final char[] b = message.toCharArray();
         for (int i = 0; i < b.length - 1; i++) {
             if (b[i] == '&' && ALL_CODES.indexOf(b[i + 1]) > -1) {
                 b[i] = ColorSystem.COLOR_CHAR;
@@ -192,15 +192,15 @@ public final class ColorSystem {
         return new String(b);
     }
 
-    public static String getLastColors(String input) {
+    public static String getLastColors(final String input) {
         String result = "";
         int length = input.length();
 
         for(int index = length - 1; index > -1; --index) {
-            char section = input.charAt(index);
+            final char section = input.charAt(index);
             if (section == 167 && index < length - 1) {
-                char c = input.charAt(index + 1);
-                ColorSystem color = getByChar(c);
+                final char c = input.charAt(index + 1);
+                final ColorSystem color = getByChar(c);
                 if (color != null) {
                     result = color.toString() + result;
                     if (color.color == null || color.equals(RESET)) {
@@ -215,32 +215,32 @@ public final class ColorSystem {
 
 
 
-    public static ColorSystem getByChar(char code) {
+    public static ColorSystem getByChar(final char code) {
         return BY_CHAR.get(code);
     }
 
-    public static ColorSystem of(Color color) {
+    public static ColorSystem of(final Color color) {
         return of("#" + String.format("%08x", color.getRGB()).substring(2));
     }
 
-    public static ColorSystem of(String string) {
+    public static ColorSystem of(final String string) {
         if (string.length() == 7 && string.charAt(0) == '#') {
             int rgb;
             try {
                 rgb = Integer.parseInt(string.substring(1), 16);
-            } catch (NumberFormatException ex) {
+            } catch (final NumberFormatException ex) {
                 throw new IllegalArgumentException("Illegal hex string " + string);
             }
 
-            StringBuilder magic = new StringBuilder(COLOR_CHAR + "x");
-            for (char c : string.substring(1).toCharArray()) {
+            final StringBuilder magic = new StringBuilder(COLOR_CHAR + "x");
+            for (final char c : string.substring(1).toCharArray()) {
                 magic.append(COLOR_CHAR).append(c);
             }
 
             return new ColorSystem(string, magic.toString(), rgb);
         }
 
-        ColorSystem defined = BY_NAME.get(string.toUpperCase(Locale.ROOT));
+        final ColorSystem defined = BY_NAME.get(string.toUpperCase(Locale.ROOT));
         if (defined != null) {
             return defined;
         }

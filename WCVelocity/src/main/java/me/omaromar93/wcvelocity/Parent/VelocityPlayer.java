@@ -2,8 +2,6 @@ package me.omaromar93.wcvelocity.Parent;
 
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -41,7 +39,7 @@ public final class VelocityPlayer implements WorldChatterCore.Players.Player {
 
     @Override
     public void playSound(@Subst("") final String soundName, final float volume, final float pitch) {
-        ((ConnectedPlayer) player).getConnection().write(new NamedSo);
+        Audience.audience(player).playSound(Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume,pitch));
     }
 
     @Override

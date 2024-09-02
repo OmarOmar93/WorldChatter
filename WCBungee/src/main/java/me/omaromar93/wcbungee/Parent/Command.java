@@ -10,7 +10,7 @@ public final class Command extends net.md_5.bungee.api.plugin.Command {
 
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(final CommandSender sender, final String[] args) {
         WorldChatterCore.Features.Command.INSTANCE.executeCommand(new BungeeCommandSender(sender), args);
     }
 }

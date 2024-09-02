@@ -59,7 +59,7 @@ public final class WCBungee extends Plugin implements MainPlugin {
     @Override
     public void refreshPlayers() {
         for (final ProxiedPlayer player : getProxy().getPlayers()) {
-            PlayerHandler.INSTANCE.addPlayer(new BungeePlayer(player));
+            PlayerHandler.INSTANCE.addPlayer(new BungeePlayer(player,null));
         }
     }
 

@@ -9,8 +9,10 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 public final class PlayerQuit {
     @Subscribe
     public void onPlayerLeave(final DisconnectEvent event) {
-        final Player player = PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId());
-        PlayerJoiningQuitting.INSTANCE.commitPlayerActivities(player,false);
-        PlayerHandler.INSTANCE.removePlayer(player);
+        try {
+            final Player player = PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId());
+            PlayerJoiningQuitting.INSTANCE.commitPlayerActivities(player, false);
+            PlayerHandler.INSTANCE.removePlayer(player);
+        } catch (Exception ignored) {}
     }
 }

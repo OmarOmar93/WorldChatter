@@ -37,9 +37,9 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
     public void onEnable() {
         final PluginManager pm = getServer().getPluginManager();
         try {
-            pm.registerEvents(new PlayerChat(), this);
-        } catch (Exception ignored) {
             pm.registerEvents(new AsyncPlayerChat(), this);
+        } catch (Exception ignored) {
+            pm.registerEvents(new PlayerChat(), this);
         }
         pm.registerEvents(new PlayerJoin(), this);
         pm.registerEvents(new PlayerQuit(), this);

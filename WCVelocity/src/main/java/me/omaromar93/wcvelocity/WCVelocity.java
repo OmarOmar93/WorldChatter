@@ -23,7 +23,7 @@ import java.util.*;
 
 @Plugin(
         id = "worldchatter",
-        name = "WorldChatterPREVIEW",
+        name = "WorldChatter",
         version = "3.0.0",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"}
@@ -89,9 +89,7 @@ public final class WCVelocity implements MainPlugin {
     }
 
     @Override
-    public void tryToSupportMiniMessage() {
-        sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "MiniMessage is already built-in..! yey");
-    }
+    public void tryToSupportMiniMessage() {}
 
     @Override
     public String getVersion() {

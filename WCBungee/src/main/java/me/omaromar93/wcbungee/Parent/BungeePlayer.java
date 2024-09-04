@@ -1,25 +1,26 @@
 package me.omaromar93.wcbungee.Parent;
 
+import WorldChatterCore.Packets.Injectable;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import me.omaromar93.wcbungee.WCBungee;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.md_5.bungee.UserConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.intellij.lang.annotations.Subst;
+import net.md_5.bungee.netty.PipelineUtils;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public final class BungeePlayer implements Player {
+public final class BungeePlayer extends Injectable implements Player {
 
     private final String firstServer;
     private final ProxiedPlayer player;
 
-
     public BungeePlayer(final ProxiedPlayer player, final String firstServer) {
+        super(((UserConnection) player).getCh().getHandle(), PipelineUtils.PACKET_DECODER, player.getName(), player.getPendingConnection().getVersion());
+
         this.player = player;
         this.firstServer = firstServer;
     }
@@ -41,8 +42,8 @@ public final class BungeePlayer implements Player {
     }
 
     @Override
-    public void playSound(@Subst("") final String soundName, final float volume, final float pitch) {
-        WCBungee.adventure.player(player).playSound(Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume,pitch));
+    public void playSound(final String soundName, final float volume, final float pitch) {
+        sendSoundPacket(soundName, volume, pitch);
     }
 
     @Override

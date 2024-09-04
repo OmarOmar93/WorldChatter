@@ -80,6 +80,11 @@ public final class Command {
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
                             return;
+                        case "test":
+                            if (sender.isPlayer()) {
+                                sender.getPlayer().playSound(args[1], 1, 1);
+                            }
+                            return;
                         case "addons":
                         case "a":
                             if(WCA.INSTANCE != null) {

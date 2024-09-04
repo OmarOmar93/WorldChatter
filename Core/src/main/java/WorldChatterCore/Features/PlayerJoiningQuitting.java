@@ -69,6 +69,8 @@ public final class PlayerJoiningQuitting {
     }
 
     private void loopType(final boolean mode, final Player joiner, final String defaultString, final Configuration perms, final Collection<Player> playerList) {
+
+
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(formatQuick(defaultString, joiner));
         for (final Player player : playerList) {
             if (player != joiner) {

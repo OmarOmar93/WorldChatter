@@ -1,23 +1,24 @@
 package me.omaromar93.wcvelocity.Parent;
 
+import WorldChatterCore.Packets.Injectable;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
+import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
+import com.velocitypowered.proxy.network.Connections;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.intellij.lang.annotations.Subst;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public final class VelocityPlayer implements WorldChatterCore.Players.Player {
+public final class VelocityPlayer extends Injectable implements WorldChatterCore.Players.Player {
 
     private final String firstServer;
     private final com.velocitypowered.api.proxy.Player player;
 
     public VelocityPlayer(final com.velocitypowered.api.proxy.Player player, final String firstServer) {
+        super(((ConnectedPlayer) player).getConnection().getChannel(), Connections.HANDLER, player.getUsername(), player.getProtocolVersion().getProtocol());
+
         this.player = player;
         this.firstServer = firstServer;
     }
@@ -38,8 +39,8 @@ public final class VelocityPlayer implements WorldChatterCore.Players.Player {
     }
 
     @Override
-    public void playSound(@Subst("") final String soundName, final float volume, final float pitch) {
-        Audience.audience(player).playSound(Sound.sound(Key.key(soundName), Sound.Source.MASTER, volume,pitch));
+    public void playSound(final String soundName, final float volume, final float pitch) {
+        sendSoundPacket(soundName, volume, pitch);
     }
 
     @Override
@@ -76,5 +77,4 @@ public final class VelocityPlayer implements WorldChatterCore.Players.Player {
     public String getDisplayName() {
         return player.getUsername();
     }
-
 }

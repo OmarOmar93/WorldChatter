@@ -1,4 +1,4 @@
-name: WorldChatterPREVIEW
+name: WorldChatter
 version: '${project.version}'
 main: me.omaromar93.wcbungee.WCBungee
 softdepend: [ Protocolize ]

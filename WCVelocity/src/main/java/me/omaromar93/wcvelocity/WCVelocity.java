@@ -5,7 +5,6 @@ import WorldChatterCore.Connectors.Interfaces.MainPlugin;
 import WorldChatterCore.Features.MiniMessageConnector;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
-import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ThreadsSystem;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;

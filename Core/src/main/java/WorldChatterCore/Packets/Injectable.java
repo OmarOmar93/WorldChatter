@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class Injectable {
 
@@ -74,7 +73,7 @@ public class Injectable {
     }
 
     protected void sendSoundPacket(final String soundName, final float volume, final float pitch) {
-        channel.writeAndFlush(new SoundPacket(soundName, volume, pitch, 0, new Random().nextLong()));
+        channel.writeAndFlush(new SoundPacket(soundName, volume, pitch, 0));
     }
 
     private void decodeByteArray(final ByteBuf byteBuf) {

@@ -80,11 +80,6 @@ public final class Command {
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
                             return;
-                        case "test":
-                            if (sender.isPlayer()) {
-                                sender.getPlayer().playSound(args[1], 1, 1);
-                            }
-                            return;
                         case "addons":
                         case "a":
                             if(WCA.INSTANCE != null) {
@@ -101,15 +96,22 @@ public final class Command {
                         case "clear":
                         case "clearchat":
                         case "cc":
-                            if (!sender.isPlayer() || ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat"))
-                                MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(String.join("\n", cleaner)
+                            final String clear;
+                            if(MiniMessageConnector.INSTANCE == null) {
+                                clear = String.join("\n", cleaner)
+                                        + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
+                                        .replace("%sender%", sender.getName()));
+
+                            } else {
+                                clear = MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
                                         + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
                                         .replace("%sender%", sender.getName())));
-                            else {
+                            }
+                            if (!sender.isPlayer() || ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat")) {
+                                MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
+                            } else {
                                 for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getPlace())) {
-                                    player.sendMessage(String.join("\n", cleaner)
-                                            + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
-                                            .replace("%sender%", sender.getName())));
+                                    player.sendMessage(clear);
                                 }
                             }
                             sender.sendMessage(ColorSystem.GREEN + "Successfully cleared Chat!");

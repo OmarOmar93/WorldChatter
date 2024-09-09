@@ -2,12 +2,11 @@ package WorldChatterCore.Packets;
 
 public final class SoundPacket {
 
-    private final long seed;
     private final String name;
     private final int category;
     private final float volume, pitch;
 
-    public SoundPacket(final String name, final float volume, final float pitch, final int category, final long seed) {
+    public SoundPacket(final String name, final float volume, final float pitch, final int category) {
         this.name = name;
 
         this.volume = volume;
@@ -15,7 +14,7 @@ public final class SoundPacket {
 
         this.category = category;
 
-        this.seed = seed;
+
     }
 
     public String getName() {
@@ -34,8 +33,5 @@ public final class SoundPacket {
         return category;
     }
 
-    public long getSeed() {
-        return seed;
-    }
 }
 

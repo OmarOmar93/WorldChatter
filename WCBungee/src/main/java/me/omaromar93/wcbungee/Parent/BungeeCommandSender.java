@@ -10,7 +10,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public final class BungeeCommandSender implements CommandSender {
 
-    net.md_5.bungee.api.CommandSender sender;
+    private final net.md_5.bungee.api.CommandSender sender;
 
     public BungeeCommandSender(final net.md_5.bungee.api.CommandSender sender) {
         this.sender = sender;

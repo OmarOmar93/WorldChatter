@@ -26,7 +26,7 @@ public final class WCA {
      * @param signature Addon's Signature (Can't be duplicated)
      * @param version Addon's version
      */
-    public void createWCAddon(final String name, final String author, final String description, final String signature, final String version) {
+    public Addon createWCAddon(final String name, final String author, final String description, final String signature, final String version) {
         boolean b = false;
         for (final Addon addon : addonsAndListeners.keySet()) {
             if (addon.getSignature().equals(signature.toLowerCase())) {
@@ -35,14 +35,16 @@ public final class WCA {
             }
         }
         if (!b) {
-            addonsAndListeners.put(new Addon(name, author, description, signature.toLowerCase(), version),new ArrayList<>());
+            Addon temp = new Addon(name, author, description, signature.toLowerCase(), version);
+            addonsAndListeners.put(temp,new ArrayList<>());
             MainPluginConnector.INSTANCE.getWorldChatter()
                     .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Addon " + ColorSystem.BLUE + name);
-            return;
+            return temp;
         }
         MainPluginConnector.INSTANCE.getWorldChatter()
                 .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "Addon detected with same signature \"" + signature.toLowerCase() + "\" "
                         + ColorSystem.YELLOW + "Try changing it into a unique signature!");
+        return null;
     }
 
     /**

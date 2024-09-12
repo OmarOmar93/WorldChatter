@@ -23,7 +23,7 @@ import java.util.*;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.0.0",
+        version = "3.0.1",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"}
 )

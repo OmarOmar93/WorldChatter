@@ -1,6 +1,7 @@
 package WorldChatterCore.Packets;
 
 
+import WorldChatterCore.Packets.Sound.SoundManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
@@ -17,10 +18,12 @@ public class Injectable {
     private boolean pitch;
     private double x, y, z;
     private final Channel channel;
+    private final int protocolVersion;
     private final List<Integer> positionPacketIDs;
 
     public Injectable(final Channel channel, final String baseName, final String name, final int protocolVersion) {
         this.channel = channel;
+        this.protocolVersion = protocolVersion;
 
         positionPacketIDs = new ArrayList<>();
         final int soundPacketID = init(protocolVersion);
@@ -73,7 +76,7 @@ public class Injectable {
     }
 
     protected void sendSoundPacket(final String soundName, final float volume, final float pitch) {
-        channel.writeAndFlush(new SoundPacket(soundName, volume, pitch, 0));
+        channel.writeAndFlush(new SoundPacket(SoundManager.getSound(soundName, protocolVersion), volume, pitch, 0));
     }
 
     private void decodeByteArray(final ByteBuf byteBuf) {

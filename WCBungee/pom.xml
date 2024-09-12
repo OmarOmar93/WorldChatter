@@ -95,7 +95,7 @@
             <artifactId>bungeecord-proxy</artifactId>
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>D:/Projects/Servers/Minecraft/Versions/BungeeCord.jar</systemPath>
+            <systemPath>E:/BungeeCord.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

@@ -13,8 +13,6 @@ public final class SoundPacket {
         this.pitch = pitch;
 
         this.category = category;
-
-
     }
 
     public String getName() {

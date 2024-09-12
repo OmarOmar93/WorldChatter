@@ -9,9 +9,10 @@ import net.md_5.bungee.event.EventHandler;
 
 public final class PlayerQuit implements Listener {
     @EventHandler
-    public void onQuit(PlayerDisconnectEvent event) {
+    public void onQuit(final PlayerDisconnectEvent event) {
         final Player player = PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId());
         if (player == null) return;
+
         PlayerJoiningQuitting.INSTANCE.commitPlayerActivities(player, false);
         PlayerHandler.INSTANCE.removePlayer(player);
     }

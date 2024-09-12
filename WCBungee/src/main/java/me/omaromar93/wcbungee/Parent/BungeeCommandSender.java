@@ -16,7 +16,6 @@ public final class BungeeCommandSender implements CommandSender {
         this.sender = sender;
     }
 
-
     @Override
     public boolean isPlayer() {
         return sender instanceof ProxiedPlayer;

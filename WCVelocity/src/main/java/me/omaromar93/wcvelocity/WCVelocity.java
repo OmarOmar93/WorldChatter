@@ -92,6 +92,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.0.0";
+        return "3.0.1";
     }
 }

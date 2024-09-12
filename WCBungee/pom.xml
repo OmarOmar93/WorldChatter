@@ -70,6 +70,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>md-5-repo</id>
+            <url>https://repo.md-5.net/content/groups/public/</url>
+        </repository>
     </repositories>
 
 

@@ -30,8 +30,8 @@ public final class MainPluginConnector {
         new PlayerHandler();
         try {
             getWorldChatter().tryToSupportMiniMessage();
-            getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled MiniMessage Support!");
             new MiniMessageConnector();
+            getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled MiniMessage Support!");
         } catch (final NoSuchMethodError e) {
             getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "MiniMessage isn't supported in this version.");
         }

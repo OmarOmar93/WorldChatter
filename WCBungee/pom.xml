@@ -99,7 +99,7 @@
             <artifactId>bungeecord-proxy</artifactId>
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/BungeeCord.jar</systemPath>
+            <systemPath>D:/Projects/Servers/Minecraft/Versions/BungeeCord.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

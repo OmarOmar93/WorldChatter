@@ -5,7 +5,7 @@
     <groupId>me.omaromar93</groupId>
     <artifactId>WCBungee</artifactId>
     <name>WCBungee</name>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <description>Enhance your Chatting Experience.</description>
     <build>
         <defaultGoal>clean package</defaultGoal>

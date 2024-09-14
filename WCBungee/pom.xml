@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>WCBungee</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
     </parent>
 
     <name>WCBungee</name>
@@ -70,17 +70,14 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
+
 
     <dependencies>
         <dependency>
             <groupId>me.omaromar93</groupId>
             <artifactId>Core</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
@@ -94,11 +91,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>BungeeCord</groupId>
+            <groupId>net.md-5</groupId>
             <artifactId>bungeecord-proxy</artifactId>
-            <version>1.0</version>
+            <version>1.21-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>E:/BungeeCord.jar</systemPath>
+            <systemPath>D:/Projects/Servers/Minecraft/Versions/BungeeCord.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

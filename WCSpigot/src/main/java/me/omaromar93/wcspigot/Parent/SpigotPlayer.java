@@ -14,8 +14,6 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
 
     private final org.bukkit.entity.Player player;
 
-
-
     public SpigotPlayer(final org.bukkit.entity.Player player) {
         this.player = player;
     }
@@ -30,9 +28,7 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
     public void sendMessage(final String message) {
         if (!message.isEmpty()) {
             if (WCSpigot.adventure != null) {
-                WCSpigot.adventure.player(
-                                player.getUniqueId())
-                        .sendMessage(MiniMessage.miniMessage().deserialize(message));
+                WCSpigot.adventure.player(player.getUniqueId()).sendMessage(MiniMessage.miniMessage().deserialize(message));
                 return;
             }
             player.sendMessage(message);

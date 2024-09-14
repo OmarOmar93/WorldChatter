@@ -3,26 +3,29 @@ package WorldChatterCore.Features;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Systems.ConfigSystem;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class AntiSpam {
 
+    private long duration;
     public static AntiSpam INSTANCE;
+    private final Map<Player, Long> cooldowns;
 
     public AntiSpam() {
         INSTANCE = this;
+
+        cooldowns = new ConcurrentHashMap<>();
     }
 
-    private final HashMap<Player, Long> cooldowns = new HashMap<>();
-    private long endtime;
 
     public void update() {
         cooldowns.clear();
-        endtime = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") * 1000L;
+        duration = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") * 1000L;
     }
 
     public void coolThatPlayerDown(final Player player) {
-        cooldowns.put(player, System.currentTimeMillis() + endtime);
+        cooldowns.put(player, System.currentTimeMillis() + duration);
     }
 
     public String getTimeLeft(final Player player) {

@@ -10,37 +10,34 @@ import java.util.List;
 
 public final class FeatureIterator {
 
+    private final List<String> security;
     public static FeatureIterator INSTANCE;
-    private final List<String> security = new ArrayList<>();
-
 
     public FeatureIterator() {
         INSTANCE = this;
+
+        security = new ArrayList<>();
     }
 
     public List<String> securityCheck(final Player player, final String message) {
-        if (
-                !player.hasPermission("worldchatter.bypass.antiads") &&
-                        ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS") &&
-                        AntiADS.hasAds(message)
-        )
+        if (!player.hasPermission("worldchatter.bypass.antiads")
+                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
+                && AntiADS.hasAds(message))
+
             security.add("Anti-ADs");
-        if (
-                !player.hasPermission("worldchatter.bypass.anticaps") &&
-                        ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled") &&
-                        AntiCaps.INSTANCE.hasAlotOfCaps(message)
-        )
+        if (!player.hasPermission("worldchatter.bypass.anticaps")
+                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
+                && AntiCaps.INSTANCE.hasAlotOfCaps(message))
             security.add("Anti-Caps");
-        if (
-                !player.hasPermission("worldchatter.bypass.antiswear") &&
-                        ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled") &&
-                        AntiSwear.INSTANCE.containsCurseWord(message)
-        )
+
+        if (!player.hasPermission("worldchatter.bypass.antiswear")
+                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")
+                && AntiSwear.INSTANCE.containsCurseWord(message))
             security.add("Anti-Swear");
         return security;
     }
 
-    public String preparetheMessage(final String message, final Player player) {
+    public String prepareTheMessage(final String message, final Player player) {
         return ChatFormatter.INSTANCE.formatMessage(message, player);
     }
 
@@ -54,5 +51,4 @@ public final class FeatureIterator {
             p.sendMessage(MiniMessageConnector.INSTANCE.returnFormattedString(format + message));
         }
     }
-
 }

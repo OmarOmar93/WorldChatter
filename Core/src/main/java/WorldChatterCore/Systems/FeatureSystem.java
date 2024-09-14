@@ -5,6 +5,9 @@ import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Features.*;
 import WorldChatterCore.Players.Player;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public final class FeatureSystem {
@@ -43,7 +46,7 @@ public final class FeatureSystem {
         }
         FeatureIterator.INSTANCE.initalizeTheMessage(
                 ChatFormatter.INSTANCE.createFormat(player),
-                featureIterator.preparetheMessage(message, player), player
+                featureIterator.prepareTheMessage(message, player), player
         );
     }
 
@@ -66,6 +69,8 @@ public final class FeatureSystem {
                         ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
                                 .replace("%duration%", AntiSpam.INSTANCE.getTimeLeft(player))
                         , player);
+
+                callAPI(Collections.singletonList("Anti-Spam"), player, message);
                 return false;
             } else {
                 AntiSpam.INSTANCE.coolThatPlayerDown(player);
@@ -73,12 +78,12 @@ public final class FeatureSystem {
             if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
                     || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
                     || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+
                 final List<String> flags = featureIterator.securityCheck(player, message);
                 if (!flags.isEmpty()) {
                     Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
-                    if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
-                        listener.messageDetect(flags, player, message);
-                    }
+
+                    callAPI(flags, player, message);
                     return false;
                 }
             }
@@ -86,5 +91,13 @@ public final class FeatureSystem {
         }
         reason = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.currently");
         return false;
+    }
+
+    private void callAPI(final List<String> flags, final Player player, final String message) {
+        if (WCA.INSTANCE != null) {
+            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
+                listener.messageDetect(flags, player, message);
+            }
+        }
     }
 }

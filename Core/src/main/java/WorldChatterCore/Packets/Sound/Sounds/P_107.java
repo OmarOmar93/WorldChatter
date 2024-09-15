@@ -26,6 +26,9 @@ public enum P_107 {
     LEVEL_UP("LEVEL_UP", "entity.player.levelup"),
     SWIM("SWIM", "entity.player.swim"),
     SPLASH("SWIM_SPLASH", "entity.player.splash"),
+    SHIELD_BLOCK("SHIELD_BLOCK","item.shield.block"),
+    HOE_TILL("HOE_TILL", "item.hoe.till"),
+    SHOVEL_FLATTEN("SHOVEL_FLATTEN", "item.shovel.flatten"),
 
     DIG_CLOTH("DIG_CLOTH", "block.cloth.break"),
     DIG_GLASS("DIG_GLASS", "block.glass.break"),
@@ -92,11 +95,30 @@ public enum P_107 {
     CLICK("CLICK", "ui.button.click"),
     WOOD_CLICK("WOOD_CLICK", "block.wood_button.click_on"),
 
+    CHORUS_FLOWER_DEATH("CHORUS_FLOWER_DEATH", "block.chorus_flower.death"),
+    CHORUS_FLOWER_GROW("CHORUS_FLOWER_GROW", "block.chorus_flower.grow"),
+
     PISTON_IN("PISTON_IN", "block.piston.contract"),
     PISTON_OUT("PISTON_OUT", "block.piston.extend"),
 
     LIQUID_LAVA("LIQUID_LAVA", "liquid.lava"),
     LIQUID_LAVA_POP("LIQUID_LAVA_POP", "liquid.lavapop"),
+
+    IRON_ARMOR_EQUIP("IRON_ARMOR_EQUIP", "item.armor.equip_iron"),
+    DIAMOND_ARMOR_EQUIP("DIAMOND_ARMOR_EQUIP", "item.armor.equip_diamond"),
+    GOLD_ARMOR_EQUIP("GOLD_ARMOR_EQUIP", "item.armor.equip_gold"),
+    GENERIC_ARMOR_EQUIP("GENERIC_ARMOR_EQUIP", "item.armor.equip_generic"),
+    LEATHER_ARMOR_EQUIP("LEATHER_ARMOR_EQUIP", "item.armor.equip_leather"),
+    CHAIN_ARMOR_EQUIP("CHAIN_ARMOR_EQUIP", "item.armor.equip_chain"),
+
+    BOTTLE_FILL("BOTTLE_FILL", "item.bottle.fill"),
+    DRAGON_BREATH_FILL("DRAGON_BREATH_FILL", "item.bottle.fill_dragonbreath"),
+
+    BUCKET_FILL("BUCKET_FILL", "item.bucket.fill"),
+    BUCKET_EMPTY("BUCKET_EMPTY", "item.bucket.empty"),
+
+    LAVE_BUCKET_FILL("LAVE_BUCKET_FILL", "item.bucket.fill_lava"),
+    LAVA_BUCKET_EMPTY("LAVA_BUCKET_EMPTY", "item.bucket.empty_lava"),
 
     MOB_BAT_DEATH("MOB_BAT_DEATH", "entity.bat.death"),
     MOB_BAT_HURT("MOB_BAT_HURT", "entity.bat.hurt"),
@@ -250,6 +272,15 @@ public enum P_107 {
     MOB_ZOMBIE_PIG_ANGRY("MOB_ZOMBIE_PIG_ANGRY", "entity.zombie_pig.angry"),
     MOB_ZOMBIE_PIG_DEATH("MOB_ZOMBIE_PIG_DEATH", "entity.zombie_pig.death"),
     MOB_ZOMBIE_PIG_HIT("MOB_ZOMBIE_PIG_HIT", "entity.zombie_pig.hurt"),
+
+    MOD_SHULKER_SAY("MOB_SHULKER_SAY", "entity.shulker.ambient"),
+    MOD_SHULKER_CLOSE("MOB_SHULKER_CLOSE", "entity.shulker.close"),
+    MOD_SHULKER_OPEN("MOB_SHULKER_OPEN", "entity.shulker.open"),
+    MOD_SHULKER_HIT("MOB_SHULKER_HIT", "entity.shulker.hurt"),
+    MOD_SHULKER_DEATH("MOB_SHULKER_DEATH", "entity.shulker.death"),
+    MOD_SHULKER_HIT_CLOSED("MOB_SHULKER_HIT_CLOSED", "entity.shulker.hurt_closed"),
+    MOD_SHULKER_SHOOT("MOB_SHULKER_SHOOT", "entity.shulker.shoot"),
+    MOD_SHULKER_BULLET_HIT("MOB_SHULKER_BULLET_HIT", "entity.shulker_bullet.hit"),
 
     RECORDS_11("RECORDS_11", "record.11"),
     RECORDS_13("RECORDS_13", "record.13"),

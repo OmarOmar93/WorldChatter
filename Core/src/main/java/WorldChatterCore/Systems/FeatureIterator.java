@@ -42,13 +42,20 @@ public final class FeatureIterator {
     }
 
     public void initalizeTheMessage(final String format, final String message, final Player player) {
+        final String sendmessage;
+        if (MiniMessageConnector.INSTANCE != null) {
+            sendmessage = MiniMessageConnector.INSTANCE.returnFormattedString(format + message);
+        } else {
+            sendmessage = ColorSystem.tCC(format + message);
+        }
         if (ServerOptions.INSTANCE.isGlobalChat()) {
-            MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(MiniMessageConnector.INSTANCE.returnFormattedString(format + message));
+            MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(sendmessage);
             return;
         }
         final List<Player> placePlayers = ServerOptions.INSTANCE.getPlayersinPlace(player.getPlace());
+
         for (final Player p : placePlayers) {
-            p.sendMessage(MiniMessageConnector.INSTANCE.returnFormattedString(format + message));
+            p.sendMessage(sendmessage);
         }
     }
 }

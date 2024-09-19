@@ -37,6 +37,7 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
     public void onEnable() {
         final PluginManager pm = getServer().getPluginManager();
         try {
+            Class.forName("org.bukkit.event.player.AsyncPlayerChatEvent");
             pm.registerEvents(new AsyncPlayerChat(), this);
         } catch (Exception ignored) {
             pm.registerEvents(new PlayerChat(), this);

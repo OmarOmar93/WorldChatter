@@ -62,7 +62,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion());
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "WorldChatter 3");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Legacy Update");
                             return;
                         case "help":
                         case "commands":

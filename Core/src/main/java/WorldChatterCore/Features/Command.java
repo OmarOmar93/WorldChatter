@@ -96,17 +96,12 @@ public final class Command {
                         case "clear":
                         case "clearchat":
                         case "cc":
-                            final String clear;
-                            if(MiniMessageConnector.INSTANCE == null) {
-                                clear = String.join("\n", cleaner)
-                                        + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
-                                        .replace("%sender%", sender.getName()));
-
-                            } else {
-                                clear = MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
-                                        + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
-                                        .replace("%sender%", sender.getName())));
-                            }
+                            final String clear = MiniMessageConnector.INSTANCE == null ? String.join("\n", cleaner)
+                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
+                                    .replace("%sender%", sender.getName()))
+                                    : MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
+                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
+                                    .replace("%sender%", sender.getName())));
                             if (!sender.isPlayer() || ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat")) {
                                 MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
                             } else {

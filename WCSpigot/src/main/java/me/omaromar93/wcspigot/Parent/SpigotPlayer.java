@@ -44,7 +44,7 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
     public void playSound(final String soundName, final float volume, final float pitch) {
         try {
             player.playSound(player.getLocation(), Sound.valueOf(soundName), volume, pitch);
-        } catch (final Exception ignored) {
+        } catch (final NoClassDefFoundError | Exception ignored) {
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.YELLOW + "The sound can't be find try checking the config for more information!");
         }
     }

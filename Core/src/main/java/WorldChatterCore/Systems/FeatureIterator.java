@@ -42,12 +42,7 @@ public final class FeatureIterator {
     }
 
     public void initalizeTheMessage(final String format, final String message, final Player player) {
-        final String sendmessage;
-        if (MiniMessageConnector.INSTANCE != null) {
-            sendmessage = MiniMessageConnector.INSTANCE.returnFormattedString(format + message);
-        } else {
-            sendmessage = ColorSystem.tCC(format + message);
-        }
+        final String sendmessage = MiniMessageConnector.INSTANCE != null ? MiniMessageConnector.INSTANCE.returnFormattedString(format + message) : ColorSystem.tCC(format + message);
         if (ServerOptions.INSTANCE.isGlobalChat()) {
             MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(sendmessage);
             return;

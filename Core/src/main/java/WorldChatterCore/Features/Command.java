@@ -90,6 +90,7 @@ public final class Command {
                                     MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.RESET + addon.getDescription());
                                     MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GRAY + "----------------------------------------");
                                 }
+                                return;
                             }
                             sender.sendMessage(ColorSystem.YELLOW + "WorldChatter Addon Service isn't activated! " + ColorSystem.GRAY + "(No Addons were found)");
                             return;

@@ -84,11 +84,11 @@ public final class Command {
                         case "a":
                             if(WCA.INSTANCE != null) {
                                 for (final Addon addon : WCA.INSTANCE.getAddons()) {
-                                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GRAY + "-> " + ColorSystem.RESET + addon.getName());
-                                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GREEN + "Author(s): " + ColorSystem.YELLOW + addon.getAuthor());
-                                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GREEN + "Version: " + ColorSystem.YELLOW + addon.getVersion());
-                                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.RESET + addon.getDescription());
-                                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GRAY + "----------------------------------------");
+                                    sender.sendMessage(ColorSystem.GRAY + "-> " + ColorSystem.RESET + addon.getName());
+                                    sender.sendMessage(ColorSystem.GREEN + "Author(s): " + ColorSystem.YELLOW + addon.getAuthor());
+                                    sender.sendMessage(ColorSystem.GREEN + "Version: " + ColorSystem.YELLOW + addon.getVersion());
+                                    sender.sendMessage(ColorSystem.RESET + addon.getDescription());
+                                    sender.sendMessage(ColorSystem.GRAY + "----------------------------------------");
                                 }
                                 return;
                             }

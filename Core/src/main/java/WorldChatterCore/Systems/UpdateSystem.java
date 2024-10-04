@@ -27,7 +27,7 @@ public final class UpdateSystem {
             build = Integer.parseInt(buildInfo[1]);
             buildTitle = buildInfo[2];
             isDev = Boolean.parseBoolean(buildInfo[3]);
-            final int currentBuild = 204;
+            final int currentBuild = 206;
             if (currentBuild == build) {
                 return 0;
             }

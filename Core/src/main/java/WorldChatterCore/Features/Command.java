@@ -1,5 +1,6 @@
 package WorldChatterCore.Features;
 
+import Others.WorldCasterConfig;
 import WorldChatterCore.API.Addon;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
@@ -50,6 +51,10 @@ public final class Command {
                         case "r":
                             ConfigSystem.INSTANCE.update();
                             sender.sendMessage(ColorSystem.GREEN + "Reloaded the WorldChatter's Configuration!");
+                            try {
+                                WorldCasterConfig.INSTANCE.update();
+                                sender.sendMessage(ColorSystem.DARK_AQUA + "+ WorldCaster's Configuration!");
+                            } catch (Exception ignored) {}
                             if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
                                 listener.senderConfigReload(sender);
                             }

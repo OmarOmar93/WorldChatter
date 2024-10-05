@@ -66,7 +66,11 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
 
     @Override
     public String getPlace() {
-        if(WCSpigot.mvcore != null) return WCSpigot.mvcore.getMVWorldManager().getMVWorld(player.getWorld().getName()).getAlias();
+         return WCSpigot.mvcore != null ? WCSpigot.mvcore.getMVWorldManager().getMVWorld(player.getWorld().getName()).getAlias() : player.getWorld().getName();
+    }
+
+    @Override
+    public String getRawPlace() {
         return player.getWorld().getName();
     }
 

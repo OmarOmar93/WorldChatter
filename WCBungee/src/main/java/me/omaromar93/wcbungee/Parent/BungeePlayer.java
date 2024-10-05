@@ -73,6 +73,11 @@ public final class BungeePlayer extends Injectable implements Player {
     }
 
     @Override
+    public String getRawPlace() {
+        return getPlace();
+    }
+
+    @Override
     public String getDisplayName() {
         return player.getDisplayName();
     }

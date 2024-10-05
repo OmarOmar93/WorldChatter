@@ -18,6 +18,8 @@ public interface Player extends CommandSender {
 
     String getPlace();
 
+    String getRawPlace();
+
     String getDisplayName();
 
 }

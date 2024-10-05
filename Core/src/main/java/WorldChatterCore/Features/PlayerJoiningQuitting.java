@@ -111,7 +111,7 @@ public final class PlayerJoiningQuitting {
         if (defaultQuit != null) {
             switch (quitLevel) {
                 case 1:
-                    loopType(quitMode, joiner, defaultQuit, quitPermissions, ServerOptions.INSTANCE.getPlayersinPlace(quitPlace.replace("%place%", joiner.getPlace())));
+                    loopType(quitMode, joiner, defaultQuit, quitPermissions, ServerOptions.INSTANCE.getPlayersinPlace(quitPlace.replace("%place%", joiner.getRawPlace())));
                     return;
                 case 2:
                     loopType(quitMode, joiner, defaultQuit, quitPermissions, PlayerHandler.INSTANCE.getPlayers().values());

@@ -5,10 +5,9 @@ import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Features.*;
 import WorldChatterCore.Players.Player;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public final class FeatureSystem {
 
@@ -61,13 +60,13 @@ public final class FeatureSystem {
     private boolean messageApproved(final Player player, final String message) {
         if (!ChatLock.INSTANCE.isLocked() || player.hasPermission("worldchatter.bypass.chatlock")) {
             if (ConfigSystem.INSTANCE.getPlace().getBoolean("BlackList.enabled")
-                    && worldBlacklist.isPlaceBlackListed(player.getPlace())) {
+                    && worldBlacklist.isPlaceBlackListed(player.getRawPlace())) {
                 return false;
             }
             if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
                 reason = PlaceHolders.applyPlaceHoldersifPossible(
                         ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
-                                .replace("%duration%", AntiSpam.INSTANCE.getTimeLeft(player))
+                                .replace("%duration%", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
                         , player);
 
                 callAPI(Collections.singletonList("Anti-Spam"), player, message);

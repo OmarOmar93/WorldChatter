@@ -74,6 +74,11 @@ public final class VelocityPlayer extends Injectable implements WorldChatterCore
     }
 
     @Override
+    public String getRawPlace() {
+        return getPlace();
+    }
+
+    @Override
     public String getDisplayName() {
         return player.getUsername();
     }

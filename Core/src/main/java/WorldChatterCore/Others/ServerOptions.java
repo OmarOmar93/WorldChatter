@@ -23,7 +23,7 @@ public final class ServerOptions {
     public List<Player> getPlayersinPlace(final String place) {
         final List<Player> placePlayers = new ArrayList<>();
         for (final Player p : PlayerHandler.INSTANCE.getPlayers().values()) {
-            if (place.equalsIgnoreCase(p.getPlace())) {
+            if (place.equalsIgnoreCase(p.getRawPlace())) {
                 placePlayers.add(p);
             }
         }

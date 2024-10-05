@@ -6,6 +6,8 @@ import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Others.Util;
 
+import java.util.Objects;
+
 public final class UpdateSystem {
 
     public static UpdateSystem INSTANCE;
@@ -21,13 +23,13 @@ public final class UpdateSystem {
     }
 
     public int checkforUpdates() {
-        final String[] buildInfo = Util.getContentfromURl("https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2").split(",");
+        final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl("https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2")).split(",");
         if (buildInfo.length > 1) {
             buildName = buildInfo[0];
             build = Integer.parseInt(buildInfo[1]);
             buildTitle = buildInfo[2];
             isDev = Boolean.parseBoolean(buildInfo[3]);
-            final int currentBuild = 207;
+            final int currentBuild = 211;
             if (currentBuild == build) {
                 return 0;
             }

@@ -47,7 +47,7 @@ public final class FeatureIterator {
             MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(sendmessage);
             return;
         }
-        final List<Player> placePlayers = ServerOptions.INSTANCE.getPlayersinPlace(player.getPlace());
+        final List<Player> placePlayers = ServerOptions.INSTANCE.getPlayersinPlace(player.getRawPlace());
 
         for (final Player p : placePlayers) {
             p.sendMessage(sendmessage);

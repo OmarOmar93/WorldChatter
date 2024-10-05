@@ -23,7 +23,7 @@ import java.util.*;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.0.8",
+        version = "3.0.11",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"}
 )
@@ -92,6 +92,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.0.8";
+        return "3.0.11";
     }
 }

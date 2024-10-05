@@ -104,7 +104,7 @@ public final class Command {
                             if (!sender.isPlayer() || ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat")) {
                                 MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
                             } else {
-                                for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getPlace())) {
+                                for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getRawPlace())) {
                                     player.sendMessage(clear);
                                 }
                             }

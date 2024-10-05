@@ -8,6 +8,7 @@ import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ThreadsSystem;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.omaromar93.wcvelocity.Events.PlayerChat;
@@ -25,7 +26,10 @@ import java.util.*;
         name = "WorldChatter",
         version = "3.0.12",
         description = "Enhance your Chatting Experience.",
-        authors = {"OmarOmar93"}
+        authors = {"OmarOmar93"},
+        dependencies = {
+                @Dependency(id = "worldcastervelocity", optional = true)
+        }
 )
 public final class WCVelocity implements MainPlugin {
 

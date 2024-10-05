@@ -21,7 +21,6 @@ public final class Command {
     public static Command INSTANCE;
 
     private final List<String> cleaner = new ArrayList<>();
-    final StringBuilder builder = new StringBuilder();
 
     private final List<String> helpMessages = Arrays.asList(
             ColorSystem.WHITE + "- " + ColorSystem.GREEN + "WorldChatter Help List " + ColorSystem.WHITE + "-",

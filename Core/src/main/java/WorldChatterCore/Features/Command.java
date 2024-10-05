@@ -54,7 +54,7 @@ public final class Command {
                             try {
                                 WorldCasterConfig.INSTANCE.update();
                                 sender.sendMessage(ColorSystem.DARK_AQUA + "+ WorldCaster's Configuration!");
-                            } catch (Exception ignored) {}
+                            } catch (NoClassDefFoundError ignored) {}
                             if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
                                 listener.senderConfigReload(sender);
                             }

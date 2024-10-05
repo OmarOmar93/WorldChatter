@@ -37,7 +37,6 @@ public final class ConfigSystem {
 
 
         new PlayerJoiningQuitting();
-        new BroadcastSystem();
         new ServerOptions();
         new ChatFormatter();
         new Notifications();
@@ -67,7 +66,6 @@ public final class ConfigSystem {
 
 
         PlayerJoiningQuitting.INSTANCE.update();
-        BroadcastSystem.INSTANCE.update();
         ChatFormatter.INSTANCE.update();
         Notifications.INSTANCE.update();
         ServerOptions.INSTANCE.update();

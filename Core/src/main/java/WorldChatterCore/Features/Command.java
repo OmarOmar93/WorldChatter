@@ -30,7 +30,6 @@ public final class Command {
             ColorSystem.BLUE + "- wc reload" + ColorSystem.WHITE + " Reloads the plugin's configuration",
             ColorSystem.BLUE + "- wc addons" + ColorSystem.WHITE + " Check the connected Addons in WorldChatter!",
             ColorSystem.BLUE + "- wc clear" + ColorSystem.WHITE + " Clears the chat!",
-            ColorSystem.BLUE + "- wc broadcast [message]" + ColorSystem.WHITE + " Broadcast a message to every single place",
             ColorSystem.BLUE + "- wc version" + ColorSystem.WHITE + " Shows the version/Information about WorldChatter!"
     );
 
@@ -111,19 +110,6 @@ public final class Command {
                                 }
                             }
                             sender.sendMessage(ColorSystem.GREEN + "Successfully cleared Chat!");
-                            return;
-                        case "broadcast":
-                        case "bc":
-                        case "b":
-                            if (args.length > 1) {
-                                builder.delete(0, builder.length());
-                                for (int i = 1; i < args.length; i++) {
-                                    builder.append(args[i]).append(" ");
-                                }
-                                final String message = ColorSystem.tCC(TextReplacer.INSTANCE.formatTexts(builder.toString(), sender.isPlayer() ? sender.getPlayer() : null));
-                                sender.sendMessage(ColorSystem.GREEN + "Successfully sent the message!");
-                                MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(message);
-                            }
                             return;
                     }
                     return;

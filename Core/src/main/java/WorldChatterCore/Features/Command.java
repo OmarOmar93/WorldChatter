@@ -65,7 +65,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion());
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "WorldCaster Add-on release!");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Update\" Update");
                             return;
                         case "help":
                         case "commands":
@@ -82,6 +82,7 @@ public final class Command {
                         case "update":
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
+                            UpdateSystem.INSTANCE.checkforAddonUpdates(sender);
                             return;
                         case "addons":
                         case "a":
@@ -95,7 +96,7 @@ public final class Command {
                                 }
                                 return;
                             }
-                            sender.sendMessage(ColorSystem.YELLOW + "WorldChatter Addon Service isn't activated! " + ColorSystem.GRAY + "(No Addons were found)");
+                            sender.sendMessage(ColorSystem.YELLOW + "WorldChatter Add-on Service isn't activated! " + ColorSystem.GRAY + "(No Addons were found)");
                             return;
                         case "clear":
                         case "clearchat":

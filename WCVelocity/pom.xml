@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>WCVelocity</artifactId>
-    <version>3.0.12</version>
+    <version>3.0.13</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.0.12</version>
+        <version>3.0.13</version>
     </parent>
 
     <name>WCVelocity</name>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>me.omaromar93</groupId>
             <artifactId>Core</artifactId>
-            <version>3.0.12</version>
+            <version>3.0.13</version>
         </dependency>
     </dependencies>
 </project>

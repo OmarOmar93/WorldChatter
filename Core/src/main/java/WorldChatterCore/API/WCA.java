@@ -38,11 +38,11 @@ public final class WCA {
             final Addon temp = new Addon(name, author, description, signature.toLowerCase(), version);
             addonsAndListeners.put(temp, new ArrayList<>());
             MainPluginConnector.INSTANCE.getWorldChatter()
-                    .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Addon " + ColorSystem.BLUE + name);
+                    .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Add-on " + ColorSystem.BLUE + name);
             return temp;
         }
         MainPluginConnector.INSTANCE.getWorldChatter()
-                .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "Addon detected with same signature \"" + signature.toLowerCase() + "\" "
+                .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "Add-on detected with same signature \"" + signature.toLowerCase() + "\" "
                         + ColorSystem.YELLOW + "Try changing it into a unique signature!");
         return null;
     }
@@ -54,7 +54,7 @@ public final class WCA {
     public void addListener(final Addon addon, final WCListener wcListener) {
         if (!addonsAndListeners.containsKey(addon)) {
             MainPluginConnector.INSTANCE.getWorldChatter()
-                    .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Addon does not exist");
+                    .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Add-on does not exist");
             return;
         }
         if(!addonsAndListeners.get(addon).contains(wcListener)) {

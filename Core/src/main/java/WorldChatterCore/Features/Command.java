@@ -76,7 +76,7 @@ public final class Command {
                         case "update":
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
-                            UpdateSystem.INSTANCE.checkForAddonUpdates(sender);
+                            UpdateSystem.INSTANCE.checkForAddonsUpdates(sender);
                             return;
                         case "addons":
                         case "a":

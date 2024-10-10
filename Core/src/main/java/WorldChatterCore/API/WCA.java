@@ -2,6 +2,7 @@ package WorldChatterCore.API;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Systems.ColorSystem;
+import WorldChatterCore.Systems.UpdateSystem;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -29,6 +30,7 @@ public final class WCA {
             addonsAndListeners.put(temp, new ArrayList<>());
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(
                     ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Add-on " + ColorSystem.BLUE + name);
+            UpdateSystem.INSTANCE.checkForAddonUpdate(temp,null);
             return temp;
         }
 

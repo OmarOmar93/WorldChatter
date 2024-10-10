@@ -17,7 +17,7 @@ public final class UpdateSystem {
     private int build;
     private boolean isDev;
 
-    private static final int CURRENT_BUILD = 213;
+    private static final int CURRENT_BUILD = 214;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
     public UpdateSystem() {
@@ -40,27 +40,30 @@ public final class UpdateSystem {
         return -2;
     }
 
-    public void checkForAddonUpdates(final CommandSender sender) {
+    public void checkForAddonsUpdates(final CommandSender sender) {
         if (WCA.INSTANCE == null) return;
         for (final Addon addon : WCA.INSTANCE.getAddons()) {
-            if (addon.getUpdater() == null) continue;
+            checkForAddonUpdate(addon, sender);
+        }
+    }
 
-            try {
-                final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(addon.getUpdater())).split(",");
-                if (buildInfo.length > 1) {
-                    final int addonBuild = Integer.parseInt(buildInfo[1]);
-                    if (addon.getBuild() < addonBuild) {
-                        final String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW +
-                                addon.getName() + " has a " + (Boolean.parseBoolean(buildInfo[2]) ? "Development" : "Stable") +
-                                " Update available! " + buildInfo[0];
-                        sender.sendMessage(message);
-                    }
+    public void checkForAddonUpdate(final Addon addon, final CommandSender sender) {
+        if (addon.getUpdater() == null) return;
+        final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(addon.getUpdater())).split(",");
+        if (buildInfo.length > 1) {
+            final int addonBuild = Integer.parseInt(buildInfo[1]);
+            if (addon.getBuild() < addonBuild) {
+                final String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW +
+                        addon.getName() + " has a " + (Boolean.parseBoolean(buildInfo[2]) ? "Development" : "Stable") +
+                        " Update available! " + buildInfo[0];
+                if (sender != null) {
+                    sender.sendMessage(message);
                 } else {
-                    sendConsoleUpdateError(addon.getName());
+                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(message);
                 }
-            } catch (Exception e) {
-                sendConsoleUpdateError(addon.getName());
             }
+        } else {
+            sendConsoleUpdateError(addon.getName());
         }
     }
 

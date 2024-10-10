@@ -1,6 +1,6 @@
 package WorldChatterCore.Features;
 
-import Others.WorldCasterConfig;
+
 import WorldChatterCore.API.Addon;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
@@ -49,10 +49,6 @@ public final class Command {
                         case "r":
                             ConfigSystem.INSTANCE.update();
                             sender.sendMessage(ColorSystem.GREEN + "Reloaded the WorldChatter's Configuration!");
-                            try {
-                                WorldCasterConfig.INSTANCE.update();
-                                sender.sendMessage(ColorSystem.DARK_AQUA + "+ WorldCaster's Configuration!");
-                            } catch (NoClassDefFoundError ignored) {}
                             if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
                                 listener.senderConfigReload(sender);
                             }
@@ -61,7 +57,7 @@ public final class Command {
                         case "info":
                         case "v":
                         case "i":
-                            sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion());
+                            sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
                             sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Update\" Update");
                             return;
@@ -88,7 +84,7 @@ public final class Command {
                                 for (final Addon addon : WCA.INSTANCE.getAddons()) {
                                     sender.sendMessage(ColorSystem.GRAY + "-> " + ColorSystem.RESET + addon.getName());
                                     sender.sendMessage(ColorSystem.GREEN + "Author(s): " + ColorSystem.YELLOW + addon.getAuthor());
-                                    sender.sendMessage(ColorSystem.GREEN + "Version: " + ColorSystem.YELLOW + addon.getVersion());
+                                    sender.sendMessage(ColorSystem.GREEN + "Version: " + ColorSystem.YELLOW + addon.getVersion() + ((addon.getBuild() != null) ? ColorSystem.GRAY + " (" + addon.getBuild() + ")" : ""));
                                     sender.sendMessage(ColorSystem.RESET + addon.getDescription());
                                     sender.sendMessage(ColorSystem.GRAY + "----------------------------------------");
                                 }

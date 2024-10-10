@@ -2,7 +2,7 @@ package WorldChatterCore.API;
 
 public final class Addon {
     private final String name, author, description, signature, version, updater;
-    private final int build;
+    private final Integer build;
 
     /**
      *
@@ -18,7 +18,7 @@ public final class Addon {
         this.signature = signature;
         this.version = version;
         this.updater = null;
-        this.build = -1;
+        this.build = null;
     }
 
     /**
@@ -30,7 +30,7 @@ public final class Addon {
      * @param updater Addon's Update URL
      * @param build Addon's build
      */
-    public Addon(final String name, final String author, final String description, final String signature, final String version, final String updater, final int build) {
+    public Addon(final String name, final String author, final String description, final String signature, final String version, final String updater, final Integer build) {
         this.name = name;
         this.author = author;
         this.description = description;
@@ -40,7 +40,7 @@ public final class Addon {
         this.build = build;
     }
 
-    public int getBuild() {
+    public Integer getBuild() {
         return build;
     }
 

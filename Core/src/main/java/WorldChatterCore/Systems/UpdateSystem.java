@@ -20,7 +20,9 @@ public final class UpdateSystem {
     private static final int CURRENT_BUILD = 213;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
-    public UpdateSystem() {}
+    public UpdateSystem() {
+        INSTANCE = this;
+    }
 
     public int checkForUpdates() {
         try {
@@ -35,7 +37,7 @@ public final class UpdateSystem {
         } catch (Exception e) {
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Error occurred while checking for updates.");
         }
-        return -1;
+        return -2;
     }
 
     public void checkForAddonUpdates(final CommandSender sender) {
@@ -64,21 +66,19 @@ public final class UpdateSystem {
 
     public void messageCheck(final CommandSender sender) {
         final int updateStatus = checkForUpdates();
-        String message;
+        String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";;
         switch (updateStatus) {
             case 0:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!";
                 break;
-            case 1:
+            case -1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "A " + (isDev ? "Development" : "Stable") +
                     " version is available! " + buildTitle + " - " + buildName + " -> https://www.spigotmc.org/resources/worldchatter-1-1-1-21.101226/updates";
                 break;
-            case 2:
+            case 1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" +
                     ColorSystem.BLUE + " version of WorldChatter!";
                 break;
-            default:
-                message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";
         }
 
         if (sender != null) {
@@ -105,6 +105,10 @@ public final class UpdateSystem {
 
     public String getBuildName() {
         return buildName;
+    }
+
+    public int getCurrentBuild() {
+        return CURRENT_BUILD;
     }
 
     public int getBuild() {

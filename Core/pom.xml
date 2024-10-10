@@ -6,11 +6,11 @@
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.0.13</version>
+        <version>3.0.14</version>
     </parent>
 
     <artifactId>Core</artifactId>
-    <version>3.0.13</version>
+    <version>3.0.14</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -54,13 +54,6 @@
         <version>33.1.0-jre</version>
         <scope>compile</scope>
       </dependency>
-        <dependency>
-            <groupId>me.omaromar93</groupId>
-            <artifactId>worldcaster</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>D:/Projects/Servers/Minecraft/1.21/plugins/WorldCaster.jar</systemPath>
-        </dependency>
     </dependencies>
 
 </project>

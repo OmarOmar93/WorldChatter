@@ -69,7 +69,7 @@ public final class UpdateSystem {
 
     public void messageCheck(final CommandSender sender) {
         final int updateStatus = checkForUpdates();
-        String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";;
+        String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";
         switch (updateStatus) {
             case 0:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!";

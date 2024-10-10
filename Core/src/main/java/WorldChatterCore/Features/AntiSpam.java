@@ -18,7 +18,6 @@ public final class AntiSpam {
         cooldowns = new ConcurrentHashMap<>();
     }
 
-
     public void update() {
         cooldowns.clear();
         duration = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSpam") * 1000L;

@@ -10,10 +10,8 @@ public final class PlaceBlacklist {
         INSTANCE = this;
     }
 
-
     public boolean isPlaceBlackListed(final String place) {
         return ConfigSystem.INSTANCE.getPlace().getStringList("BlackList.places").contains(place);
     }
-
 
 }

@@ -17,35 +17,31 @@ public final class WCA {
         if (INSTANCE == null) INSTANCE = this;
     }
 
-    /**
-     *
-     * @param name Addon's name
-     * @param author Addon's Author
-     * @param description Description of the Addon
-     * @param signature Addon's Signature (Can't be duplicated)
-     * @param version Addon's version
-     */
-    public Addon createWCAddon(final String name, final String author, final String description, final String signature, final String version) {
-        boolean b = false;
-        for (final Addon addon : addonsAndListeners.keySet()) {
-            if (addon.getSignature().equalsIgnoreCase(signature)) {
-                b = true;
-                break;
-            }
-        }
+    public Addon createWCAddon(final String name, final String author, final String description, final String signature, final String version, final String updater, final Integer build) {
+        final boolean duplicateSignature = addonsAndListeners.keySet().stream()
+                .anyMatch(addon -> addon.getSignature().equalsIgnoreCase(signature));
 
-        if (!b) {
-            final Addon temp = new Addon(name, author, description, signature.toLowerCase(), version);
+        if (!duplicateSignature) {
+            final Addon temp = (updater != null && build != null)
+                    ? new Addon(name, author, description, signature.toLowerCase(), version, updater, build)
+                    : new Addon(name, author, description, signature.toLowerCase(), version);
+
             addonsAndListeners.put(temp, new ArrayList<>());
-            MainPluginConnector.INSTANCE.getWorldChatter()
-                    .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Add-on " + ColorSystem.BLUE + name);
+            MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(
+                    ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Detected Add-on " + ColorSystem.BLUE + name);
             return temp;
         }
-        MainPluginConnector.INSTANCE.getWorldChatter()
-                .sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "Add-on detected with same signature \"" + signature.toLowerCase() + "\" "
-                        + ColorSystem.YELLOW + "Try changing it into a unique signature!");
+
+        MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(
+                ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "Add-on detected with same signature \""
+                        + signature.toLowerCase() + "\" " + ColorSystem.YELLOW + "Try changing it into a unique signature!");
         return null;
     }
+
+    public Addon createWCAddon(final String name, final String author, final String description, final String signature, final String version) {
+        return createWCAddon(name, author, description, signature, version, null, null);
+    }
+
 
     /**
      *

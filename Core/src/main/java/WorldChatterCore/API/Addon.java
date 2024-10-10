@@ -28,6 +28,7 @@ public final class Addon {
      * @param description Description of the Addon
      * @param signature Addon's Signature
      * @param updater Addon's Update URL
+     * @param build Addon's build
      */
     public Addon(final String name, final String author, final String description, final String signature, final String version, final String updater, final int build) {
         this.name = name;

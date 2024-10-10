@@ -33,14 +33,12 @@ public final class Command {
             ColorSystem.BLUE + "- wc version" + ColorSystem.WHITE + " Shows the version/Information about WorldChatter!"
     );
 
-
     public Command() {
         INSTANCE = this;
         for (int i = 0; i < 100; i++) {
             cleaner.add("§f                                            \n");
         }
     }
-
 
     public void executeCommand(final CommandSender sender, final String[] args) {
         ThreadsSystem.runAsync(() -> {
@@ -82,7 +80,7 @@ public final class Command {
                         case "update":
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
-                            UpdateSystem.INSTANCE.checkforAddonUpdates(sender);
+                            UpdateSystem.INSTANCE.checkForAddonUpdates(sender);
                             return;
                         case "addons":
                         case "a":

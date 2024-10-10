@@ -13,11 +13,9 @@ public final class Notifications {
     private static String staffsound, playersound, staffMessage, playerMessage;
     private static float staffvolume, playervolume, staffpitch, playerpitch;
 
-
     public Notifications() {
         INSTANCE = this;
     }
-
 
     public void update() {
         if (ConfigSystem.INSTANCE.getPlayer().getBoolean("notification.enabled")) {

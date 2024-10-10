@@ -14,98 +14,89 @@ public final class UpdateSystem {
     public static UpdateSystem INSTANCE;
 
     private String buildName, buildTitle;
-
     private int build;
-
     private boolean isDev;
 
-    public UpdateSystem() {
-        INSTANCE = this;
-    }
+    private static final int CURRENT_BUILD = 213;
+    private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
-    public int checkforUpdates() {
-        final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl("https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2")).split(",");
-        if (buildInfo.length > 1) {
-            buildName = buildInfo[0];
-            build = Integer.parseInt(buildInfo[1]);
-            buildTitle = buildInfo[2];
-            isDev = Boolean.parseBoolean(buildInfo[3]);
-            final int currentBuild = 213;
-            if (currentBuild == build) {
-                return 0;
+    public UpdateSystem() {}
+
+    public int checkForUpdates() {
+        try {
+            final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(VERSION_URL)).split(",");
+            if (buildInfo.length > 1) {
+                buildName = buildInfo[0];
+                build = Integer.parseInt(buildInfo[1]);
+                buildTitle = buildInfo[2];
+                isDev = Boolean.parseBoolean(buildInfo[3]);
+                return Integer.compare(CURRENT_BUILD, build);
             }
-            if (currentBuild < build) {
-                return 1;
-            }
-            return 2;
+        } catch (Exception e) {
+            MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Error occurred while checking for updates.");
         }
         return -1;
     }
 
-    public void checkforAddonUpdates(final CommandSender sender) {
-        if (WCA.INSTANCE != null) {
-            for (final Addon addon : WCA.INSTANCE.getAddons()) {
-                if (addon.getUpdater() != null) {
-                    try {
-                        final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(addon.getUpdater())).split(",");
-                        if (buildInfo.length > 1) {
-                            final String addonBuildName = buildInfo[0];
-                            final int addonBuild = Integer.parseInt(buildInfo[1]);
-                            final boolean addonDev = Boolean.parseBoolean(buildInfo[3]);
-                            final int currentBuild = addon.getBuild();
-                            if (currentBuild < addonBuild) {
-                                sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + addon.getName() + " Has a " + ColorSystem.GOLD + (addonDev ? "Development" : "Stable") + ColorSystem.YELLOW + " Update available!");
-                                sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + addonBuildName);
-                            }
-                            continue;
-                        }
-                        MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GRAY + "Unable to check for updates for " + addon.getName());
-                    } catch (Exception ignored) {
-                        MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Error occurred while checking " + addon.getName());
+    public void checkForAddonUpdates(final CommandSender sender) {
+        if (WCA.INSTANCE == null) return;
+        for (final Addon addon : WCA.INSTANCE.getAddons()) {
+            if (addon.getUpdater() == null) continue;
+
+            try {
+                final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(addon.getUpdater())).split(",");
+                if (buildInfo.length > 1) {
+                    final int addonBuild = Integer.parseInt(buildInfo[1]);
+                    if (addon.getBuild() < addonBuild) {
+                        final String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW +
+                                addon.getName() + " has a " + (Boolean.parseBoolean(buildInfo[2]) ? "Development" : "Stable") +
+                                " Update available! " + buildInfo[0];
+                        sender.sendMessage(message);
                     }
+                } else {
+                    sendConsoleUpdateError(addon.getName());
                 }
+            } catch (Exception e) {
+                sendConsoleUpdateError(addon.getName());
             }
         }
     }
 
-
     public void messageCheck(final CommandSender sender) {
+        final int updateStatus = checkForUpdates();
+        String message;
+        switch (updateStatus) {
+            case 0:
+                message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!";
+                break;
+            case 1:
+                message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "A " + (isDev ? "Development" : "Stable") +
+                    " version is available! " + buildTitle + " - " + buildName + " -> https://www.spigotmc.org/resources/worldchatter-1-1-1-21.101226/updates";
+                break;
+            case 2:
+                message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" +
+                    ColorSystem.BLUE + " version of WorldChatter!";
+                break;
+            default:
+                message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";
+        }
+
         if (sender != null) {
-            switch (checkforUpdates()) {
-                case 0:
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!");
-                    return;
-                case 1:
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "There is the a " + ColorSystem.GOLD + (isDev ? "Development" : "Stable") + ColorSystem.YELLOW + " Version Available!");
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + buildTitle + " - " + buildName);
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "-> https://www.spigotmc.org/resources/worldchatter-1-1-1-21.101226/updates");
-                    return;
-                case 2:
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" + ColorSystem.BLUE + " version of WorldChatter!");
-                    return;
-                case -1:
-                    sender.sendMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.");
-                    return;
+            sender.sendMessage(message);
+        } else {
+            MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(message);
+        }
+
+        if (WCA.INSTANCE != null) {
+            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
+                listener.updateChecked(sender);
             }
         }
-        switch (checkforUpdates()) {
-            case 0:
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!");
-                return;
-            case 1:
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "There is the a " + ColorSystem.GOLD + (isDev ? "Development" : "Stable") + ColorSystem.YELLOW + " Version Available!");
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + buildTitle + " - " + buildName);
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "-> https://www.spigotmc.org/resources/worldchatter-1-1-1-21.101226/updates");
-                return;
-            case 2:
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" + ColorSystem.BLUE + " version of WorldChatter!");
-                return;
-            case -1:
-                MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.");
-        }
-        if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
-            listener.updateChecked(sender);
-        }
+    }
+
+    private void sendConsoleUpdateError(String addonName) {
+        MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(
+                ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GRAY + "Unable to check for updates for " + addonName);
     }
 
     public boolean isDev() {
@@ -123,5 +114,4 @@ public final class UpdateSystem {
     public String getBuildTitle() {
         return buildTitle;
     }
-
 }

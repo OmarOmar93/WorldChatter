@@ -2,6 +2,4 @@ name: WorldChatter
 version: '${project.version}'
 main: me.omaromar93.wcbungee.WCBungee
 author: OmarOmar93
-softdepends:
-  - WorldCaster
 description: Enhance your Chatting Experience.

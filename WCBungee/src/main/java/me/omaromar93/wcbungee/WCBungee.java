@@ -65,7 +65,11 @@ public final class WCBungee extends Plugin implements MainPlugin {
 
     @Override
     public void broadcastMessage(final String message) {
-        adventure.all().sendMessage(MiniMessage.miniMessage().deserialize(message));
+        try {
+            adventure.all().sendMessage(MiniMessage.miniMessage().deserialize(MiniMessageConnector.INSTANCE.returnFormattedString(message)));
+        } catch (final NoSuchMethodError ignored) {
+            getProxy().broadcast(new TextComponent(message));
+        }
     }
 
     @Override

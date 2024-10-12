@@ -6,11 +6,11 @@
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.0.14</version>
+        <version>3.0.17</version>
     </parent>
 
     <artifactId>Core</artifactId>
-    <version>3.0.14</version>
+    <version>3.0.17</version>
     <packaging>jar</packaging>
 
     <properties>

@@ -17,7 +17,7 @@ public final class UpdateSystem {
     private int build;
     private boolean isDev;
 
-    private static final int CURRENT_BUILD = 214;
+    private static final int CURRENT_BUILD = 217;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
     public UpdateSystem() {

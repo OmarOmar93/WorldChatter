@@ -7,8 +7,8 @@ import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ThreadsSystem;
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.CommandManager;
-import com.velocitypowered.api.plugin.Dependency;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.omaromar93.wcvelocity.Events.PlayerChat;
@@ -24,34 +24,35 @@ import java.util.*;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.0.14",
+        version = "3.0.17",
         description = "Enhance your Chatting Experience.",
-        authors = {"OmarOmar93"},
-        dependencies = {
-                @Dependency(id = "worldcastervelocity", optional = true)
-        }
+        authors = {"OmarOmar93"}
 )
 public final class WCVelocity implements MainPlugin {
 
     private final ProxyServer server;
-
 
     @Inject
     public WCVelocity(final ProxyServer server) {
         this.server = server;
         new MainPluginConnector();
         MainPluginConnector.INSTANCE.setWorldChatter(this);
+
+    }
+
+    @Subscribe
+    public void onProxyInitialization(ProxyInitializeEvent event) {
         ThreadsSystem.runAsync(() -> {
             server.getEventManager().register(this, new PlayerChat());
             server.getEventManager().register(this, new PlayerJoin());
             server.getEventManager().register(this, new PlayerQuit());
-            final CommandManager cm = server.getCommandManager();
-            cm.register(cm.metaBuilder("worldchatter")
+            server.getCommandManager().register(server.getCommandManager().metaBuilder("worldchatter")
                     .aliases("wc")
                     .plugin(server)
                     .build(), new Command());
         });
     }
+
 
     @Override
     public boolean isPluginEnabled(final String name) {
@@ -72,10 +73,11 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public void broadcastMessage(final String message) {
-        final Component component = MiniMessage.miniMessage().deserialize(message);
+        final Component component = MiniMessage.miniMessage().deserialize(MiniMessageConnector.INSTANCE.returnFormattedString(message));
         for (final com.velocitypowered.api.proxy.Player player : server.getAllPlayers()) {
             player.sendMessage(component);
         }
+        server.getConsoleCommandSource().sendMessage(component);
     }
 
     @Override
@@ -96,6 +98,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.0.14";
+        return "3.0.17";
     }
 }

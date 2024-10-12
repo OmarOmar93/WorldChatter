@@ -3,3 +3,10 @@ DetectedPlayerMessage: "&cYou have been detected by the following flags &e[%flag
 SpamMessage: "&cYour message is blocked by the &eAnti-Spam\n&7Remaining time: %duration% seconds" # Changes how the anti-spam message is sent (set it to "" if you don't want to send it)
 ChatClearMessage: "&eThe Chat has been cleared by &a%sender%" # Changes how the cleared chat message gets sent
 NoPermissionMessage: "&eYou're not allowed to use this command!"
+
+# This switch message is only available for both bungeecord & velocity
+SwitchSettings:
+  enabled: true
+  global: true # false is just the current server & previous server / true all the servers
+  premessage: "&a%player_name% &ehas switched from &6%previous_server% &eto &f%current_server%"
+  comessage: "&a%player_name% &ehas arrived from &6%previous_server%"

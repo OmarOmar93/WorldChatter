@@ -1,6 +1,7 @@
 package me.omaromar93.wcbungee.Events;
 
 import WorldChatterCore.Features.PlayerJoiningQuitting;
+import WorldChatterCore.Others.ServerOptions;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import me.omaromar93.wcbungee.Parent.BungeePlayer;
@@ -15,6 +16,12 @@ public final class PlayerJoin implements Listener {
             final Player player = new BungeePlayer(event.getPlayer(), event.getTarget().getName());
             PlayerHandler.INSTANCE.addPlayer(player);
             PlayerJoiningQuitting.INSTANCE.commitPlayerActivities(player, true);
+            return;
+        }
+        if (ServerOptions.INSTANCE.isSwitchMessage()) {
+            ServerOptions.INSTANCE.loopType(PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId()),
+                    event.getPlayer().getServer().getInfo().getName(),
+                    event.getTarget().getName());
         }
     }
 }

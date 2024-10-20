@@ -9,9 +9,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Injectable {
 
@@ -25,7 +25,7 @@ public class Injectable {
         this.channel = channel;
         this.protocolVersion = protocolVersion;
 
-        positionPacketIDs = new ArrayList<>();
+        positionPacketIDs = new CopyOnWriteArrayList<>();
         final int soundPacketID = init(protocolVersion);
 
         channel.pipeline().addBefore(baseName, name, new ChannelDuplexHandler() {

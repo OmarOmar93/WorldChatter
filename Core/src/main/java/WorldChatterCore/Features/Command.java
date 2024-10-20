@@ -21,7 +21,12 @@ public final class Command {
 
     public static Command INSTANCE;
 
-    private final List<String> cleaner = new ArrayList<>();
+    private static final List<String> cleaner = new ArrayList<>();
+    static {
+        for (int i = 0; i < 100; i++) {
+            cleaner.add("§f                                            \n");
+        }
+    }
 
     private final List<String> helpMessages = Arrays.asList(
             ColorSystem.WHITE + "- " + ColorSystem.GREEN + "WorldChatter Help List " + ColorSystem.WHITE + "-",
@@ -35,9 +40,6 @@ public final class Command {
 
     public Command() {
         INSTANCE = this;
-        for (int i = 0; i < 100; i++) {
-            cleaner.add("§f                                            \n");
-        }
     }
 
     public void executeCommand(final CommandSender sender, final String[] args) {
@@ -59,7 +61,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Update\" Update");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Deep Update");
                             return;
                         case "help":
                         case "commands":

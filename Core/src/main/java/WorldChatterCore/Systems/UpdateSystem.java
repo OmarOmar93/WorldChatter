@@ -17,7 +17,7 @@ public final class UpdateSystem {
     private int build;
     private boolean isDev;
 
-    private static final int CURRENT_BUILD = 217;
+    private static final int CURRENT_BUILD = 219;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
     public UpdateSystem() {
@@ -76,7 +76,7 @@ public final class UpdateSystem {
                 break;
             case -1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "A " + (isDev ? "Development" : "Stable") +
-                    " version is available! " + buildTitle + " - " + buildName + " -> https://www.spigotmc.org/resources/worldchatter-1-1-1-21.101226/updates";
+                    " version is available! " + buildTitle + " - " + buildName + " -> https://modrinth.com/plugin/worldchatter/";
                 break;
             case 1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" +

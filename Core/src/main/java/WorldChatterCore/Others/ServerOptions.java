@@ -15,7 +15,7 @@ public final class ServerOptions {
 
     public static ServerOptions INSTANCE;
     private boolean globalChat, switchMessage;
-    private boolean switchLevel;
+    private boolean switchGlobal;
     private String preMessage, coMessage;
 
     public ServerOptions() {
@@ -28,7 +28,7 @@ public final class ServerOptions {
         if (switchMessage) {
             preMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.premessage");
             coMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.comessage");
-            switchLevel = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.global");
+            switchGlobal = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.global");
             return;
         }
         preMessage = null;
@@ -52,7 +52,7 @@ public final class ServerOptions {
     public void loopType(final Player joiner, final String previous, final String current) {
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(formatQuickPlayerServers(preMessage, joiner, previous, current));
         final Collection<Player> playerList;
-        if (!switchLevel) {
+        if (!switchGlobal) {
             playerList = getPlayersinPlace(previous);
             playerList.addAll(getPlayersinPlace(current));
         } else {

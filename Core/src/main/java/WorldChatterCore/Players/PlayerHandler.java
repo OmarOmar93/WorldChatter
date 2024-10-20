@@ -1,10 +1,11 @@
 package WorldChatterCore.Players;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class PlayerHandler {
-    private final HashMap<UUID, Player> players = new HashMap<>();
+    private static final Map<UUID, Player> players = new ConcurrentHashMap<>();
     public static PlayerHandler INSTANCE;
 
 
@@ -12,7 +13,7 @@ public final class PlayerHandler {
         INSTANCE = this;
     }
 
-    public HashMap<UUID, Player> getPlayers() {
+    public Map<UUID, Player> getPlayers() {
         return players;
     }
 

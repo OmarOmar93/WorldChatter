@@ -19,7 +19,7 @@ public final class ConfigSystem {
     private final File chatFormatterFile, playerFile, securityFile, systemFile, messagesFile, textsFile, placeFile;
 
     public ConfigSystem() {
-        INSTANCE = this;
+        if(INSTANCE == null) INSTANCE = this;
 
         final File dataFolder = new File("plugins/WorldChatter");
 

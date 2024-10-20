@@ -11,8 +11,8 @@ import java.util.Objects;
 
 public final class FeatureSystem {
 
-    private final FeatureIterator featureIterator = new FeatureIterator();
-    private final PlaceBlacklist worldBlacklist = new PlaceBlacklist();
+    private static final FeatureIterator featureIterator = new FeatureIterator();
+    private static final PlaceBlacklist worldBlacklist = new PlaceBlacklist();
 
     public static FeatureSystem INSTANCE;
     private String reason = null;

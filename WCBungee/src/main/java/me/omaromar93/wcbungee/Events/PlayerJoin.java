@@ -5,13 +5,13 @@ import WorldChatterCore.Others.ServerOptions;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import me.omaromar93.wcbungee.Parent.BungeePlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 public final class PlayerJoin implements Listener {
     @EventHandler
-    public void onJoin(final PostLoginEvent event) {
+    public void onJoin(final ServerConnectEvent event) {
         if (event.getPlayer().getServer() == null) {
             final Player player = new BungeePlayer(event.getPlayer(), event.getTarget().getName());
             PlayerHandler.INSTANCE.addPlayer(player);

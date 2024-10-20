@@ -35,11 +35,11 @@ public final class WCBungee extends Plugin implements MainPlugin {
 
     @Override
     public void onDisable() {
+        MainPluginConnector.INSTANCE.onDisable();
         if (adventure != null) {
             adventure.close();
             adventure = null;
         }
-        MainPluginConnector.INSTANCE.onDisable();
     }
 
     @Override

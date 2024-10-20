@@ -5,8 +5,8 @@ import WorldChatterCore.Features.*;
 import WorldChatterCore.Others.ServerOptions;
 import WorldChatterCore.Players.Player;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class FeatureIterator {
 
@@ -16,10 +16,11 @@ public final class FeatureIterator {
     public FeatureIterator() {
         INSTANCE = this;
 
-        security = new ArrayList<>();
+        security = new CopyOnWriteArrayList<>();
     }
 
     public List<String> securityCheck(final Player player, final String message) {
+        security.clear();
         if (!player.hasPermission("worldchatter.bypass.antiads")
                 && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
                 && AntiADS.hasAds(message))

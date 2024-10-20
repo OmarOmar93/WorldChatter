@@ -7,6 +7,7 @@ import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ThreadsSystem;
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
@@ -24,7 +25,7 @@ import java.util.*;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.0.17",
+        version = "3.0.19",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"}
 )
@@ -46,12 +47,12 @@ public final class WCVelocity implements MainPlugin {
             server.getEventManager().register(this, new PlayerChat());
             server.getEventManager().register(this, new PlayerJoin());
             server.getEventManager().register(this, new PlayerQuit());
-            server.getCommandManager().register(server.getCommandManager().metaBuilder("worldchatter")
-                    .aliases("wc")
-                    .plugin(server)
-                    .build(), new Command());
+            final CommandManager cm = server.getCommandManager();
+            cm.register("worldchatter", new Command(), "wc");
         });
     }
+
+
 
 
     @Override
@@ -98,6 +99,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.0.17";
+        return "3.0.19";
     }
 }

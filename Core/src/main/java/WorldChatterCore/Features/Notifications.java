@@ -10,8 +10,8 @@ public final class Notifications {
 
     public static Notifications INSTANCE;
 
-    private static String staffsound, playersound, staffMessage, playerMessage;
-    private static float staffvolume, playervolume, staffpitch, playerpitch;
+    private String staffsound, playersound, staffMessage, playerMessage;
+    private float staffvolume, playervolume, staffpitch, playerpitch;
 
     public Notifications() {
         INSTANCE = this;
@@ -29,12 +29,13 @@ public final class Notifications {
             playersound = ConfigSystem.INSTANCE.getPlayer().getString("notification.player.sound", "BLOCK_NOTE_BLOCK_PLING");
             playervolume = ConfigSystem.INSTANCE.getPlayer().getFloat("notification.player.volume", 1f);
             playerpitch = ConfigSystem.INSTANCE.getPlayer().getFloat("notification.player.pitch", 1f);
-        } else {
-            staffMessage = null;
-            playerMessage = null;
-            staffsound = null;
-            playersound = null;
+            return;
         }
+        staffMessage = null;
+        playerMessage = null;
+        staffsound = null;
+        playersound = null;
+
     }
 
 

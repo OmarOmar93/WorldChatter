@@ -13,7 +13,9 @@ public final class PlaceHolders {
             if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
                 return MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                         .replace("\\n", "\r")
-                        .replace("\\r", "\r"), player);
+                        .replace("\\r", "\r"), player)
+                        .replace("%worldchatter_player_name%", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
+                        .replace("%worldchatter_player_place%", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()));
             }
             return MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                     .replace("\\n", "\r")
@@ -21,7 +23,9 @@ public final class PlaceHolders {
                     .replace("%player_name%", player.getName())
                     .replace("%player_displayname%", player.getDisplayName())
                     .replace("%player_uuid%", player.getUniqueId().toString())
-                    .replace("%player_place%", player.getPlace()), player);
+                    .replace("%player_place%", player.getPlace()), player)
+                    .replace("%worldchatter_player_name%", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
+                    .replace("%worldchatter_player_place%", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()));
 
         }
         return message;

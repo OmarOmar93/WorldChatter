@@ -22,10 +22,10 @@ public final class UserMention {
             soundName = ConfigSystem.INSTANCE.getPlayer().getString("UserMention.sound.name");
             soundVolume = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.volume", 1);
             soundPitch = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.pitch", 1);
-        } else {
-            prefix = null;
-            soundName = null;
+            return;
         }
+        prefix = null;
+        soundName = null;
     }
 
 

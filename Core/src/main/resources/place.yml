@@ -4,7 +4,7 @@ BlackList: # disallow worlds from getting checked by the plugin
     - "world_the_end"
 
 
-GlobalChat: false # makes the message visible to every place
+GlobalChat: true # makes the message visible to every place
 
 ChatLockMessage:
   enabled: true

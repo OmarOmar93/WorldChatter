@@ -25,10 +25,11 @@ public final class ChatLock {
         if (ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.enabled") && global) {
             lockedMessage = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.locked");
             unlockedMessage = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.unlocked");
-        } else {
-            lockedMessage = null;
-            unlockedMessage = null;
+            return;
         }
+        lockedMessage = null;
+        unlockedMessage = null;
+
     }
 
 

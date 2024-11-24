@@ -29,3 +29,10 @@ texts: # Replaces a certain text with another text
       text: ":lenny:"
       replace: "( ͡° ͜ʖ ͡°)"
       perm: false
+
+aliases:
+  enabled: true
+  place:
+    world: "&eOverWorld"
+  player:
+    OmarOmar93: "<gradient>OmarOmar93</gradient>"

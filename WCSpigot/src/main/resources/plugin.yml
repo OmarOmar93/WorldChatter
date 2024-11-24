@@ -25,21 +25,25 @@ permissions:
       worldchatter.bypass.antispam: true
       worldchatter.bypass.chatlock: true
       worldchatter.bypass.anticaps: true
+      worldchatter.bypass.antirepeat: true
   worldchatter.bypass.antiswear:
     default: op
-    description: Bypass Worldchatter's AntiSwear detection
+    description: Bypass Worldchatter's Anti-Swear detection
   worldchatter.bypass.antiads:
     default: op
-    description: Bypass Worldchatter's AntiADs detection
+    description: Bypass Worldchatter's Anti-ADs detection
   worldchatter.bypass.antispam:
     default: op
-    description: Bypass Worldchatter's AntiSpam detection
+    description: Bypass Worldchatter's Anti-Spam detection
   worldchatter.bypass.chatlock:
     default: op
     description: Bypass Worldchatter's ChatLock Feature
   worldchatter.bypass.anticaps:
     default: op
-    description: Bypass Worldchatter's AntiCaps detection
+    description: Bypass Worldchatter's Anti-Caps detection
+  worldchatter.bypass.antirepeat:
+    default: op
+    description: Bypass Worldchatter's Anti-Repeat detection
 commands:
   worldchatter:
     description: The power of the chat in the palm of your hand.

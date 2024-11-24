@@ -17,9 +17,9 @@ public final class TextReplacer {
     public void update() {
         if (ConfigSystem.INSTANCE.getTexts().getBoolean("texts.enabled")) {
             texts = ConfigSystem.INSTANCE.getTexts().getSection("texts.messages");
-        } else {
-            texts = null;
+            return;
         }
+        texts = null;
     }
 
     public String formatTexts(String message, final Player player) {

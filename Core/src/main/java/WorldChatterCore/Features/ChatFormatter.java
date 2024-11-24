@@ -27,10 +27,10 @@ public final class ChatFormatter {
             mode = ConfigSystem.INSTANCE.getChatFormatter().getInt("ChatFormat.FormatSettings.Mode");
             DefaultFormat = ConfigSystem.INSTANCE.getChatFormatter().getString("ChatFormat.FormatSettings.DefaultFormat");
             formats = ConfigSystem.INSTANCE.getChatFormatter().getSection("ChatFormat.FormatSettings.Formats");
-        } else {
-            DefaultFormat = null;
-            formats = null;
+            return;
         }
+        DefaultFormat = null;
+        formats = null;
     }
 
     public String formatMessage(String message, final Player player) {

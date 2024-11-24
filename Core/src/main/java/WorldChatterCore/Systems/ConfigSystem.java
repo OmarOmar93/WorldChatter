@@ -46,6 +46,7 @@ public final class ConfigSystem {
         new AntiCaps();
         new AntiSpam();
         new ChatLock();
+        new Aliases();
         update();
 
 
@@ -75,7 +76,7 @@ public final class ConfigSystem {
         ChatLock.INSTANCE.update();
         AntiCaps.INSTANCE.update();
         AntiSpam.INSTANCE.update();
-
+        Aliases.INSTANCE.update();
     }
 
 

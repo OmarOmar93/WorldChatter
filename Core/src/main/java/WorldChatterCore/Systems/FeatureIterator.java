@@ -24,8 +24,8 @@ public final class FeatureIterator {
         if (!player.hasPermission("worldchatter.bypass.antiads")
                 && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
                 && AntiADS.hasAds(message))
-
             security.add("Anti-ADs");
+
         if (!player.hasPermission("worldchatter.bypass.anticaps")
                 && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
                 && AntiCaps.INSTANCE.hasAlotOfCaps(message))
@@ -35,6 +35,10 @@ public final class FeatureIterator {
                 && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")
                 && AntiSwear.INSTANCE.containsCurseWord(message))
             security.add("Anti-Swear");
+//        if (!player.hasPermission("worldchatter.bypass.antirepeat")
+//                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiRepeat.enabled")
+//                && AntiRepeat.INSTANCE.canSendMessage(player.getUniqueId(), message))
+//            security.add("Anti-Repeat");
         return security;
     }
 

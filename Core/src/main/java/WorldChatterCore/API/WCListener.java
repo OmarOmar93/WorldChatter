@@ -40,9 +40,10 @@ public interface WCListener {
     /**
      *
      * @param featureSystem Used to approve the message and perform the important checks!
+     * @param sender The Command Sender
      * @param message The Sender's Message
      */
-    void onMessage(final FeatureSystem featureSystem, final String message);
+    void onMessage(final FeatureSystem featureSystem, final CommandSender sender, final String message);
 
 
 }

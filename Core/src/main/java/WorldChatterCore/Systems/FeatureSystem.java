@@ -62,7 +62,7 @@ public final class FeatureSystem {
         if (WCA.INSTANCE != null) {
             for (final WCListener listener : WCA.INSTANCE.getListeners()) {
                 try {
-                    listener.onMessage(this, message);
+                    listener.onMessage(this, player, message);
                 } catch (AbstractMethodError ignored) {
                 }
             }

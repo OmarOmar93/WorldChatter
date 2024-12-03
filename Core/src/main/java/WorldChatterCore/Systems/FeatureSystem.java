@@ -16,6 +16,7 @@ public final class FeatureSystem {
 
     public static FeatureSystem INSTANCE;
     private String reason = null;
+    private boolean cancelled = false;
 
 
     public FeatureSystem(final Player player, final String message) {
@@ -58,38 +59,57 @@ public final class FeatureSystem {
     - check if it has the following (anti-Ads,anti-caps,anti-swear) ✅
      */
     private boolean messageApproved(final Player player, final String message) {
-        if (!ChatLock.INSTANCE.isLocked() || player.hasPermission("worldchatter.bypass.chatlock")) {
-            if (ConfigSystem.INSTANCE.getPlace().getBoolean("BlackList.enabled")
-                    && worldBlacklist.isPlaceBlackListed(player.getRawPlace())) {
-                return false;
-            }
-            if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
-                reason = PlaceHolders.applyPlaceHoldersifPossible(
-                        ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
-                                .replace("%duration%", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
-                        , player);
-
-                callAPI(Collections.singletonList("Anti-Spam"), player, message);
-                return false;
-            } else {
-                AntiSpam.INSTANCE.coolThatPlayerDown(player);
-            }
-            if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
-                    || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
-                    || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
-
-                final List<String> flags = featureIterator.securityCheck(player, message);
-                if (!flags.isEmpty()) {
-                    Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
-
-                    callAPI(flags, player, message);
-                    return false;
+        if (WCA.INSTANCE != null) {
+            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
+                try {
+                    listener.onMessage(this, message);
+                } catch (AbstractMethodError ignored) {
                 }
             }
-            return true;
         }
-        reason = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.currently");
+        if (!cancelled) {
+            if (!ChatLock.INSTANCE.isLocked() || player.hasPermission("worldchatter.bypass.chatlock")) {
+                if (ConfigSystem.INSTANCE.getPlace().getBoolean("BlackList.enabled")
+                        && worldBlacklist.isPlaceBlackListed(player.getRawPlace())) {
+                    return false;
+                }
+                if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
+                    reason = PlaceHolders.applyPlaceHoldersifPossible(
+                            ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
+                                    .replace("%duration%", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
+                            , player);
+
+                    callAPI(Collections.singletonList("Anti-Spam"), player, message);
+                    return false;
+                } else {
+                    AntiSpam.INSTANCE.coolThatPlayerDown(player);
+                }
+                if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
+                        || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
+                        || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+
+                    final List<String> flags = featureIterator.securityCheck(player, message);
+                    if (!flags.isEmpty()) {
+                        Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
+
+                        callAPI(flags, player, message);
+                        return false;
+                    }
+                }
+                return true;
+            }
+            reason = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.currently");
+            return false;
+        }
         return false;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     private void callAPI(final List<String> flags, final Player player, final String message) {

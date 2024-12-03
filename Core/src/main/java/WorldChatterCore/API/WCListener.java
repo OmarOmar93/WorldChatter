@@ -2,6 +2,7 @@ package WorldChatterCore.API;
 
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Players.Player;
+import WorldChatterCore.Systems.FeatureSystem;
 
 import java.util.List;
 
@@ -34,5 +35,14 @@ public interface WCListener {
      * @param sender The Command Sender
      */
     void senderConfigReload(final CommandSender sender);
+
+
+    /**
+     *
+     * @param featureSystem Used to approve the message and perform the important checks!
+     * @param message The Sender's Message
+     */
+    void onMessage(final FeatureSystem featureSystem, final String message);
+
 
 }

@@ -10,22 +10,28 @@ public final class PlaceHolders {
             message = MiniMessageConnector.INSTANCE.returnFormattedString(message);
         }
         if (player != null) {
+
+            if (LuckPermsConnector.INSTANCE != null) {
+                message = LuckPermsConnector.INSTANCE.formatMessage(player.getUniqueId(), message);
+            }
+
+            message = message
+                    .replace("{player_name}", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
+                    .replace("{player_place}", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()));
+
             if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
                 return MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                         .replace("\\n", "\r")
-                        .replace("\\r", "\r"), player)
-                        .replace("%wc_player_name%", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
-                        .replace("%wc_player_place%", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()));
+                        .replace("\\r", "\r"), player);
             }
+
             return MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                     .replace("\\n", "\r")
                     .replace("\\r", "\r")
                     .replace("%player_name%", player.getName())
                     .replace("%player_displayname%", player.getDisplayName())
                     .replace("%player_uuid%", player.getUniqueId().toString())
-                    .replace("%player_place%", player.getPlace()), player)
-                    .replace("%wc_player_name%", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
-                    .replace("%wc_player_place%", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()));
+                    .replace("%player_place%", player.getPlace()), player);
         }
         return message;
     }

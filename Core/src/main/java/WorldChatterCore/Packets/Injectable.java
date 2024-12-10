@@ -164,8 +164,12 @@ public class Injectable {
             positionPacketIDs.add(0x17);
         }
 
-        if (protocolVersion >= 766) { // 1.20.5 -> latest
+        if (protocolVersion == 766 || protocolVersion == 767) { // 1.20.5 -> 1.21.1
             positionPacketIDs.add(0x1A);
+        }
+
+        if (protocolVersion >= 768) { // 1.21.2 -> latest
+            positionPacketIDs.add(0x1C);
         }
 
         // SOUNDS
@@ -207,8 +211,12 @@ public class Injectable {
             return 0x66;
         }
 
-        if (protocolVersion >= 766) { // 1.20.5 -> latest
+        if (protocolVersion == 766 || protocolVersion == 767) { // 1.20.5 -> 1.21.1
             return 0x68;
+        }
+
+        if (protocolVersion >= 768) { // 1.21.2 -> Latest
+            return 0x6f;
         }
 
         return 0;

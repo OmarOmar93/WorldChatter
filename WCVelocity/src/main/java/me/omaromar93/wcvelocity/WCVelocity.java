@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.omaromar93.wcvelocity.Events.PlayerChat;
@@ -25,9 +26,12 @@ import java.util.*;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.0.21",
+        version = "3.1.0",
         description = "Enhance your Chatting Experience.",
-        authors = {"OmarOmar93"}
+        authors = {"OmarOmar93"},
+        dependencies = {
+                @Dependency(id = "luckperms", optional = true)
+        }
 )
 public final class WCVelocity implements MainPlugin {
 
@@ -38,11 +42,11 @@ public final class WCVelocity implements MainPlugin {
         this.server = server;
         new MainPluginConnector();
         MainPluginConnector.INSTANCE.setWorldChatter(this);
-
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
+        MainPluginConnector.INSTANCE.loadSupportedPlugins();
         ThreadsSystem.runAsync(() -> {
             server.getEventManager().register(this, new PlayerChat());
             server.getEventManager().register(this, new PlayerJoin());
@@ -99,6 +103,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.0.21";
+        return "3.1.0";
     }
 }

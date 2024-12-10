@@ -1,6 +1,7 @@
 package WorldChatterCore.Connectors.InterfaceConnectors;
 
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
+import WorldChatterCore.Features.LuckPermsConnector;
 import WorldChatterCore.Features.MiniMessageConnector;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
@@ -39,9 +40,15 @@ public final class MainPluginConnector {
         getWorldChatter().refreshPlayers();
         new UpdateSystem();
         UpdateSystem.INSTANCE.messageCheck(null);
-        for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core"}) {
+    }
+
+    public void loadSupportedPlugins() {
+        for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core", "LuckPerms"}) {
             if (getWorldChatter().isPluginEnabled(plugin)) {
                 getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
+            }
+            if(plugin.equalsIgnoreCase("LuckPerms")) {
+                new LuckPermsConnector();
             }
         }
     }

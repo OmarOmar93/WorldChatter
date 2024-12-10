@@ -46,6 +46,7 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
         pm.registerEvents(new PlayerQuit(), this);
         MainPluginConnector.INSTANCE.setWorldChatter(this);
         getCommand("worldchatter").setExecutor(new Command());
+        MainPluginConnector.INSTANCE.loadSupportedPlugins();
     }
 
     @Override

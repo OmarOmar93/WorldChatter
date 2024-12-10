@@ -2,4 +2,6 @@ name: WorldChatter
 version: '${project.version}'
 main: me.omaromar93.wcbungee.WCBungee
 author: OmarOmar93
+softDepends:
+  - LuckPerms
 description: Enhance your Chatting Experience.

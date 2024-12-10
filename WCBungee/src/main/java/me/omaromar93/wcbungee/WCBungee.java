@@ -31,6 +31,7 @@ public final class WCBungee extends Plugin implements MainPlugin {
         getProxy().getPluginManager().registerListener(this, new PlayerJoin());
         getProxy().getPluginManager().registerListener(this, new PlayerQuit());
         getProxy().getPluginManager().registerCommand(this, new Command());
+        MainPluginConnector.INSTANCE.loadSupportedPlugins();
     }
 
     @Override

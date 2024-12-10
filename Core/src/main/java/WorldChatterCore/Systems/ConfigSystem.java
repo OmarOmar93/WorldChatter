@@ -42,6 +42,7 @@ public final class ConfigSystem {
         new Notifications();
         new TextReplacer();
         new UserMention();
+        new AntiRepeat();
         new AntiSwear();
         new AntiCaps();
         new AntiSpam();
@@ -72,6 +73,7 @@ public final class ConfigSystem {
         ServerOptions.INSTANCE.update();
         TextReplacer.INSTANCE.update();
         UserMention.INSTANCE.update();
+        AntiRepeat.INSTANCE.update();
         AntiSwear.INSTANCE.update();
         ChatLock.INSTANCE.update();
         AntiCaps.INSTANCE.update();

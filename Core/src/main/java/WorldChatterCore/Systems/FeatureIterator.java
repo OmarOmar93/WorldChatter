@@ -35,10 +35,10 @@ public final class FeatureIterator {
                 && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")
                 && AntiSwear.INSTANCE.containsCurseWord(message))
             security.add("Anti-Swear");
-//        if (!player.hasPermission("worldchatter.bypass.antirepeat")
-//                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiRepeat.enabled")
-//                && AntiRepeat.INSTANCE.canSendMessage(player.getUniqueId(), message))
-//            security.add("Anti-Repeat");
+        if (!player.hasPermission("worldchatter.bypass.antirepeat")
+                && ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiRepeat.enabled")
+                && AntiRepeat.INSTANCE.isSimilarMessage(player.getUniqueId(), message))
+            security.add("Anti-Repeat");
         return security;
     }
 

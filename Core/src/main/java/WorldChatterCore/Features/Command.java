@@ -61,7 +61,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Aliases Update");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Lucky Update");
                             return;
                         case "help":
                         case "commands":

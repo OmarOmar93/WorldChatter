@@ -1,0 +1,22 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-release
+
+  categories:
+    - title: Exciting New Features 🎉
+      labels:
+        - new-features
+
+    - title: Breaking Changes 🛠
+      labels:
+        - breaking-changes
+
+    - title: Other Changes 🗂️
+      labels:
+        - "*"
+        - more-changes
+
+    - title: Deprecated Features ⚠️️️
+      labels:
+        - deprecated-features

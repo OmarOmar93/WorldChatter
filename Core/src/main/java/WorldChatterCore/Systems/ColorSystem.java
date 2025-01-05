@@ -193,7 +193,7 @@ public final class ColorSystem {
     }
 
     public static String getLastColors(final String input) {
-        String result = "";
+        final StringBuilder result = new StringBuilder();
         int length = input.length();
 
         for(int index = length - 1; index > -1; --index) {
@@ -202,7 +202,7 @@ public final class ColorSystem {
                 final char c = input.charAt(index + 1);
                 final ColorSystem color = getByChar(c);
                 if (color != null) {
-                    result = color.toString() + result;
+                    result.insert(0, color);
                     if (color.color == null || color.equals(RESET)) {
                         break;
                     }
@@ -210,7 +210,7 @@ public final class ColorSystem {
             }
         }
 
-        return result;
+        return result.toString();
     }
 
 

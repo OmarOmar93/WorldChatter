@@ -3,12 +3,25 @@ BlackList: # disallow worlds from getting checked by the plugin
   places: # worlds that are blacklisted
     - "world_the_end"
 
-
-GlobalChat: true # makes the message visible to every place
+GlobalSending: true
+channels:
+  admin:
+    players:
+      - "OmarOmar93"
+      - "HoneySalted"
+      - "Notch"
+    places:
+      - "World"
+      - "Lobby"
+  main:
+    places:
+      - "world"
+      - "world_nether"
+      - "world_the_end"
 
 ChatLockMessage:
   enabled: true
   public: true # TRUE | Shows the message to everyone or FALSE | just the sender
-  locked: "&eThe Chat is now &cLOCKED &eby &a%sender%"
-  unlocked: "&eThe Chat is now &aUNLOCKED &eby &a%sender%"
+  locked: "&eThe Chat is now &cLOCKED &eby &a{sender}"
+  unlocked: "&eThe Chat is now &aUNLOCKED &eby &a{sender}"
   currently: "&eThe Chat is Currently &clocked"

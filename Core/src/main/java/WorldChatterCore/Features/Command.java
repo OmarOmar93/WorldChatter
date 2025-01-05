@@ -4,6 +4,7 @@ package WorldChatterCore.Features;
 import WorldChatterCore.API.Addon;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
+import WorldChatterCore.Channels.ChannelManager;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Others.ServerOptions;
@@ -61,7 +62,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Lucky Update");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Channels Update");
                             return;
                         case "help":
                         case "commands":
@@ -97,13 +98,12 @@ public final class Command {
                         case "clear":
                         case "clearchat":
                         case "cc":
-                            final String clear = MiniMessageConnector.INSTANCE == null ? String.join("\n", cleaner)
-                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
-                                    .replace("%sender%", sender.getName()))
+                            final String clear = (MiniMessageConnector.INSTANCE == null ? String.join("\n", cleaner)
+                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))
                                     : MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
-                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage")
-                                    .replace("%sender%", sender.getName())));
-                            if (!sender.isPlayer() || ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat")) {
+                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))))
+                                    .replace("{sender}", sender.getName() == null ? "SERVER" : sender.getName());
+                            if (!sender.isPlayer() || ChannelManager.INSTANCE.isGlobalSending()) {
                                 MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
                             } else {
                                 for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getRawPlace())) {

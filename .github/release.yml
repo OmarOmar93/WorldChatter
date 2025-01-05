@@ -4,7 +4,7 @@ changelog:
       - ignore-release
 
   categories:
-    - title: Exciting New Features 🎉
+    - title: Exciting new Features 🎉
       labels:
         - new-features
 

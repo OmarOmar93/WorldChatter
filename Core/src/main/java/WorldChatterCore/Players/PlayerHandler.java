@@ -21,6 +21,13 @@ public final class PlayerHandler {
         return players.get(uuid);
     }
 
+    public Player getPlayerName(final String name) {
+        return players.values().stream()
+                .filter(player -> player.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void addPlayer(final Player player) {
         players.put(player.getUniqueId(), player);
     }

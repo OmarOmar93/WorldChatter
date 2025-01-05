@@ -21,10 +21,8 @@ public final class WCA {
     }
 
     public Addon createWCAddon(final String name, final String author, final String description, final String signature, final String version, final String updater, final Integer build) {
-        final boolean duplicateSignature = addonsAndListeners.keySet().stream()
-                .anyMatch(addon -> addon.getSignature().equalsIgnoreCase(signature));
-
-        if (!duplicateSignature) {
+        if (addonsAndListeners.keySet().stream()
+                .noneMatch(addon -> addon.getSignature().equalsIgnoreCase(signature))) {
             final Addon temp = (updater != null && build != null)
                     ? new Addon(name, author, description, signature.toLowerCase(), version, updater, build)
                     : new Addon(name, author, description, signature.toLowerCase(), version);

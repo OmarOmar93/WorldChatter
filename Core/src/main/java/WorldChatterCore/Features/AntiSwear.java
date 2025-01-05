@@ -4,7 +4,10 @@ import WorldChatterCore.Others.Util;
 import WorldChatterCore.Systems.ConfigSystem;
 
 import java.text.Normalizer;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public final class AntiSwear {
 
@@ -33,11 +36,9 @@ public final class AntiSwear {
             whitelist.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.whitelist"));
 
             // Fetch curse words from an external URL and local configuration
-            final String[] words = Objects.requireNonNull(Util.getContentfromURl(
+            curseWords.addAll(Arrays.asList(Objects.requireNonNull(Util.getContentfromURl(
                     ConfigSystem.INSTANCE.getSystem().getString("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"))
-            ).split("\n");
-
-            curseWords.addAll(Arrays.asList(words));
+            ).split("\n")));
             curseWords.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.blacklist"));
             curseWords.removeAll(whitelist); // Ensure whitelist overrides blacklist
             similarity = ConfigSystem.INSTANCE.getSecurity().getDouble("AntiSwear.sensitivity", 80);
@@ -72,9 +73,7 @@ public final class AntiSwear {
      * @return True if a curse word is found, otherwise false.
      */
     public boolean containsCurseWord(final String message) {
-        final String[] words = preprocessMessage(message.toLowerCase()).split("\\s+");
-
-        for (final String word : words) {
+        for (final String word : preprocessMessage(message.toLowerCase()).split("\\s+")) {
             if (word.length() < minimum) continue; // Skip short words
             if (whitelist.contains(word)) continue; // Skip whitelisted words
 

@@ -21,12 +21,12 @@ import me.omaromar93.wcvelocity.Parent.VelocityPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import java.util.*;
+import java.util.Locale;
 
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.1.0",
+        version = "3.2.0-PREVIEW",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"},
         dependencies = {
@@ -55,8 +55,6 @@ public final class WCVelocity implements MainPlugin {
             cm.register("worldchatter", new Command(), "wc");
         });
     }
-
-
 
 
     @Override
@@ -92,17 +90,18 @@ public final class WCVelocity implements MainPlugin {
         final com.velocitypowered.api.proxy.Player p = velocityPlayer.getVelocityPlayer();
         final String clientBrand = p.getClientBrand();
         return message
-                .replace("%player_ping%", String.valueOf(p.getPing()))
-                .replace("%player_clientbrand%", clientBrand == null ? "" : clientBrand)
-                .replace("%player_protocolversion%", p.getProtocolVersion().toString())
-                .replace("%player_protocol%", String.valueOf(p.getProtocolVersion().getProtocol()));
+                .replace("{player_ping}", String.valueOf(p.getPing()))
+                .replace("{player_clientbrand}", clientBrand == null ? "" : clientBrand)
+                .replace("{player_protocolversion}", p.getProtocolVersion().toString())
+                .replace("{player_protocol}", String.valueOf(p.getProtocolVersion().getProtocol()));
     }
 
     @Override
-    public void tryToSupportMiniMessage() {}
+    public void tryToSupportMiniMessage() {
+    }
 
     @Override
     public String getVersion() {
-        return "3.1.0";
+        return "3.2.0-PREVIEW";
     }
 }

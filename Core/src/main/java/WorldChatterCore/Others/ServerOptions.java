@@ -8,13 +8,14 @@ import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class ServerOptions {
 
     public static ServerOptions INSTANCE;
-    private boolean globalChat, switchMessage;
+    private boolean switchMessage;
     private boolean switchGlobal;
     private String preMessage, coMessage;
 
@@ -23,7 +24,6 @@ public final class ServerOptions {
     }
 
     public void update() {
-        globalChat = ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalChat");
         switchMessage = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.enabled");
         if (switchMessage) {
             preMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.premessage");
@@ -40,25 +40,15 @@ public final class ServerOptions {
     }
 
     public List<Player> getPlayersinPlace(final String place) {
-        final List<Player> placePlayers = new ArrayList<>();
-        for (final Player p : PlayerHandler.INSTANCE.getPlayers().values()) {
-            if (place.equalsIgnoreCase(p.getRawPlace())) {
-                placePlayers.add(p);
-            }
-        }
-        return placePlayers;
+        return PlayerHandler.INSTANCE.getPlayers().values().stream()
+                .filter(p -> place.equalsIgnoreCase(p.getRawPlace()))
+                .collect(Collectors.toList());
     }
+
 
     public void loopType(final Player joiner, final String previous, final String current) {
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(formatQuickPlayerServers(preMessage, joiner, previous, current));
-        final Collection<Player> playerList;
-        if (!switchGlobal) {
-            playerList = getPlayersinPlace(previous);
-            playerList.addAll(getPlayersinPlace(current));
-        } else {
-            playerList = PlayerHandler.INSTANCE.getPlayers().values();
-        }
-        for (final Player player : playerList) {
+        for (final Player player : !switchGlobal ? Stream.concat(getPlayersinPlace(previous).stream(), getPlayersinPlace(current).stream()).collect(Collectors.toCollection(ArrayList::new)) : PlayerHandler.INSTANCE.getPlayers().values()) {
             if (player != joiner) {
                 player.sendMessage(formatQuickPlayerServers(player.getRawPlace().equalsIgnoreCase(previous) ? preMessage : coMessage, joiner, previous, current));
             }
@@ -66,12 +56,8 @@ public final class ServerOptions {
     }
 
     private String formatQuickPlayerServers(final String message, final Player player, final String previous, final String current) {
-        return PlaceHolders.applyPlaceHoldersifPossible(ColorSystem.tCC(message), player)
-                .replace("%previous_server%", previous)
-                .replace("%current_server%", current);
-    }
-
-    public boolean isGlobalChat() {
-        return globalChat;
+        return ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(message, player)
+                .replace("{previous_server}", previous)
+                .replace("{current_server}", current));
     }
 }

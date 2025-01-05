@@ -10,6 +10,7 @@ public final class Util {
         try {
             return new Scanner(new URL(URL).openStream(), "UTF-8").useDelimiter("\\A").next();
         } catch (final IOException ignored) {
+            debugMode.INSTANCE.println("Content URL is not found, ignoring...", debugMode.printType.WARNING);
             return null;
         }
     }
@@ -35,12 +36,6 @@ public final class Util {
     }
 
     public static double calculateSimilarity(String s1, String s2) {
-        s1 = s1.toLowerCase().trim();
-        s2 = s2.toLowerCase().trim();
-
-        final int distance = levenshteinDistance(s1, s2);
-        final int maxLen = Math.max(s1.length(), s2.length());
-
-        return 100.0 * (1 - (double) distance / maxLen);
+        return 100.0 * (1 - (double) levenshteinDistance(s1.toLowerCase().trim(), s2.toLowerCase().trim()) / Math.max(s1.length(), s2.length()));
     }
 }

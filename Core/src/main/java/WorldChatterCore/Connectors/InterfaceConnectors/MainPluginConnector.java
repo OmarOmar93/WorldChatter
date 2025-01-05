@@ -46,10 +46,11 @@ public final class MainPluginConnector {
         for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core", "LuckPerms"}) {
             if (getWorldChatter().isPluginEnabled(plugin)) {
                 getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
+                if (plugin.equalsIgnoreCase("LuckPerms")) {
+                    new LuckPermsConnector();
+                }
             }
-            if(plugin.equalsIgnoreCase("LuckPerms")) {
-                new LuckPermsConnector();
-            }
+
         }
     }
 

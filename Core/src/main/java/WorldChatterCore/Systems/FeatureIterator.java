@@ -1,8 +1,8 @@
 package WorldChatterCore.Systems;
 
-import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
+
+import WorldChatterCore.Channels.ChannelManager;
 import WorldChatterCore.Features.*;
-import WorldChatterCore.Others.ServerOptions;
 import WorldChatterCore.Players.Player;
 
 import java.util.List;
@@ -47,15 +47,6 @@ public final class FeatureIterator {
     }
 
     public void initalizeTheMessage(final String format, final String message, final Player player) {
-        final String sendmessage = MiniMessageConnector.INSTANCE != null ? MiniMessageConnector.INSTANCE.returnFormattedString(format + message) : ColorSystem.tCC(format + message);
-        if (ServerOptions.INSTANCE.isGlobalChat()) {
-            MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(sendmessage);
-            return;
-        }
-        final List<Player> placePlayers = ServerOptions.INSTANCE.getPlayersinPlace(player.getRawPlace());
-
-        for (final Player p : placePlayers) {
-            p.sendMessage(sendmessage);
-        }
+        ChannelManager.INSTANCE.sendMessage(player, MiniMessageConnector.INSTANCE != null ? MiniMessageConnector.INSTANCE.returnFormattedString(format + message) : ColorSystem.tCC(format + message));
     }
 }

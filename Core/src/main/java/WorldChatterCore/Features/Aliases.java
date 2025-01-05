@@ -3,7 +3,7 @@ package WorldChatterCore.Features;
 import WorldChatterCore.Others.Configuration;
 import WorldChatterCore.Systems.ConfigSystem;
 
-public class Aliases {
+public final class Aliases {
 
     public static Aliases INSTANCE;
     private Configuration serverAli, playerAli;

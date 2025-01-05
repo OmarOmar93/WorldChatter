@@ -79,7 +79,9 @@ public final class PlayerJoiningQuitting {
                 for (final String key : perms.getKeys()) {
                     if (hasPermission(player, perms.getStringList(key + ".permissions"))) {
                         player.sendMessage(formatQuick(perms.getString(key + ".message"), joiner));
+                        continue;
                     }
+                    player.sendMessage(formatQuick(defaultString, joiner));
                 }
             }
         }
@@ -111,7 +113,7 @@ public final class PlayerJoiningQuitting {
         if (defaultQuit != null) {
             switch (quitLevel) {
                 case 1:
-                    loopType(quitMode, joiner, defaultQuit, quitPermissions, ServerOptions.INSTANCE.getPlayersinPlace(quitPlace.replace("%place%", joiner.getRawPlace())));
+                    loopType(quitMode, joiner, defaultQuit, quitPermissions, ServerOptions.INSTANCE.getPlayersinPlace(quitPlace.replace("{place}", joiner.getRawPlace())));
                     return;
                 case 2:
                     loopType(quitMode, joiner, defaultQuit, quitPermissions, PlayerHandler.INSTANCE.getPlayers().values());
@@ -122,6 +124,6 @@ public final class PlayerJoiningQuitting {
 
 
     private String formatQuick(final String message, final Player player) {
-        return PlaceHolders.applyPlaceHoldersifPossible(ColorSystem.tCC(message), player);
+        return ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(message, player));
     }
 }

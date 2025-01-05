@@ -1,11 +1,9 @@
 package WorldChatterCore.Systems;
 
+import WorldChatterCore.Channels.ChannelManager;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Features.*;
-import WorldChatterCore.Others.Configuration;
-import WorldChatterCore.Others.ConfigurationProvider;
-import WorldChatterCore.Others.ServerOptions;
-import WorldChatterCore.Others.YamlConfiguration;
+import WorldChatterCore.Others.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,18 +33,23 @@ public final class ConfigSystem {
         textsFile = new File(dataFolder.getPath(), "texts.yml");
         placeFile = new File(dataFolder.getPath(), "place.yml");
 
+        new debugMode();
 
         new PlayerJoiningQuitting();
+        new ChannelManager();
         new ServerOptions();
         new ChatFormatter();
         new Notifications();
         new TextReplacer();
         new UserMention();
         new AntiRepeat();
+
         new AntiSwear();
         new AntiCaps();
         new AntiSpam();
         new ChatLock();
+
+
         new Aliases();
         update();
 
@@ -66,8 +69,10 @@ public final class ConfigSystem {
         updatePlayer();
         updateSystem();
 
+        debugMode.INSTANCE.update();
 
         PlayerJoiningQuitting.INSTANCE.update();
+        ChannelManager.INSTANCE.update();
         ChatFormatter.INSTANCE.update();
         Notifications.INSTANCE.update();
         ServerOptions.INSTANCE.update();

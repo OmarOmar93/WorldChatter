@@ -17,7 +17,7 @@ public final class UpdateSystem {
     private int build;
     private boolean isDev;
 
-    private static final int CURRENT_BUILD = 230;
+    private static final int CURRENT_BUILD = 240;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
     public UpdateSystem() {
@@ -68,9 +68,8 @@ public final class UpdateSystem {
     }
 
     public void messageCheck(final CommandSender sender) {
-        final int updateStatus = checkForUpdates();
         String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Unable to check for updates.";
-        switch (updateStatus) {
+        switch (checkForUpdates()) {
             case 0:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "You're using the latest version of the plugin!";
                 break;

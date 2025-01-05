@@ -7,7 +7,7 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 
 public final class PlayerChat {
-    @Subscribe(order = PostOrder.EARLY)
+    @Subscribe(order = PostOrder.LAST)
     public void onPlayerChat(final PlayerChatEvent event) {
         event.setResult(PlayerChatEvent.ChatResult.denied());
         new ChatEventConnector(PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId()), event.getMessage());

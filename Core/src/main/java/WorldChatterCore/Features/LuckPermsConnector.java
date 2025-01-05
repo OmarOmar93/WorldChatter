@@ -1,5 +1,6 @@
 package WorldChatterCore.Features;
 
+import WorldChatterCore.Others.debugMode;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
@@ -9,7 +10,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.Objects;
 import java.util.UUID;
 
-public class LuckPermsConnector {
+public final class LuckPermsConnector {
 
     public static LuckPermsConnector INSTANCE;
     final LuckPerms api = LuckPermsProvider.get();
@@ -26,6 +27,7 @@ public class LuckPermsConnector {
         try {
             final User user = api.getUserManager().getUser(uuid);
             if (user == null) {
+                debugMode.INSTANCE.println("couldn't find the user's data with UUID \"" + uuid + "\"", debugMode.printType.WARNING);
                 return message; // User not found, return the original message
             }
 

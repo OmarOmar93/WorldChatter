@@ -29,7 +29,7 @@ public final class TextReplacer {
                     if ((player.hasPermission("worldchatter.admintext") && texts.getBoolean(key + ".perm")) || !texts.getBoolean(key + ".perm")) {
                         message = message.replace(
                                 texts.getString(key + ".text"),
-                                PlaceHolders.applyPlaceHoldersifPossible(ColorSystem.tCC(texts.getString(key + ".replace")), player));
+                                ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(texts.getString(key + ".replace"), player)));
                     }
                 }
 

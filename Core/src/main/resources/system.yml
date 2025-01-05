@@ -3,24 +3,29 @@ Join:
   enabled: true
   level: 1 # 1 is just current place / 2 the whole server
   place: "world" # place to send the message
-  message: "&a%player_name% &fhas joined the game!"
+  message: "&a{player_name} &fhas joined the game!"
   permmode: true # Checks to use the permissions mode to send messages / disabled will use default message
   permissions:
     "admin":
       permissions: [ "worldchatter.control", "*" ]
-      message: "&a%player_name% &fhas joined the game\n<click:run_command:/tp %player_name%><hover:show_text:'&aClick to teleport to %player_name%'>&e[Teleport to %player_name%]</click>"
+      message: "&a{player_name} &fhas joined the game\n<click:run_command:/tp {player_name}><hover:show_text:'&aClick to teleport to {player_name}'>&e[Teleport to {player_name}]</click>"
 
 Quit:
   enabled: true
   level: 1 # 1 is just current place / 2 the whole server
-  place: "world" # place to send the message - type %place% to make it the last player's place
-  message: "&a%player_name% &fhas left the game!"
+  place: "world" # place to send the message - type {place} to make it the last player's place
+  message: "&a{player_name} &fhas left the game!"
   permmode: false # Checks to use the permissions below to show a different message or no!
   permissions:
     "admin":
       permissions: [ "worldchatter.control", "*" ]
-      message: "&a%player_name% &fhas left the game &8You have nothing to do to that player :P"
+      message: "&a{player_name} &fhas left the game &8You have nothing to do to that player :P"
 
 
 # Advanced Settings (Edit if you know what you're doing)
 ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"
+debug:
+  enabled: false
+  info: "&7[&9WorldChatter Debugger &r| Info&7]&r "
+  warning: "&7[&9WorldChatter Debugger &r| &eWarning&7]&e "
+  error: "&7[&9WorldChatter Debugger &r| &4Info&7]&4 "

@@ -21,6 +21,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/Core/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/WCPaper/pom.xml" />
       </set>
     </option>
   </component>

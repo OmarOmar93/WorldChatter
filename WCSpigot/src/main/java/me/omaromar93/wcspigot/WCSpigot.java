@@ -3,6 +3,7 @@ package me.omaromar93.wcspigot;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
 import WorldChatterCore.Features.MiniMessageConnector;
+import WorldChatterCore.Others.debugMode;
 import WorldChatterCore.Players.PlayerHandler;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -40,6 +41,7 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
             Class.forName("org.bukkit.event.player.AsyncPlayerChatEvent");
             pm.registerEvents(new AsyncPlayerChat(), this);
         } catch (Exception ignored) {
+            debugMode.INSTANCE.println("AsyncPlayerChatEvent is not found, reverting to PlayerChatEvent..", debugMode.printType.WARNING);
             pm.registerEvents(new PlayerChat(), this);
         }
         pm.registerEvents(new PlayerJoin(), this);
@@ -97,9 +99,12 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
     }
 
     @Override
-    public String supporttheMessage(final String message, final WorldChatterCore.Players.Player player) {
+    public String supporttheMessage(String message, final WorldChatterCore.Players.Player player) {
         if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
-            return PlaceholderAPI.setPlaceholders(getServer().getPlayer(player.getUniqueId()), message);
+            message = PlaceholderAPI.setPlaceholders(getServer().getPlayer(player.getUniqueId()), message);
+        }
+        if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("Multiverse-Core")) {
+            message = message.replace("{player_mvworld}", player.getPlace());
         }
         return message;
     }

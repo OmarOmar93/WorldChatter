@@ -41,10 +41,10 @@ public final class Notifications {
 
     public void alertStaffandPlayer(final String methods, final Player detectedPlayer, final String message) {
         detectedPlayer.playSound(playersound, playervolume, playerpitch);
-        detectedPlayer.sendMessage(ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(playerMessage.replace("%flags%", methods), detectedPlayer)));
+        detectedPlayer.sendMessage(ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(playerMessage.replace("{flags}", methods), detectedPlayer)));
         final String sM = ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(staffMessage
-                .replace("%flags%", methods)
-                .replace("%message%",message), detectedPlayer));
+                .replace("{flags}", methods)
+                .replace("{message}", message), detectedPlayer));
         for (final Player player : PlayerHandler.INSTANCE.getPlayers().values()) {
             if (player.hasPermission("worldchatter.control")) {
                 player.playSound(staffsound, staffvolume, staffpitch);

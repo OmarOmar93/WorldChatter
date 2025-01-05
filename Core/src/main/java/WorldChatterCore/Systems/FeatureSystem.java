@@ -3,6 +3,7 @@ package WorldChatterCore.Systems;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Features.*;
+import WorldChatterCore.Others.debugMode;
 import WorldChatterCore.Players.Player;
 
 import java.util.Collections;
@@ -41,7 +42,7 @@ public final class FeatureSystem {
     private void executeMessage(final Player player, final String message) {
         if (!messageApproved(player, message)) {
             if (reason != null) player.sendMessage(
-                    PlaceHolders.applyPlaceHoldersifPossible(ColorSystem.tCC(reason),player));
+                    ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(reason, player)));
             return;
         }
         FeatureIterator.INSTANCE.initalizeTheMessage(
@@ -64,6 +65,7 @@ public final class FeatureSystem {
                 try {
                     listener.onMessage(this, player, message);
                 } catch (AbstractMethodError ignored) {
+                    debugMode.INSTANCE.println("Method not found in API Listener, ignoring....", debugMode.printType.WARNING);
                 }
             }
         }
@@ -76,7 +78,7 @@ public final class FeatureSystem {
                 if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
                     reason = PlaceHolders.applyPlaceHoldersifPossible(
                             ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
-                                    .replace("%duration%", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
+                                    .replace("{duration}", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
                             , player);
 
                     callAPI(Collections.singletonList("Anti-Spam"), player, message);
@@ -88,7 +90,7 @@ public final class FeatureSystem {
                         || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
                         || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
 
-                    final List<String> flags = featureIterator.securityCheck(player, message);
+                    final List<String> flags = featureIterator.securityCheck(player, ColorSystem.stripColor(message));
                     if (!flags.isEmpty()) {
                         Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
 
@@ -102,6 +104,14 @@ public final class FeatureSystem {
             return false;
         }
         return false;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public void setCancelled(boolean cancelled) {

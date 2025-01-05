@@ -38,7 +38,7 @@ public final class ChatLock {
             locked = !locked;
             if (global) {
                 MainPluginConnector.INSTANCE.getWorldChatter()
-                        .broadcastMessage(PlaceHolders.applyPlaceHoldersifPossible(ColorSystem.tCC(locked ? lockedMessage : unlockedMessage).replace("%sender%", sender.getName()), null));
+                        .broadcastMessage(ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible((locked ? lockedMessage : unlockedMessage).replace("{sender}", sender.getName()), null)));
             }
             return;
         }

@@ -6,14 +6,14 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 public final class PlayerChat implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(final ChatEvent event) {
         if (event.getMessage().startsWith("/")) return;
-
-        event.setCancelled(true);
+        event.getReceiver().disconnect();
         new ChatEventConnector(PlayerHandler.INSTANCE.getPlayerUUID(((ProxiedPlayer) event.getSender()).getUniqueId()), event.getMessage());
     }
 }

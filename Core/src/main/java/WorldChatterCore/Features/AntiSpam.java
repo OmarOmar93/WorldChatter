@@ -28,11 +28,7 @@ public final class AntiSpam {
     }
 
     public String getTimeLeft(final Player player) {
-        if (cooldowns.containsKey(player)) {
-            final long l = cooldowns.get(player) - System.currentTimeMillis();
-            return String.valueOf(l / 1000);
-        }
-        return null;
+        return cooldowns.containsKey(player) ? String.valueOf((cooldowns.get(player) - System.currentTimeMillis()) / 1000) : null;
     }
 
     public boolean isTimeLeft(final Player player) {

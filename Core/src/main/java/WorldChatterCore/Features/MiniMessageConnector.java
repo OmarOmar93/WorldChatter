@@ -12,6 +12,7 @@ public final class MiniMessageConnector {
 
     public String returnFormattedString(final String message) {
         return message
+                .replaceAll("&#([0-9A-Fa-f]{6})", "<#$1>")
                 .replace("§","&")
                 .replace("&0", "<black>")
                 .replace("&1", "<dark_blue>")

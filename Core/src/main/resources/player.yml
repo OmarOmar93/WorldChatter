@@ -4,7 +4,7 @@ newline: false # Allows players to place new lines in their messages '\n'
 UserMention:
   enabled: true
   prefix: '@' # prefix character to mention the user with @omaromar93
-  format: "&a%player_name%"
+  format: "&a{player_name}"
   sound:
     name: "BLOCK_NOTE_BLOCK_PLING"
     volume: 1
@@ -24,4 +24,4 @@ notification:
 
 Greetings:
   enabled: true
-  message: "&7->> &eWelcome, &a%player_name% &eto the Minecraft Server!"
+  message: "&7->> &eWelcome, &a{player_name} &eto the Minecraft Server!"

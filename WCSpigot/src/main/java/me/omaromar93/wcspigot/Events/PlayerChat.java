@@ -9,8 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
 public final class PlayerChat implements Listener {
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLegacyPlayerChat(final PlayerChatEvent event) {
+        if (event.isCancelled()) return;
         event.getRecipients().clear();
         ThreadsSystem.runAsync(() -> new ChatEventConnector(PlayerHandler.INSTANCE.getPlayerUUID(event.getPlayer().getUniqueId()), event.getMessage()));
     }

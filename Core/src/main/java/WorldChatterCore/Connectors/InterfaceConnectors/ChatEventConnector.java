@@ -16,6 +16,10 @@ public final class ChatEventConnector implements PlayerChatEvent {
         featureSystem = new FeatureSystem(player, message);
     }
 
+    /**
+     * This for event cancelling with reasons
+     * @return the {@link FeatureSystem}
+     */
     public FeatureSystem getFeatureSystem() {
         return featureSystem;
     }

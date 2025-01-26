@@ -5,14 +5,11 @@ BlackList: # disallow worlds from getting checked by the plugin
 
 GlobalSending: true
 channels:
-  admin:
+  naughtycorner:
     players:
-      - "OmarOmar93"
-      - "HoneySalted"
+      - "Steve"
+      - "Herobrine"
       - "Notch"
-    places:
-      - "World"
-      - "Lobby"
   main:
     places:
       - "world"

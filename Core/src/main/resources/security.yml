@@ -1,21 +1,26 @@
-AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
+################# WorldChatter Security Config ##########################
+# For more information head to this documentation below!
+# https://github.com/OmarOmar93/WorldChatter/wiki/Features-Documentation
+#
+#########################################################################
 
+AntiSpam: 1 # Cooldowns the chat according to the number of seconds. (it's bypassable for people with "worldchatter.bypass.antispam" permission)
 AntiADS: true # Any Ads from the player's message is blocked. (it's bypassable for people with "worldchatter.bypass.antiads" permission)
 
-AntiCaps:
+AntiCaps: # Prevents high caps from chat with configurable settings
   enabled: true
   maxletters: 3 # minimum Capped letters per word
-  maximum: 2 # minimum detected words to block
+  maximum: 2 # minimum words to start detetcting
 
 AntiSwear: # Blocks any negative words from the player's message. - (it's bypassable for people with "worldchatter.bypass.antiswear" permission)
   enabled: true
   sensitivity: 80 # Sensitivity threshold (percentage)
   minimum: 2 # minimum characters to detect
   blacklist: # add other words to the blacklist
-    - "word"
-    - "word2"
+    - "BadWord1"
+    - "BadWord2"
   whitelist: # whitelists the current blocked words
-    - "im not adding a swear word"
+    - "BadWordButILike"
 
 AntiRepeat: # Prevents users from sending the same message
   enabled: true

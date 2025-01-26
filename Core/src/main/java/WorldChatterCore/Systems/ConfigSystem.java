@@ -10,12 +10,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+/**
+ * This Represents the Configuration System
+ */
 public final class ConfigSystem {
 
+    /**
+     * Represents the Configuration System Instance.
+     */
     public static ConfigSystem INSTANCE;
     private Configuration chatFormatter, player, security, system, messages, texts, place;
     private final File chatFormatterFile, playerFile, securityFile, systemFile, messagesFile, textsFile, placeFile;
 
+    /**
+     * Retrieves the configuration for the chatFormatter config file.
+     */
     public ConfigSystem() {
         if(INSTANCE == null) INSTANCE = this;
 
@@ -58,9 +67,10 @@ public final class ConfigSystem {
 
     }
 
+    /**
+     * This reloads all WorldChatter's configuration files
+     */
     public void update() {
-
-
         updateChatFormatter();
         updateMessages();
         updateSecurity();
@@ -86,31 +96,65 @@ public final class ConfigSystem {
         Aliases.INSTANCE.update();
     }
 
-
+    /**
+     * Retrieves the configuration for the messages config file.
+     *
+     * @return the {@link Configuration} object representing the messages configuration.
+     */
     public Configuration getMessages() {
         return messages;
     }
 
+    /**
+     * Retrieves the configuration for the security config file.
+     *
+     * @return the {@link Configuration} object representing the security configuration.
+     */
     public Configuration getSecurity() {
         return security;
     }
 
+    /**
+     * Retrieves the configuration for the texts config file.
+     *
+     * @return the {@link Configuration} object representing the texts configuration.
+     */
     public Configuration getTexts() {
         return texts;
     }
 
+    /**
+     * Retrieves the configuration for the system config file.
+     *
+     * @return the {@link Configuration} object representing the system configuration.
+     */
     public Configuration getSystem() {
         return system;
     }
 
+    /**
+     * Retrieves the configuration for the player config file.
+     *
+     * @return the {@link Configuration} object representing the player configuration.
+     */
     public Configuration getPlayer() {
         return player;
     }
 
+    /**
+     * Retrieves the configuration for the chatFormatter config file.
+     *
+     * @return the {@link Configuration} object representing the chatFormatter configuration.
+     */
     public Configuration getChatFormatter() {
         return chatFormatter;
     }
 
+    /**
+     * Retrieves the configuration for the place config file.
+     *
+     * @return the {@link Configuration} object representing the place configuration.
+     */
     public Configuration getPlace() {
         return place;
     }

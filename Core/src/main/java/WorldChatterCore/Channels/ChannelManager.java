@@ -21,14 +21,24 @@ public final class ChannelManager {
     private Configuration channels;
     private static final List<Channel> channelList = new CopyOnWriteArrayList<>();
 
+    /**
+     * The Channel Management service is in your hands
+     */
     public ChannelManager() {
         INSTANCE = this;
     }
 
+    /**
+     * Check if the global sending is enabled or not
+     * @return {@link Boolean} based check
+     */
     public boolean isGlobalSending() {
         return globalSending;
     }
 
+    /**
+     * This is executed by ConfigSystem's reload function
+     */
     public void update() {
         globalSending = ConfigSystem.INSTANCE.getPlace().getBoolean("GlobalSending");
         channels = ConfigSystem.INSTANCE.getPlace().getSection("channels");
@@ -47,11 +57,21 @@ public final class ChannelManager {
 
     }
 
+    /**
+     *
+     * @param name the channel name
+     * @return the channel's existence
+     */
     public boolean isChannelExist(final String name) {
         return channelList.stream()
                 .anyMatch(channel -> channel.getName().equalsIgnoreCase(name));
     }
 
+    /**
+     * Gets the channel by adding it's name
+     * @param name the channel's name
+     * @return the {@link Channel}
+     */
     public Channel getChannel(final String name) {
         return channelList.stream()
                 .filter(channel -> channel.getName().equalsIgnoreCase(name))
@@ -59,6 +79,11 @@ public final class ChannelManager {
                 .orElse(null);
     }
 
+    /**
+     * The channel's send message
+     * @param player the player
+     * @param message the message
+     */
     public void sendMessage(final Player player, final String message) {
         final List<Player> recipients = channels.getKeys().stream()
                 .map(this::getChannel)

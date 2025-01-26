@@ -82,4 +82,9 @@ public final class VelocityPlayer extends Injectable implements WorldChatterCore
     public String getDisplayName() {
         return player.getUsername();
     }
+
+    @Override
+    public void kick(String reason) {
+        player.disconnect(MiniMessage.miniMessage().deserialize(reason));
+    }
 }

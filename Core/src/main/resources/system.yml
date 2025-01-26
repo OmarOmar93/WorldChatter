@@ -1,3 +1,8 @@
+################## WorldChatter System Config ###########################
+# For more information head to this documentation below!
+# https://github.com/OmarOmar93/WorldChatter/wiki/Features-Documentation
+#
+#########################################################################
 
 Join:
   enabled: true
@@ -6,7 +11,7 @@ Join:
   message: "&a{player_name} &fhas joined the game!"
   permmode: true # Checks to use the permissions mode to send messages / disabled will use default message
   permissions:
-    "admin":
+    "examplePermsName":
       permissions: [ "worldchatter.control", "*" ]
       message: "&a{player_name} &fhas joined the game\n<click:run_command:/tp {player_name}><hover:show_text:'&aClick to teleport to {player_name}'>&e[Teleport to {player_name}]</click>"
 
@@ -17,7 +22,7 @@ Quit:
   message: "&a{player_name} &fhas left the game!"
   permmode: false # Checks to use the permissions below to show a different message or no!
   permissions:
-    "admin":
+    "examplePermsName":
       permissions: [ "worldchatter.control", "*" ]
       message: "&a{player_name} &fhas left the game &8You have nothing to do to that player :P"
 

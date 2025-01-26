@@ -1,17 +1,23 @@
+############### WorldChatter Chat Formatter Config ######################
+# For more information head to this documentation below!
+# https://github.com/OmarOmar93/WorldChatter/wiki/Features-Documentation
+#
+#########################################################################
+
 ChatFormat:
   enabled: true
   FormatSettings: # the slash will represent each mode for better understanding.
     DefaultFormat: "[{player_place}] {player_name}: " # Default Format to use
-    Mode: 1 # 1 represents permissions mode / 2 represents player mode
+    Mode: 2 # 1 for permission based / 2 for player name based
     Formats:
-      "control":
+      "exampleFormatName":
+        name: "HoneySalted" # permission name / player name
+        format: "&e[OP] &r{player_name}: " # format result from permission / - - from player
+      "exampleFormatName2":
         name: "worldchatter.control" # permission name / player name
-        format: "&a- WorldChatter Controller - &r{player_name}: &r" # format result from permission / - - from player
-      "op":
-        name: "*"
-        format: "&a- Overpowered -> {player_name}: &r"
+        format: "&c[WCC] &r{player_name}: " # format result from permission / - - from player
 # If you're on player mode here is a small example
-#    steve:
+#    examplePlayer1:
 #      name: "steve" # permission name / player name
 #      format: "&b{player_name}: &r" # format result from permission / - - from player
 

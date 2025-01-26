@@ -1,33 +1,51 @@
+################## WorldChatter Texts Config ############################
+# For more information head to this documentation below!
+# https://github.com/OmarOmar93/WorldChatter/wiki/Features-Documentation
+#
+#########################################################################
+
 texts: # Replaces a certain text with another text
   enabled: true
   messages:
-    "heart":
+    "exampleText1":
+      text: ":rainbow:" # text to type
+      replace: "<rainbow>RAINBOWWWWWWW</rainbow>" # MiniMessage Support Only (1.7+)
+      perm: false # if player has permission 'worldchatter.admintext'
+    "exampleHeartName":
       text: "<3"
       replace: "❤"
       perm: false # if player has permission 'worldchatter.admintext'
-    "star":
+    "exampleStarName":
       text: ":star:"
       replace: "✮"
       perm: false
-    "yes":
+    "examplePositionNamePlaceHolder":
+      text: ":pos:"
+      replace: "%player_x% %player_y% %player_z%" # PlaceHolderAPI Required
+      perm: true
+    "exampleYesName":
       text: ":yes:"
       replace: "✔"
       perm: false
-    "no":
+    "exampleDenyName":
       text: ":no:"
       replace: "✖"
       perm: false
-    "pvp":
+    "examplePVPName":
       text: ":pvp:"
       replace: "⚔"
       perm: false
-    "skull":
+    "exampleSkullName":
       text: ":skull:"
       replace: "☠"
       perm: false
-    "lenny":
+    "exampleLennyName":
       text: ":lenny:"
       replace: "( ͡° ͜ʖ ͡°)"
+      perm: false
+    "uwuExample": # This requires PlaceholderAPI + RNG Placeholders to work (/papi ecloud download RNG)
+      text: "uwu"
+      replace: "<rainbow:%rng_0,10%>UwU</rainbow>"
       perm: false
 
 aliases:
@@ -35,4 +53,5 @@ aliases:
   place:
     world: "&eOverWorld"
   player:
-    OmarOmar93: "<gradient>OmarOmar93</gradient>"
+    ExamplePlayer: "<rainbow>ExamplePlayer</rainbow>"
+    ExamplePlayer2: "&aExamplePlayer2"

@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>WCSpigot</artifactId>
-    <version>3.2.0-PREVIEW</version>
+    <version>3.2.1</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.2.0-PREVIEW</version>
+        <version>3.2.1</version>
     </parent>
 
     <name>WCSpigot</name>
@@ -65,12 +65,13 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>multiverse-multiverse-releases</id>
+            <name>Multiverse Repository</name>
+            <url>https://repo.onarandombox.com/multiverse-releases</url>
         </repository>
         <repository>
-            <id>OnARandomBox</id>
-            <url>https://repo.onarandombox.com/content/groups/public/</url>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>
@@ -92,7 +93,7 @@
         <dependency>
             <groupId>me.omaromar93</groupId>
             <artifactId>Core</artifactId>
-            <version>3.2.0-PREVIEW</version>
+            <version>3.2.1</version>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
@@ -102,7 +103,7 @@
         </dependency>
         <dependency>
             <groupId>com.onarandombox.multiversecore</groupId>
-            <artifactId>Multiverse-Core</artifactId>
+            <artifactId>multiverse-core</artifactId>
             <version>4.3.14</version>
             <scope>provided</scope>
         </dependency>

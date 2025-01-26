@@ -18,6 +18,9 @@ public final class AntiRepeat {
         INSTANCE = this;
     }
 
+    /**
+     * This is executed by ConfigSystem's reload function
+     */
     public void update() {
         if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiRepeat.enabled")) {
             MESSAGE_LIMIT = ConfigSystem.INSTANCE.getSecurity().getInt("AntiRepeat.messageLimit");
@@ -28,6 +31,12 @@ public final class AntiRepeat {
         SENSITIVITY_THRESHOLD = null;
     }
 
+    /**
+     * Check how similar is the message from the last one
+     * @param playerId the player's UUID
+     * @param newMessage the current message
+     * @return if it's similar or not
+     */
     public boolean isSimilarMessage(final UUID playerId, final String newMessage) {
         // Get or create the player's message list
         playerMessages.putIfAbsent(playerId, new LinkedList<>());

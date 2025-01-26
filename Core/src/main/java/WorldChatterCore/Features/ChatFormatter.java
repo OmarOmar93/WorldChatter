@@ -17,6 +17,9 @@ public final class ChatFormatter {
         INSTANCE = this;
     }
 
+    /**
+     * This is executed by ConfigSystem's reload function
+     */
     public void update() {
         if (ConfigSystem.INSTANCE.getChatFormatter().getBoolean("ChatFormat.enabled")) {
             // client side options

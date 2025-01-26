@@ -19,8 +19,10 @@ import net.md_5.bungee.api.plugin.Plugin;
 public final class WCBungee extends Plugin implements MainPlugin {
 
     public static BungeeAudiences adventure;
+    public static WCBungee INSTANCE;
 
     public WCBungee() {
+        INSTANCE = this;
         new MainPluginConnector();
     }
 

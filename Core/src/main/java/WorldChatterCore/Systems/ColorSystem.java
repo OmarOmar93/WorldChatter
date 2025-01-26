@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public final class ColorSystem {
 
 
-    public static final char COLOR_CHAR = '§';
+    public static final char COLOR_CHAR = '\u00A7';
     public static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx";
     public static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + "&" + "[0-9A-FK-ORX]");
     private static final Pattern pattern = Pattern.compile("&#[a-fA-F0-9]{6}");

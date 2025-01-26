@@ -26,8 +26,10 @@ public final class WCSpigot extends JavaPlugin implements MainPlugin {
 
     public static BukkitAudiences adventure;
     public static MultiverseCore mvcore;
+    public static WCSpigot INSTANCE;
 
     public WCSpigot() {
+        INSTANCE = this;
         final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
         mvcore = plugin != null ? (MultiverseCore) plugin : null;
         new MainPluginConnector();

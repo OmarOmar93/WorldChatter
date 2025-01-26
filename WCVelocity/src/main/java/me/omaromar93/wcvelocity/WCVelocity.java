@@ -26,7 +26,7 @@ import java.util.Locale;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.2.0-PREVIEW",
+        version = "3.2.1",
         description = "Enhance your Chatting Experience.",
         authors = {"OmarOmar93"},
         dependencies = {
@@ -36,9 +36,11 @@ import java.util.Locale;
 public final class WCVelocity implements MainPlugin {
 
     private final ProxyServer server;
+    public static WCVelocity INSTANCE;
 
     @Inject
     public WCVelocity(final ProxyServer server) {
+        INSTANCE = this;
         this.server = server;
         new MainPluginConnector();
         MainPluginConnector.INSTANCE.setWorldChatter(this);
@@ -102,6 +104,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.2.0-PREVIEW";
+        return "3.2.1";
     }
 }

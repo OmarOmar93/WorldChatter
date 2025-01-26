@@ -29,6 +29,11 @@ public final class debugMode {
         error = null;
     }
 
+    /**
+     * Prints a debug message
+     * @param message the message
+     * @param type the printed message's type
+     */
     public void println(final String message, final printType type) {
         if (isDebug) {
             switch (type) {

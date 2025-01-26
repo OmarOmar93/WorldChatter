@@ -6,6 +6,7 @@ import WorldChatterCore.Players.PlayerHandler;
 import me.omaromar93.wcbungee.WCBungee;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.UserConnection;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.netty.PipelineUtils;
 
@@ -81,4 +82,10 @@ public final class BungeePlayer extends Injectable implements Player {
     public String getDisplayName() {
         return player.getDisplayName();
     }
+
+    @Override
+    public void kick(String reason) {
+        player.disconnect((BaseComponent) MiniMessage.miniMessage().deserialize(reason));
+    }
+
 }

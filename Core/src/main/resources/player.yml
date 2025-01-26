@@ -1,3 +1,9 @@
+################## WorldChatter Player Config ###########################
+# For more information head to this documentation below!
+# https://github.com/OmarOmar93/WorldChatter/wiki/Features-Documentation
+#
+#########################################################################
+
 ColoredText: true # It checks whether you can change the & to § in chat.
 newline: false # Allows players to place new lines in their messages '\n'
 

@@ -43,6 +43,11 @@ public final class Command {
         INSTANCE = this;
     }
 
+    /**
+     * Executes the command for all softwares
+     * @param sender the command sender
+     * @param args the arguments
+     */
     public void executeCommand(final CommandSender sender, final String[] args) {
         ThreadsSystem.runAsync(() -> {
             if (sender.hasPermission("worldchatter.control")) {
@@ -62,7 +67,7 @@ public final class Command {
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
                             sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Channels Update");
+                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The Channels Update - QOL Part 1");
                             return;
                         case "help":
                         case "commands":

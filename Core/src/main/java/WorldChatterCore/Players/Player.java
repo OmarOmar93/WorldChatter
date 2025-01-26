@@ -22,4 +22,6 @@ public interface Player extends CommandSender {
 
     String getDisplayName();
 
+    void kick(final String reason);
+
 }

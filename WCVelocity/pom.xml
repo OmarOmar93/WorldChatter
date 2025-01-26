@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>WCVelocity</artifactId>
-    <version>3.2.0-PREVIEW</version>
+    <version>3.2.1</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.2.0-PREVIEW</version>
+        <version>3.2.1</version>
     </parent>
 
     <name>WCVelocity</name>
@@ -57,11 +57,6 @@
                 <version>3.9.1</version>
                 <dependencies>
                     <dependency>
-                        <groupId>net.trajano.wagon</groupId>
-                        <artifactId>wagon-git</artifactId>
-                        <version>2.0.4</version>
-                    </dependency>
-                    <dependency>
                         <groupId>org.apache.maven.doxia</groupId>
                         <artifactId>doxia-module-markdown</artifactId>
                         <version>1.9.1</version>
@@ -86,12 +81,8 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
+            <id>paper</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>nexus-repo</id>
-            <url>https://nexus.funkemunky.cc/content/repositories/releases/</url>
         </repository>
     </repositories>
 
@@ -100,18 +91,13 @@
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
             <version>3.4.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.velocitypowered</groupId>
-            <artifactId>velocity-proxy</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>D:/Projects/Servers/Minecraft/Versions/velocity-3.4.0-SNAPSHOT-459.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.omaromar93</groupId>
             <artifactId>Core</artifactId>
-            <version>3.2.0-PREVIEW</version>
+            <version>3.2.1</version>
         </dependency>
     </dependencies>
 </project>

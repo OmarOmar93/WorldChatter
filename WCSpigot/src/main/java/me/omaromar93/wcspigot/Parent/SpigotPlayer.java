@@ -6,6 +6,7 @@ import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
 import me.omaromar93.wcspigot.WCSpigot;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
 import java.util.UUID;
@@ -77,6 +78,13 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
     @Override
     public String getDisplayName() {
         return player.getDisplayName();
+    }
+
+    @Override
+    public void kick(String reason) {
+        if (!reason.isEmpty()) {
+            Bukkit.getScheduler().runTask(WCSpigot.INSTANCE, () -> player.kickPlayer(reason));
+        }
     }
 
 }

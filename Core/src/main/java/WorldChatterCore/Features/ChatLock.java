@@ -7,19 +7,31 @@ import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
+/**
+ * Chat Locking
+ */
 public final class ChatLock {
 
     private boolean locked;
 
+    /**
+     * The Instance of Chat lock
+     */
     public static ChatLock INSTANCE;
     private boolean global;
 
     private String lockedMessage, unlockedMessage;
 
+    /**
+     * This represents the Chat Locking feature.
+     */
     public ChatLock() {
         INSTANCE = this;
     }
 
+    /**
+     * This is executed by ConfigSystem's reload function
+     */
     public void update() {
         global = ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.public");
         if (ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.enabled") && global) {
@@ -33,6 +45,10 @@ public final class ChatLock {
     }
 
 
+    /**
+     * Toggles lock in the chat!
+     * @param sender the Command sender
+     */
     public void toggleLocked(final CommandSender sender) {
         if (lockedMessage != null && unlockedMessage != null) {
             locked = !locked;
@@ -48,6 +64,10 @@ public final class ChatLock {
         }
     }
 
+    /**
+     * Check if the chat is locked or no
+     * @return the lock state as {@link Boolean}
+     */
     public boolean isLocked() {
         return ConfigSystem.INSTANCE.getPlace().getBoolean("ChatLockMessage.enabled") && locked;
     }

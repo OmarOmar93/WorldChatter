@@ -17,6 +17,13 @@ public interface WCListener {
      */
     void messageDetect(final List<String> flags, final Player player, final String message);
 
+    /**
+     *
+     * @param name Placeholder's Name
+     * @param message The Player's Message
+     * @param player The Player
+     */
+    void customPlaceholderCall(final String name, final String message, final Player player);
 
     /**
      *

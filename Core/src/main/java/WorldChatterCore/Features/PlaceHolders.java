@@ -1,5 +1,6 @@
 package WorldChatterCore.Features;
 
+import WorldChatterCore.API.WCPlaceHolder;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Players.Player;
 
@@ -11,7 +12,8 @@ public final class PlaceHolders {
                 message = LuckPermsConnector.INSTANCE.formatMessage(player.getUniqueId(), message);
             }
 
-            message = MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
+            message = WCPlaceHolder.formatMessage(
+                    MainPluginConnector.INSTANCE.getWorldChatter().supporttheMessage(message
                     .replace("{player_name}", Aliases.INSTANCE.getFormattedPlayerName(player.getName()))
                     .replace("{player_place}", Aliases.INSTANCE.getFormattedPlace(player.getRawPlace()))
                     .replace("{player_place_raw}", player.getRawPlace())
@@ -19,7 +21,7 @@ public final class PlaceHolders {
                     .replace("{player_displayname}", player.getDisplayName())
                     .replace("{player_uuid}", player.getUniqueId().toString())
                     .replace("\\n", "\r")
-                    .replace("\\r", "\r"), player);
+                    .replace("\\r", "\r"), player), player);
         }
         if (MiniMessageConnector.INSTANCE != null) {
             message = MiniMessageConnector.INSTANCE.returnFormattedString(message);

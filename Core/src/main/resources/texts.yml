@@ -51,7 +51,7 @@ texts: # Replaces a certain text with another text
 aliases:
   enabled: true
   place:
-    world: "&eOverWorld"
+    world: "&eOverWorld&r"
   player:
     ExamplePlayer: "<rainbow>ExamplePlayer</rainbow>"
     ExamplePlayer2: "&aExamplePlayer2"

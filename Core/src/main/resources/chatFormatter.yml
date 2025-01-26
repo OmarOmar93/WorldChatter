@@ -8,10 +8,10 @@ ChatFormat:
   enabled: true
   FormatSettings: # the slash will represent each mode for better understanding.
     DefaultFormat: "[{player_place}] {player_name}: " # Default Format to use
-    Mode: 2 # 1 for permission based / 2 for player name based
+    Mode: 1 # 1 for permission based / 2 for player name based
     Formats:
       "exampleFormatName":
-        name: "HoneySalted" # permission name / player name
+        name: "*" # permission name / player name
         format: "&e[OP] &r{player_name}: " # format result from permission / - - from player
       "exampleFormatName2":
         name: "worldchatter.control" # permission name / player name

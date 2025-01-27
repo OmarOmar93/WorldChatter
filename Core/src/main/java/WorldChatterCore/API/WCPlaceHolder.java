@@ -24,7 +24,7 @@ public final class WCPlaceHolder {
                     listener.customPlaceholderCall(matcher.group(1), message, player);
                 }
             }
-            message = message.replace(matcher.group(1), placeholders.getOrDefault(matcher.group(0),""));
+            message = message.replace("{"+matcher.group(1)+"}", placeholders.getOrDefault(matcher.group(0),""));
         }
         return message;
     }

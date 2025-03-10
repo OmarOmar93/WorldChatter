@@ -30,9 +30,12 @@ public final class TextReplacer {
                         message = message.replace(
                                 texts.getString(key + ".text"),
                                 ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(texts.getString(key + ".replace"), player)));
+                        continue;
+                    }
+                    if (!player.hasPermission("worldchatter.admintext") && texts.getBoolean(key + ".perm") && message.contains(texts.getString(key + ".replace"))) {
+                        message = message.replace(texts.getString(key + ".replace"), "");
                     }
                 }
-
             }
         }
         return message;

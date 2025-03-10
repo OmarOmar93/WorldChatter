@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>WCVelocity</artifactId>
-    <version>3.2.2</version>
+    <version>3.2.7</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>me.omaromar93</groupId>
         <artifactId>WorldChatter3</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.7</version>
     </parent>
 
     <name>WCVelocity</name>
@@ -84,6 +84,10 @@
             <id>paper</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -92,12 +96,12 @@
             <artifactId>velocity-api</artifactId>
             <version>3.4.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>D:/Projects/Servers/Minecraft/Versions/velocity-3.4.0-SNAPSHOT-459.jar</systemPath>
+            <systemPath>D:/Projects/Servers/Minecraft/Versions/velocity.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.omaromar93</groupId>
             <artifactId>Core</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.7</version>
         </dependency>
     </dependencies>
 </project>

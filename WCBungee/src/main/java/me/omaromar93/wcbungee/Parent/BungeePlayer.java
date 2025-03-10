@@ -84,6 +84,11 @@ public final class BungeePlayer extends Injectable implements Player {
     }
 
     @Override
+    public String getIP() {
+        return player.getAddress().getHostName();
+    }
+
+    @Override
     public void kick(String reason) {
         player.disconnect((BaseComponent) MiniMessage.miniMessage().deserialize(reason));
     }

@@ -3,7 +3,7 @@ package me.omaromar93.wcspigot.Parent;
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Features.MiniMessageConnector;
 import WorldChatterCore.Players.PlayerHandler;
-import me.omaromar93.wcspigot.WCSpigot;
+import me.omaromar93.wcspigot.WCBukkit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 
@@ -25,8 +25,8 @@ public final class SpigotCommandSender implements CommandSender {
     @Override
     public void sendMessage(final String message) {
         if (!message.isEmpty()) {
-            if (WCSpigot.adventure != null) {
-                WCSpigot.adventure.sender(
+            if (WCBukkit.adventure != null) {
+                WCBukkit.adventure.sender(
                                 sender)
                         .sendMessage(MiniMessage.miniMessage().deserialize(MiniMessageConnector.INSTANCE.returnFormattedString(message)));
                 return;

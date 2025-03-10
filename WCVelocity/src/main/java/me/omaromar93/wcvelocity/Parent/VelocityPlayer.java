@@ -84,6 +84,11 @@ public final class VelocityPlayer extends Injectable implements WorldChatterCore
     }
 
     @Override
+    public String getIP() {
+        return player.getRemoteAddress().getAddress().toString().replace("/","");
+    }
+
+    @Override
     public void kick(String reason) {
         player.disconnect(MiniMessage.miniMessage().deserialize(reason));
     }

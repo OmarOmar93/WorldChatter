@@ -1,4 +1,4 @@
-package me.omaromar93.wcspigot.Events;
+package me.omaromar93.wcspigot.Events.Legacy;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.ChatEventConnector;
 import WorldChatterCore.Players.PlayerHandler;
@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
 public final class PlayerChat implements Listener {
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLegacyPlayerChat(final PlayerChatEvent event) {
         if (event.isCancelled()) return;

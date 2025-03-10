@@ -4,18 +4,18 @@ import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
-import me.omaromar93.wcspigot.WCSpigot;
+import me.omaromar93.wcspigot.WCBukkit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
 import java.util.UUID;
 
-public final class SpigotPlayer implements WorldChatterCore.Players.Player {
+public final class BukkitPlayer implements WorldChatterCore.Players.Player {
 
     private final org.bukkit.entity.Player player;
 
-    public SpigotPlayer(final org.bukkit.entity.Player player) {
+    public BukkitPlayer(final org.bukkit.entity.Player player) {
         this.player = player;
     }
 
@@ -28,8 +28,8 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
     @Override
     public void sendMessage(final String message) {
         if (!message.isEmpty()) {
-            if (WCSpigot.adventure != null) {
-                WCSpigot.adventure.player(player.getUniqueId()).sendMessage(MiniMessage.miniMessage().deserialize(message));
+            if (WCBukkit.adventure != null) {
+                WCBukkit.adventure.player(player.getUniqueId()).sendMessage(MiniMessage.miniMessage().deserialize(message));
                 return;
             }
             player.sendMessage(message);
@@ -67,7 +67,7 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
 
     @Override
     public String getPlace() {
-         return WCSpigot.mvcore != null ? WCSpigot.mvcore.getMVWorldManager().getMVWorld(player.getWorld().getName()).getAlias() : player.getWorld().getName();
+         return WCBukkit.mvcore != null ? WCBukkit.mvcore.getMVWorldManager().getMVWorld(player.getWorld().getName()).getAlias() : player.getWorld().getName();
     }
 
     @Override
@@ -81,9 +81,14 @@ public final class SpigotPlayer implements WorldChatterCore.Players.Player {
     }
 
     @Override
+    public String getIP() {
+        return player.getAddress().getHostName();
+    }
+
+    @Override
     public void kick(String reason) {
         if (!reason.isEmpty()) {
-            Bukkit.getScheduler().runTask(WCSpigot.INSTANCE, () -> player.kickPlayer(reason));
+            Bukkit.getScheduler().runTask(WCBukkit.INSTANCE, () -> player.kickPlayer(reason));
         }
     }
 

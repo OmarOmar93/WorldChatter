@@ -8,7 +8,6 @@ import WorldChatterCore.Players.PlayerHandler;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.omaromar93.wcspigot.Events.AsyncPlayerChat;
-import me.omaromar93.wcspigot.Events.Legacy.LegacyListenerGenerator;
 import me.omaromar93.wcspigot.Events.Legacy.PlayerChat;
 import me.omaromar93.wcspigot.Events.PlayerJoin;
 import me.omaromar93.wcspigot.Events.PlayerQuit;
@@ -23,7 +22,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public final class WCBukkit extends JavaPlugin implements MainPlugin {
@@ -65,18 +63,17 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
                             Class.forName("org.bukkit.event.Event$Priority"), // legacy Event.Priority
                             Plugin.class
                     );
-                    final Object legacyPlayerListener = LegacyListenerGenerator.createLegacyPlayerListener();
                     final Class<?> eventTypeClass = Class.forName("org.bukkit.event.Event$Type");
-
-                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_CHAT"), legacyPlayerListener,
-                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-                            this);
-                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_JOIN"), legacyPlayerListener,
-                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-                            this);
-                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_QUIT"), legacyPlayerListener,
-                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-                            this);
+/// to void bugs.
+//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_CHAT"), legacyPlayerListener,
+//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+//                            this);
+//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_JOIN"), legacyPlayerListener,
+//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+//                            this);
+//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_QUIT"), legacyPlayerListener,
+//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+//                            this);
                 } catch (final Exception e) {
                     throw new RuntimeException(e);
                 }

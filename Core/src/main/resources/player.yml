@@ -6,6 +6,7 @@
 
 ColoredText: true # It checks whether you can change the & to § in chat.
 newline: false # Allows players to place new lines in their messages '\n'
+MiniMessage: false # Allows players to use the MiniMessage Format in chat!
 
 UserMention:
   enabled: true

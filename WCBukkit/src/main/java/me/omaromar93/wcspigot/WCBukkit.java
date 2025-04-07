@@ -23,6 +23,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
@@ -40,8 +41,24 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
     @Override
     public void onEnable() throws RuntimeException {
-        final PluginManager pm = getServer().getPluginManager();
         MainPluginConnector.INSTANCE.setWorldChatter(this);
+        registerEvents(getServer().getPluginManager());
+        getCommand("worldchatter").setExecutor(new Command());
+        MainPluginConnector.INSTANCE.loadSupportedPlugins();
+    }
+
+
+    @Override
+    public void onDisable() {
+        if (adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
+        MainPluginConnector.INSTANCE.onDisable();
+    }
+
+
+    private void registerEvents(final PluginManager pm) {
         try {
             Class.forName("org.bukkit.event.player.AsyncPlayerChatEvent");
             pm.registerEvents(new AsyncPlayerChat(), this);
@@ -55,7 +72,7 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
                 pm.registerEvents(new PlayerQuit(), this);
             } catch (final NoSuchMethodError ignored2) {
                 try {
-                debugMode.INSTANCE.println("Method not found , We're going far back.", debugMode.printType.WARNING);
+                    debugMode.INSTANCE.println("Method not found, We're going far back.", debugMode.printType.WARNING);
                     final Method legacyRegisterEvent = pm.getClass().getMethod(
                             "registerEvent",
                             Class.forName("org.bukkit.event.Event$Type"), // legacy Event.Type
@@ -64,33 +81,49 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
                             Plugin.class
                     );
                     final Class<?> eventTypeClass = Class.forName("org.bukkit.event.Event$Type");
-/// to void bugs.
-//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_CHAT"), legacyPlayerListener,
-//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-//                            this);
-//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_JOIN"), legacyPlayerListener,
-//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-//                            this);
-//                    legacyRegisterEvent.invoke(pm, Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_QUIT"), legacyPlayerListener,
-//                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
-//                            this);
+                    final Class<?> playerListenerInterface = Class.forName("org.bukkit.event.player.PlayerListener");
+
+                    final Object proxy = java.lang.reflect.Proxy.newProxyInstance(
+                            playerListenerInterface.getClassLoader(),
+                            new Class[]{playerListenerInterface},
+                            (proxyObj, method, args) -> {
+                                if ("onPlayerChat".equals(method.getName()) && args != null && args.length > 0) {
+                                    new PlayerChat().onLegacyPlayerChat((org.bukkit.event.player.PlayerChatEvent) args[0]);
+                                } else if ("onPlayerQuit".equals(method.getName()) && args != null && args.length > 0) {
+                                    new PlayerQuit().onPlayerQuit((org.bukkit.event.player.PlayerQuitEvent) args[0]);
+                                } else if ("onPlayerJoin".equals(method.getName()) && args != null && args.length > 0) {
+                                    new PlayerJoin().onPlayerJoin((org.bukkit.event.player.PlayerJoinEvent) args[0]);
+                                }
+                                return null;
+                            }
+                    );
+
+                    // Register legacy PLAYER_CHAT event
+                    legacyRegisterEvent.invoke(pm,
+                            Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_CHAT"),
+                            proxy,
+                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+                            this
+                    );
+                    // Register legacy PLAYER_QUIT event
+                    legacyRegisterEvent.invoke(pm,
+                            Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_QUIT"),
+                            proxy,
+                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+                            this
+                    );
+                    // Register legacy PLAYER_JOIN event
+                    legacyRegisterEvent.invoke(pm,
+                            Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_JOIN"),
+                            proxy,
+                            Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
+                            this
+                    );
                 } catch (final Exception e) {
                     throw new RuntimeException(e);
                 }
             }
         }
-
-        getCommand("worldchatter").setExecutor(new Command());
-        MainPluginConnector.INSTANCE.loadSupportedPlugins();
-    }
-
-    @Override
-    public void onDisable() {
-        if (adventure != null) {
-            adventure.close();
-            adventure = null;
-        }
-        MainPluginConnector.INSTANCE.onDisable();
     }
 
     @Override
@@ -109,9 +142,9 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
         } catch (final IncompatibleClassChangeError ignored) {
             try {
                 Class.forName("org.bukkit.command.ConsoleCommandSender").getMethod("sendMessage", String.class).invoke(Bukkit.getConsoleSender(), message);
-            } catch (final Exception ignored2) {
-                debugMode.INSTANCE.println("idek anymore.", debugMode.printType.ERROR);
-                ignored2.printStackTrace();
+            } catch (final Exception p) {
+                debugMode.INSTANCE.println("idek anymore. \n" +
+                        Arrays.toString(p.getStackTrace()), debugMode.printType.ERROR);
             }
         }
     }
@@ -126,7 +159,9 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
                 for (final Object o : (Object[]) Bukkit.getServer().getClass().getMethod("getOnlinePlayers").invoke(Bukkit.getServer()))
                     PlayerHandler.INSTANCE.addPlayer(new BukkitPlayer((Player) o));
             } catch (final Exception ex) {
-                ex.printStackTrace();
+                debugMode.INSTANCE.println("Huh... " +
+                        ex.getMessage() + "\n" +
+                        Arrays.toString(ex.getStackTrace()), debugMode.printType.ERROR);
             }
         }
     }

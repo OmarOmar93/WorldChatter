@@ -37,7 +37,7 @@ public final class ChatFormatter {
     }
 
     public String formatMessage(String message, final Player player) {
-        if (MiniMessageConnector.INSTANCE != null) {
+        if (MiniMessageConnector.INSTANCE != null && !ConfigSystem.INSTANCE.getPlayer().getBoolean("MiniMessage")) {
             message = MiniMessageConnector.INSTANCE.cancelMiniMessage(message);
         }
         if (newLine) {

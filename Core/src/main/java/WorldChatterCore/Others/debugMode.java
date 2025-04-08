@@ -1,6 +1,7 @@
 package WorldChatterCore.Others;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
+import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
 
 public final class debugMode {
@@ -38,13 +39,13 @@ public final class debugMode {
         if (isDebug) {
             switch (type) {
                 case INFO:
-                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(info + message);
+                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.tCC(info + message));
                     return;
                 case WARNING:
-                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(warning + message);
+                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.tCC(warning + message));
                     return;
                 case ERROR:
-                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(error + message);
+                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.tCC(error + message));
             }
         }
     }

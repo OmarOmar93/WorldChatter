@@ -13,7 +13,7 @@
         <version>3.2.7</version>
     </parent>
 
-    <name>WCSpigot</name>
+    <name>WCBukkit</name>
 
     <description>Enhance your Chatting Experience.</description>
     <properties>
@@ -50,28 +50,23 @@
                                     <shadedPattern>me.omaromar93.shaded.kyori</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <minimizeJar>true</minimizeJar>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
             <id>multiverse-multiverse-releases</id>
             <name>Multiverse Repository</name>
             <url>https://repo.onarandombox.com/multiverse-releases</url>
-        </repository>
-        <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>

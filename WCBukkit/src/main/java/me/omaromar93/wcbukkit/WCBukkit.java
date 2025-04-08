@@ -1,4 +1,4 @@
-package me.omaromar93.wcspigot;
+package me.omaromar93.wcbukkit;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
@@ -7,12 +7,11 @@ import WorldChatterCore.Others.debugMode;
 import WorldChatterCore.Players.PlayerHandler;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.omaromar93.wcspigot.Events.AsyncPlayerChat;
-import me.omaromar93.wcspigot.Events.Legacy.PlayerChat;
-import me.omaromar93.wcspigot.Events.PlayerJoin;
-import me.omaromar93.wcspigot.Events.PlayerQuit;
-import me.omaromar93.wcspigot.Parent.Command;
-import me.omaromar93.wcspigot.Parent.BukkitPlayer;
+import me.omaromar93.wcbukkit.Events.AsyncPlayerChat;
+import me.omaromar93.wcbukkit.Events.Legacy.LegacyListener;
+import me.omaromar93.wcbukkit.Events.Legacy.PlayerChat;
+import me.omaromar93.wcbukkit.Parent.Command;
+import me.omaromar93.wcbukkit.Parent.BukkitPlayer;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -59,63 +58,58 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
 
     private void registerEvents(final PluginManager pm) {
+        // Determine if we have the modern asynchronous event.
+        boolean modernEvents;
         try {
             Class.forName("org.bukkit.event.player.AsyncPlayerChatEvent");
+            modernEvents = true;
+        } catch (ClassNotFoundException e) {
+            modernEvents = false;
+        }
+
+        if (modernEvents) {
             pm.registerEvents(new AsyncPlayerChat(), this);
-            pm.registerEvents(new PlayerJoin(), this);
-            pm.registerEvents(new PlayerQuit(), this);
-        } catch (final Exception ignored) {
+            pm.registerEvents(new me.omaromar93.wcbukkit.Events.PlayerJoin(), this);
+            pm.registerEvents(new me.omaromar93.wcbukkit.Events.PlayerQuit(), this);
+        } else {
+            // First try standard registration.
             try {
-                debugMode.INSTANCE.println("AsyncPlayerChatEvent is not found, Attempting a workaround", debugMode.printType.WARNING);
                 pm.registerEvents(new PlayerChat(), this);
-                pm.registerEvents(new PlayerJoin(), this);
-                pm.registerEvents(new PlayerQuit(), this);
-            } catch (final NoSuchMethodError ignored2) {
+                pm.registerEvents(new me.omaromar93.wcbukkit.Events.PlayerJoin(), this);
+                pm.registerEvents(new me.omaromar93.wcbukkit.Events.PlayerQuit(), this);
+            } catch (Throwable t) {
+                // If standard registration fails, we will fall back on the proxy.
+                debugMode.INSTANCE.println("Standard registerEvents not available.", debugMode.printType.WARNING);
                 try {
-                    debugMode.INSTANCE.println("Method not found, We're going far back.", debugMode.printType.WARNING);
+                    debugMode.INSTANCE.println("Using legacy event system", debugMode.printType.WARNING);
+                    // Obtain legacy registerEvent method
                     final Method legacyRegisterEvent = pm.getClass().getMethod(
                             "registerEvent",
-                            Class.forName("org.bukkit.event.Event$Type"), // legacy Event.Type
-                            Listener.class,
-                            Class.forName("org.bukkit.event.Event$Priority"), // legacy Event.Priority
+                            Class.forName("org.bukkit.event.Event$Type"),      // legacy Event.Type
+                            Listener.class,                                     // Our listener must implement Listener
+                            Class.forName("org.bukkit.event.Event$Priority"),    // legacy Event.Priority
                             Plugin.class
                     );
                     final Class<?> eventTypeClass = Class.forName("org.bukkit.event.Event$Type");
-                    final Class<?> playerListenerInterface = Class.forName("org.bukkit.event.player.PlayerListener");
 
-                    final Object proxy = java.lang.reflect.Proxy.newProxyInstance(
-                            playerListenerInterface.getClassLoader(),
-                            new Class[]{playerListenerInterface},
-                            (proxyObj, method, args) -> {
-                                if ("onPlayerChat".equals(method.getName()) && args != null && args.length > 0) {
-                                    new PlayerChat().onLegacyPlayerChat((org.bukkit.event.player.PlayerChatEvent) args[0]);
-                                } else if ("onPlayerQuit".equals(method.getName()) && args != null && args.length > 0) {
-                                    new PlayerQuit().onPlayerQuit((org.bukkit.event.player.PlayerQuitEvent) args[0]);
-                                } else if ("onPlayerJoin".equals(method.getName()) && args != null && args.length > 0) {
-                                    new PlayerJoin().onPlayerJoin((org.bukkit.event.player.PlayerJoinEvent) args[0]);
-                                }
-                                return null;
-                            }
-                    );
+                    final LegacyListener legacyListener = new LegacyListener();
 
-                    // Register legacy PLAYER_CHAT event
+                    // Register legacy events
                     legacyRegisterEvent.invoke(pm,
                             Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_CHAT"),
-                            proxy,
+                            legacyListener,
                             Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
                             this
                     );
-                    // Register legacy PLAYER_QUIT event
                     legacyRegisterEvent.invoke(pm,
                             Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_QUIT"),
-                            proxy,
+                            legacyListener,
                             Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
                             this
                     );
-                    // Register legacy PLAYER_JOIN event
                     legacyRegisterEvent.invoke(pm,
                             Enum.valueOf((Class<Enum>) eventTypeClass, "PLAYER_JOIN"),
-                            proxy,
+                            legacyListener,
                             Enum.valueOf((Class<Enum>) Class.forName("org.bukkit.event.Event$Priority"), "Normal"),
                             this
                     );
@@ -125,6 +119,7 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
             }
         }
     }
+
 
     @Override
     public boolean isPluginEnabled(final String name) {
@@ -169,7 +164,7 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
     @Override
     public void broadcastMessage(final String message) {
-        if(adventure != null) {
+        if (adventure != null) {
             adventure.all().sendMessage(MiniMessage.miniMessage().deserialize(MiniMessageConnector.INSTANCE.returnFormattedString(message)));
             return;
         }

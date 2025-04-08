@@ -1,10 +1,10 @@
-package me.omaromar93.wcspigot.Parent;
+package me.omaromar93.wcbukkit.Parent;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
-import me.omaromar93.wcspigot.WCBukkit;
+import me.omaromar93.wcbukkit.WCBukkit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

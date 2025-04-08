@@ -1,18 +1,18 @@
-package me.omaromar93.wcspigot.Parent;
+package me.omaromar93.wcbukkit.Parent;
 
 import WorldChatterCore.Connectors.Interfaces.CommandSender;
 import WorldChatterCore.Features.MiniMessageConnector;
 import WorldChatterCore.Players.PlayerHandler;
-import me.omaromar93.wcspigot.WCBukkit;
+import me.omaromar93.wcbukkit.WCBukkit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 
-public final class SpigotCommandSender implements CommandSender {
+public final class BukkitCommandSender implements CommandSender {
 
     private final org.bukkit.command.CommandSender sender;
 
 
-    public SpigotCommandSender(final org.bukkit.command.CommandSender sender) {
+    public BukkitCommandSender(final org.bukkit.command.CommandSender sender) {
         this.sender = sender;
     }
 

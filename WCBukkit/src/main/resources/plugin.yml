@@ -1,6 +1,6 @@
 name: WorldChatter
 version: '${project.version}'
-main: me.omaromar93.wcspigot.WCBukkit
+main: me.omaromar93.wcbukkit.WCBukkit
 api-version: '1.13'
 load: POSTWORLD
 prefix: WorldChatter

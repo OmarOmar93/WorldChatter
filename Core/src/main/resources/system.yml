@@ -31,6 +31,6 @@ Quit:
 ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"
 debug:
   enabled: false
-  info: "&7[&9WorldChatter Debugger &r| Info&7]&r "
-  warning: "&7[&9WorldChatter Debugger &r| &eWarning&7]&e "
-  error: "&7[&9WorldChatter Debugger &r| &4Info&7]&4 "
+  info: "&7[&9WorldChatter Debugger &f| &aInfo&7]&f "
+  warning: "&7[&9WorldChatter Debugger &f| &eWarning&7]&e "
+  error: "&7[&9WorldChatter Debugger &f| &4Error&7]&4 "

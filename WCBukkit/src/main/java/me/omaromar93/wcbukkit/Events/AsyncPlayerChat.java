@@ -1,4 +1,4 @@
-package me.omaromar93.wcspigot.Events;
+package me.omaromar93.wcbukkit.Events;
 
 import WorldChatterCore.Connectors.InterfaceConnectors.ChatEventConnector;
 import WorldChatterCore.Players.PlayerHandler;

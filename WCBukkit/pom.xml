@@ -60,10 +60,6 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-        <repository>
             <id>multiverse-multiverse-releases</id>
             <name>Multiverse Repository</name>
             <url>https://repo.onarandombox.com/multiverse-releases</url>

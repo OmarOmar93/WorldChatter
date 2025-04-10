@@ -1,14 +1,14 @@
-package me.omaromar93.wcbukkit.Events;
+package me.omaromar93.wcbukkit.Events.Legacy;
 
 import WorldChatterCore.Features.PlayerJoiningQuitting;
 import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import me.omaromar93.wcbukkit.Parent.BukkitPlayer;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerListener;
 
-public final class PlayerJoin implements Listener {
+public final class LegacyPlayerJoin extends PlayerListener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {

@@ -1,5 +1,5 @@
 name: WorldChatter
-version: '${project.version}'
+version: '3.2.7'
 main: me.omaromar93.wcbungee.WCBungee
 author: OmarOmar93
 softDepends:

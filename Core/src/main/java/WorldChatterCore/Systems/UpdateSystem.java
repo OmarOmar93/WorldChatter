@@ -18,6 +18,8 @@ public final class UpdateSystem {
     private boolean isDev;
 
     private static final int CURRENT_BUILD = 247;
+
+    private static final boolean DEVBUILD = true;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
 
     public UpdateSystem() {
@@ -32,6 +34,11 @@ public final class UpdateSystem {
                 build = Integer.parseInt(buildInfo[1]);
                 buildTitle = buildInfo[2];
                 isDev = Boolean.parseBoolean(buildInfo[3]);
+                if (CURRENT_BUILD == build) {
+                    if (ConfigSystem.INSTANCE.getSystem().getBoolean("DevelopmentUpdates")) {
+                        if (!isDev && DEVBUILD) return -1;
+                    }
+                }
                 return Integer.compare(CURRENT_BUILD, build);
             }
         } catch (Exception e) {

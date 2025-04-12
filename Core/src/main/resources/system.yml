@@ -27,7 +27,8 @@ Quit:
       message: "&a{player_name} &fhas left the game &8You have nothing to do to that player :P"
 
 
-# Advanced Settings (Edit if you know what you're doing)
+# Advanced Settings
+DevelopmentUpdates: false # Sends an update alert for the dev versions of WorldChatter!
 ASWLocation: "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"
 debug:
   enabled: false

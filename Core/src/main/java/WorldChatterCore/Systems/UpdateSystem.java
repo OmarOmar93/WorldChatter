@@ -33,13 +33,15 @@ public final class UpdateSystem {
                 buildName = buildInfo[0];
                 build = Integer.parseInt(buildInfo[1]);
                 buildTitle = buildInfo[2];
-                isDev = Boolean.parseBoolean(buildInfo[3]);
-                if (CURRENT_BUILD == build) {
-                    if (ConfigSystem.INSTANCE.getSystem().getBoolean("DevelopmentUpdates")) {
-                        if (!isDev && DEVBUILD) return -1;
-                    }
+                isDev = Boolean.parseBoolean(buildInfo[3].trim());
+                final int compare = Integer.compare(CURRENT_BUILD, build);
+                if (compare == -1 && (isDev && !ConfigSystem.INSTANCE.getSystem().getBoolean("DevelopmentUpdates"))) {
+                    return 0;
                 }
-                return Integer.compare(CURRENT_BUILD, build);
+                if (CURRENT_BUILD == build) {
+                    if (!isDev && DEVBUILD) return -1;
+                }
+                return compare;
             }
         } catch (Exception e) {
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Error occurred while checking for updates.");
@@ -82,7 +84,7 @@ public final class UpdateSystem {
                 break;
             case -1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "A " + (isDev ? "Development" : "Stable") +
-                    " version is available! " + buildTitle + " - " + buildName + " -> https://modrinth.com/plugin/worldchatter/";
+                    " version is available! " + ColorSystem.GREEN + buildTitle + ColorSystem.GRAY + " - " + buildName + ColorSystem.YELLOW + " -> https://modrinth.com/plugin/worldchatter/";
                 break;
             case 1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" +

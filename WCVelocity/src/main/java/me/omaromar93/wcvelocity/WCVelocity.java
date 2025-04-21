@@ -28,7 +28,7 @@ import java.util.Locale;
         name = "WorldChatter",
         version = "3.2.7",
         description = "Enhance your Chatting Experience.",
-        authors = {"OmarOmar93"},
+        authors = {"Omar"},
         dependencies = {
                 @Dependency(id = "luckperms", optional = true)
         }

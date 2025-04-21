@@ -8,7 +8,7 @@ softdepend:
   - PlaceholderAPI
   - Multiverse-Core
   - LuckPerms
-authors: [ OmarOmar93 ]
+authors: [ Omar ]
 description: Enhance your Chatting Experience.
 permissions:
   worldchatter.admintext:
@@ -16,10 +16,10 @@ permissions:
     default: op
   worldchatter.control:
     default: op
-    description: Control worldchatter's command
+    description: Control WorldChatter's command
   worldchatter.bypass.*:
     default: op
-    description: Bypass worldchatter's Security settings
+    description: Bypass WorldChatter's Security settings
     children:
       worldchatter.bypass.antiswear: true
       worldchatter.bypass.antiads: true
@@ -29,22 +29,22 @@ permissions:
       worldchatter.bypass.antirepeat: true
   worldchatter.bypass.antiswear:
     default: op
-    description: Bypass Worldchatter's Anti-Swear detection
+    description: Bypass WorldChatter's Anti-Swear detection
   worldchatter.bypass.antiads:
     default: op
-    description: Bypass Worldchatter's Anti-ADs detection
+    description: Bypass WorldChatter's Anti-ADs detection
   worldchatter.bypass.antispam:
     default: op
-    description: Bypass Worldchatter's Anti-Spam detection
+    description: Bypass WorldChatter's Anti-Spam detection
   worldchatter.bypass.chatlock:
     default: op
-    description: Bypass Worldchatter's ChatLock Feature
+    description: Bypass WorldChatter's ChatLock Feature
   worldchatter.bypass.anticaps:
     default: op
-    description: Bypass Worldchatter's Anti-Caps detection
+    description: Bypass WorldChatter's Anti-Caps detection
   worldchatter.bypass.antirepeat:
     default: op
-    description: Bypass Worldchatter's Anti-Repeat detection
+    description: Bypass WorldChatter's Anti-Repeat detection
 commands:
   worldchatter:
     description: The power of the chat in the palm of your hand.

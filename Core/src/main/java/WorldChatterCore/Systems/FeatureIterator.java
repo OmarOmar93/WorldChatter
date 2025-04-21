@@ -43,7 +43,7 @@ public final class FeatureIterator {
     }
 
     public String prepareTheMessage(final String message, final Player player) {
-        return ChatFormatter.INSTANCE.formatMessage(message, player);
+        return ChatFormatter.INSTANCE.formatMessage((FeatureSystem.INSTANCE.getUnformattedMesasge() != null ? FeatureSystem.INSTANCE.getUnformattedMesasge() : message), player);
     }
 
     public void initalizeTheMessage(final String format, final String message, final Player player) {

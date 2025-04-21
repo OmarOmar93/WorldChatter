@@ -16,7 +16,7 @@ public final class WCPlaceHolder {
         return placeholders;
     }
 
-    public static String formatMessage(String message, final Player player) {
+    public static String formatMessageDoNotUse(String message, final Player player) {
         final Matcher matcher = pattern.matcher(message);
         while (matcher.find()) {
             if (WCA.INSTANCE != null) {

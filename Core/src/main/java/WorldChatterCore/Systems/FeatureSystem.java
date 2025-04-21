@@ -19,6 +19,8 @@ public final class FeatureSystem {
     private String reason = null;
     private boolean cancelled = false;
 
+    private String rawMessage = null;
+
 
     public FeatureSystem(final Player player, final String message) {
         INSTANCE = this;
@@ -63,8 +65,10 @@ public final class FeatureSystem {
         if (WCA.INSTANCE != null) {
             for (final WCListener listener : WCA.INSTANCE.getListeners()) {
                 try {
-                    listener.onMessage(this, player, message);
+                    setUnformattedMessage(message);
+                    listener.onMessage(this, player);
                 } catch (AbstractMethodError ignored) {
+                    setUnformattedMessage(null);
                     debugMode.INSTANCE.println("Method not found in API Listener, ignoring....", debugMode.printType.WARNING);
                 }
             }
@@ -108,6 +112,14 @@ public final class FeatureSystem {
 
     public String getReason() {
         return reason;
+    }
+
+    public String getUnformattedMesasge() {
+        return rawMessage;
+    }
+
+    public void setUnformattedMessage(final String message) {
+        rawMessage = message;
     }
 
     public boolean isCancelled() {

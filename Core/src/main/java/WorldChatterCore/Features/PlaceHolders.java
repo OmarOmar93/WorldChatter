@@ -22,7 +22,7 @@ public final class PlaceHolders {
                     .replace("\\n", "\r")
                     .replace("\\r", "\r"), player);
         }
-        message = WCPlaceHolder.formatMessage(message,player);
+        message = WCPlaceHolder.formatMessageDoNotUse(message,player);
 
         if (MiniMessageConnector.INSTANCE != null) {
             message = MiniMessageConnector.INSTANCE.returnFormattedString(message);

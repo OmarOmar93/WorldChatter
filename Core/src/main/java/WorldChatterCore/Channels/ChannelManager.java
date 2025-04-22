@@ -8,6 +8,7 @@ import WorldChatterCore.Players.Player;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ConfigSystem;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -119,7 +120,7 @@ public final class ChannelManager {
                     .forEach(p -> p.sendMessage(message));
             return;
         }
-        debugMode.INSTANCE.println(player.getName() + "'s sent messages to " + recipients, debugMode.printType.INFO);
+        debugMode.INSTANCE.println(player.getName() + "'s message sent to " + Arrays.toString(recipients.toArray()), debugMode.printType.INFO);
         recipients.forEach(p -> p.sendMessage(message));
     }
 }

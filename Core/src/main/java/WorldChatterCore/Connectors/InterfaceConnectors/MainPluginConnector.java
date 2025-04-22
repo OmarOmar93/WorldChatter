@@ -50,7 +50,7 @@ public final class MainPluginConnector {
                 if (plugin.equalsIgnoreCase("LuckPerms")) {
                     new LuckPermsConnector();
                 }
-                if (plugin.equalsIgnoreCase("InteractiveChat")) {
+                if (plugin.equalsIgnoreCase("InteractiveChat") || plugin.equalsIgnoreCase("InteractiveChatBungee") || plugin.equalsIgnoreCase("interactivechatvelocity")) {
                     new InteractiveChatConnector();
                 }
             }

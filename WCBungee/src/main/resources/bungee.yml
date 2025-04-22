@@ -4,4 +4,5 @@ main: me.omaromar93.wcbungee.WCBungee
 author: Omar
 softDepends:
   - LuckPerms
+  - InteractiveChatBungee
 description: Enhance your Chatting Experience.

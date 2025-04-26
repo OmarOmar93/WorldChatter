@@ -1,7 +1,6 @@
 package WorldChatterCore.Connectors.InterfaceConnectors;
 
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
-import WorldChatterCore.Features.InteractiveChatConnector;
 import WorldChatterCore.Features.LuckPermsConnector;
 import WorldChatterCore.Features.MiniMessageConnector;
 import WorldChatterCore.Players.PlayerHandler;
@@ -44,14 +43,11 @@ public final class MainPluginConnector {
     }
 
     public void loadSupportedPlugins() {
-        for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core", "LuckPerms", "InteractiveChat", "InteractiveChatBungee", "interactivechatvelocity"}) {
+        for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core", "LuckPerms"}) {
             if (getWorldChatter().isPluginEnabled(plugin)) {
                 getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
                 if (plugin.equalsIgnoreCase("LuckPerms")) {
                     new LuckPermsConnector();
-                }
-                if (plugin.equalsIgnoreCase("InteractiveChat") || plugin.equalsIgnoreCase("InteractiveChatBungee") || plugin.equalsIgnoreCase("interactivechatvelocity")) {
-                    new InteractiveChatConnector();
                 }
             }
 

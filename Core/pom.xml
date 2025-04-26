@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -11,6 +12,29 @@
     <artifactId>Core</artifactId>
     <version>3.2.7</version>
     <packaging>jar</packaging>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -26,12 +50,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>com.loohp</groupId>
-            <artifactId>InteractiveChat</artifactId>
-            <version>4.2.9.1</version>
-            <scope>provided</scope>
-        </dependency>
       <dependency>
           <groupId>org.yaml</groupId>
           <artifactId>snakeyaml</artifactId>
@@ -41,7 +59,7 @@
       <dependency>
           <groupId>org.jetbrains</groupId>
           <artifactId>annotations</artifactId>
-          <version>24.0.0</version>
+          <version>26.0.2</version>
           <scope>provided</scope>
       </dependency>
       <dependency>
@@ -63,13 +81,13 @@
       <dependency>
           <groupId>io.netty</groupId>
           <artifactId>netty-codec</artifactId>
-          <version>4.1.110.Final</version>
+          <version>4.1.115.Final</version>
           <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>33.1.0-jre</version>
+        <version>33.3.1-jre</version>
         <scope>compile</scope>
       </dependency>
     </dependencies>

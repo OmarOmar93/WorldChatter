@@ -8,9 +8,18 @@
     <version>3.2.7</version>
     <packaging>pom</packaging>
 
-
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -23,7 +32,6 @@
                         </goals>
                         <configuration>
                             <minimizeJar>true</minimizeJar>
-                            <outputDirectory>D:\Projects\Servers\1.8_Server\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

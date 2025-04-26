@@ -26,7 +26,7 @@ import java.util.Locale;
 @Plugin(
         id = "worldchatter",
         name = "WorldChatter",
-        version = "3.2.7",
+        version = "3.2.8",
         description = "Enhance your Chatting Experience.",
         authors = {"Omar"},
         dependencies = {
@@ -104,6 +104,6 @@ public final class WCVelocity implements MainPlugin {
 
     @Override
     public String getVersion() {
-        return "3.2.7";
+        return "3.2.8";
     }
 }

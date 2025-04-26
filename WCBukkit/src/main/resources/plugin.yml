@@ -1,5 +1,5 @@
 name: WorldChatter
-version: '3.2.7'
+version: '3.2.8'
 main: me.omaromar93.wcbukkit.WCBukkit
 api-version: '1.13'
 load: POSTWORLD

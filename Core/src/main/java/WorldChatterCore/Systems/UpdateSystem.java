@@ -16,7 +16,7 @@ public final class UpdateSystem {
     private int build;
     private boolean isDev;
 
-    private static final int CURRENT_BUILD = 247;
+    private static final int CURRENT_BUILD = 248;
 
     private static final boolean DEVBUILD = true;
     private static final String VERSION_URL = "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/version2";
@@ -75,11 +75,6 @@ public final class UpdateSystem {
                 listener.updateChecked(sender);
             }
         }
-    }
-
-    private void sendConsoleUpdateError(String addonName) {
-        MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(
-                ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GRAY + "Unable to check for updates for " + addonName);
     }
 
     public boolean isDev() {

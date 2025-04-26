@@ -19,27 +19,27 @@ public final class LuckPermsConnector {
         INSTANCE = this;
     }
 
-    public String formatMessage(final UUID uuid, final String message) {
-        if (uuid == null || message == null) {
-            return message; // Return original message if inputs are invalid
-        }
 
+    public CachedMetaData getMetaData(final UUID uuid) {
         try {
             final User user = api.getUserManager().getUser(uuid);
             if (user == null) {
                 debugMode.INSTANCE.println("couldn't find the user's data with UUID \"" + uuid + "\"", debugMode.printType.WARNING);
-                return message; // User not found, return the original message
+                return null; // User not found, return the original message
             }
 
-            final @NonNull CachedMetaData metaData = user.getCachedData().getMetaData();
-            final String prefix = metaData.getPrefix() != null ? metaData.getPrefix() : "";
-            final String suffix = metaData.getSuffix() != null ? metaData.getSuffix() : "";
-
-            return message.replace("{player_prefix}", prefix)
-                    .replace("{player_suffix}", suffix);
-        } catch (final Exception e) {
-            return message; // Return the original message in case of any errors
+            return user.getCachedData().getMetaData();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public String getPrefix(final CachedMetaData metaData) {
+        return metaData.getPrefix() != null ? metaData.getPrefix() : "";
+    }
+
+    public String getSuffix(final CachedMetaData metaData) {
+        return metaData.getSuffix() != null ? metaData.getSuffix() : "";
     }
 
 

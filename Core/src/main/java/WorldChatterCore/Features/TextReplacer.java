@@ -10,11 +10,14 @@ public final class TextReplacer {
     public static TextReplacer INSTANCE;
     private Configuration texts;
 
+    private String noReplaceMessage;
+
     public TextReplacer() {
         INSTANCE = this;
     }
 
     public void update() {
+        noReplaceMessage = ConfigSystem.INSTANCE.getMessages().getString("NoReplacedMessage");
         if (ConfigSystem.INSTANCE.getTexts().getBoolean("texts.enabled")) {
             texts = ConfigSystem.INSTANCE.getTexts().getSection("texts.messages");
             return;
@@ -34,6 +37,7 @@ public final class TextReplacer {
                     }
                     if (!player.hasPermission("worldchatter.admintext") && texts.getBoolean(key + ".perm") && message.contains(texts.getString(key + ".replace"))) {
                         message = message.replace(texts.getString(key + ".replace"), "");
+                        player.sendMessage(ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(noReplaceMessage, player)));
                     }
                 }
             }

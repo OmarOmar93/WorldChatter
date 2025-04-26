@@ -92,10 +92,10 @@ public final class WCVelocity implements MainPlugin {
         final com.velocitypowered.api.proxy.Player p = velocityPlayer.getVelocityPlayer();
         final String clientBrand = p.getClientBrand();
         return message
-                .replace("{player_ping}", String.valueOf(p.getPing()))
-                .replace("{player_clientbrand}", clientBrand == null ? "" : clientBrand)
-                .replace("{player_protocolversion}", p.getProtocolVersion().toString())
-                .replace("{player_protocol}", String.valueOf(p.getProtocolVersion().getProtocol()));
+                .replace("$player_ping", String.valueOf(p.getPing()))
+                .replace("$player_clientbrand", clientBrand == null ? "" : clientBrand)
+                .replace("$player_protocolversion", p.getProtocolVersion().toString())
+                .replace("$player_protocol", String.valueOf(p.getProtocolVersion().getProtocol()));
     }
 
     @Override

@@ -57,7 +57,7 @@ public final class ServerOptions {
 
     private String formatQuickPlayerServers(final String message, final Player player, final String previous, final String current) {
         return ColorSystem.tCC(PlaceHolders.applyPlaceHoldersifPossible(message
-                .replace("{previous_server}", previous)
-                .replace("{current_server}", current), player));
+                .replace("$previous_server", previous)
+                .replace("$current_server", current), player));
     }
 }

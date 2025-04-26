@@ -78,7 +78,7 @@ public final class WCBungee extends Plugin implements MainPlugin {
     @Override
     public String supporttheMessage(final String message, final Player player) {
         return message
-                .replace("{player_ping}", String.valueOf(getProxy().getPlayer(player.getUniqueId()).getPing()));
+                .replace("$player_ping", String.valueOf(getProxy().getPlayer(player.getUniqueId()).getPing()));
     }
 
     @Override

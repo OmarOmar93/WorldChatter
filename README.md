@@ -56,7 +56,7 @@ aliases:
   place:
     world: "&aOverworld&r"
   player:
-    OmarOmar93: "<gradient>OmarOmar93</gradient> &o&eTest Omar Yes"
+    omardotmc: "<gradient>omardotmc</gradient> &o&eTest Omar Yes"
 ```
 
 ### Chat Locking

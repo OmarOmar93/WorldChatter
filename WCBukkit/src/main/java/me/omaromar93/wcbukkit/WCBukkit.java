@@ -187,9 +187,6 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
         if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("PlaceholderAPI")) {
             message = PlaceholderAPI.setPlaceholders(getServer().getPlayer(player.getUniqueId()), message);
         }
-        if (MainPluginConnector.INSTANCE.getWorldChatter().isPluginEnabled("Multiverse-Core")) {
-            message = message.replace("{player_mvworld}", player.getPlace());
-        }
         return message;
     }
 

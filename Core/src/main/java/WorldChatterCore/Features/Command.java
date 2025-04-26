@@ -1,7 +1,6 @@
 package WorldChatterCore.Features;
 
 
-import WorldChatterCore.API.Addon;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Channels.ChannelManager;
@@ -56,7 +55,6 @@ public final class Command {
                         case "reload":
                         case "r":
                             ConfigSystem.INSTANCE.update();
-                            sender.sendMessage(ColorSystem.GREEN + "Reloaded the WorldChatter's Configuration!");
                             if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
                                 listener.senderConfigReload(sender);
                             }
@@ -66,7 +64,7 @@ public final class Command {
                         case "v":
                         case "i":
                             sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
-                            sender.sendMessage(ColorSystem.YELLOW + "Created By: OmarOmar93");
+                            sender.sendMessage(ColorSystem.YELLOW + "Created By: Omar");
                             sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Beta Phase\" Update");
                             return;
                         case "help":
@@ -84,21 +82,6 @@ public final class Command {
                         case "update":
                         case "u":
                             UpdateSystem.INSTANCE.messageCheck(sender);
-                            UpdateSystem.INSTANCE.checkForAddonsUpdates(sender);
-                            return;
-                        case "addons":
-                        case "a":
-                            if(WCA.INSTANCE != null) {
-                                for (final Addon addon : WCA.INSTANCE.getAddons()) {
-                                    sender.sendMessage(ColorSystem.GRAY + "-> " + ColorSystem.RESET + addon.getName());
-                                    sender.sendMessage(ColorSystem.GREEN + "Author(s): " + ColorSystem.YELLOW + addon.getAuthor());
-                                    sender.sendMessage(ColorSystem.GREEN + "Version: " + ColorSystem.YELLOW + addon.getVersion() + ((addon.getBuild() != null) ? ColorSystem.GRAY + " (" + addon.getBuild() + ")" : ""));
-                                    sender.sendMessage(ColorSystem.RESET + addon.getDescription());
-                                    sender.sendMessage(ColorSystem.GRAY + "----------------------------------------");
-                                }
-                                return;
-                            }
-                            sender.sendMessage(ColorSystem.YELLOW + "WorldChatter Add-on Service isn't activated! " + ColorSystem.GRAY + "(No Addons were found)");
                             return;
                         case "clear":
                         case "clearchat":
@@ -107,7 +90,7 @@ public final class Command {
                                     + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))
                                     : MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
                                     + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))))
-                                    .replace("{sender}", sender.getName() == null ? "SERVER" : sender.getName());
+                                    .replace("$sender", sender.getName() == null ? "SERVER" : sender.getName());
                             if (!sender.isPlayer() || ChannelManager.INSTANCE.isGlobalSending()) {
                                 MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
                             } else {

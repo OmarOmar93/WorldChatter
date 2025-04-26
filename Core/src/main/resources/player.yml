@@ -10,7 +10,7 @@ MiniMessage: false # Allows players to use the MiniMessage Format in chat!
 
 UserMention:
   enabled: true
-  prefix: '@' # prefix character to mention the user with @omaromar93
+  prefix: '@' # prefix character to mention the user with @omardotmc
   format: "&a{player_name}"
   sound:
     name: "BLOCK_NOTE_BLOCK_PLING"

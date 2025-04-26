@@ -1,8 +1,10 @@
 package WorldChatterCore.Connectors.InterfaceConnectors;
 
+import WorldChatterCore.API.WCA;
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
 import WorldChatterCore.Features.LuckPermsConnector;
 import WorldChatterCore.Features.MiniMessageConnector;
+import WorldChatterCore.Features.WCDefaultEvents;
 import WorldChatterCore.Players.PlayerHandler;
 import WorldChatterCore.Systems.ColorSystem;
 import WorldChatterCore.Systems.ConfigSystem;
@@ -39,6 +41,8 @@ public final class MainPluginConnector {
         new ConfigSystem();
         getWorldChatter().refreshPlayers();
         new UpdateSystem();
+        new WCA();
+        WCA.INSTANCE.addListener(new WCDefaultEvents());
         UpdateSystem.INSTANCE.messageCheck(null);
     }
 

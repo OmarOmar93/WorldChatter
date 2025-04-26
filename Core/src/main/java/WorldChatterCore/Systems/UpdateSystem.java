@@ -1,6 +1,5 @@
 package WorldChatterCore.Systems;
 
-import WorldChatterCore.API.Addon;
 import WorldChatterCore.API.WCA;
 import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Connectors.InterfaceConnectors.MainPluginConnector;
@@ -47,33 +46,6 @@ public final class UpdateSystem {
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.RED + "Error occurred while checking for updates.");
         }
         return -2;
-    }
-
-    public void checkForAddonsUpdates(final CommandSender sender) {
-        if (WCA.INSTANCE == null) return;
-        for (final Addon addon : WCA.INSTANCE.getAddons()) {
-            checkForAddonUpdate(addon, sender);
-        }
-    }
-
-    public void checkForAddonUpdate(final Addon addon, final CommandSender sender) {
-        if (addon.getUpdater() == null) return;
-        final String[] buildInfo = Objects.requireNonNull(Util.getContentfromURl(addon.getUpdater())).split(",");
-        if (buildInfo.length > 1) {
-            final int addonBuild = Integer.parseInt(buildInfo[1]);
-            if (addon.getBuild() < addonBuild) {
-                final String message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW +
-                        addon.getName() + " has a " + (Boolean.parseBoolean(buildInfo[2]) ? "Development" : "Stable") +
-                        " Update available! " + buildInfo[0];
-                if (sender != null) {
-                    sender.sendMessage(message);
-                } else {
-                    MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(message);
-                }
-            }
-        } else {
-            sendConsoleUpdateError(addon.getName());
-        }
     }
 
     public void messageCheck(final CommandSender sender) {

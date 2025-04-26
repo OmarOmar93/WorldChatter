@@ -82,7 +82,7 @@ public final class FeatureSystem {
                 if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
                     reason = PlaceHolders.applyPlaceHoldersifPossible(
                             ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
-                                    .replace("{duration}", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
+                                    .replace("$duration", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
                             , player);
 
                     callAPI(Collections.singletonList("Anti-Spam"), player, message);

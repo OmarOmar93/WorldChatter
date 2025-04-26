@@ -8,7 +8,6 @@ softdepend:
   - PlaceholderAPI
   - Multiverse-Core
   - LuckPerms
-  - InteractiveChat
 authors: [ Omar ]
 description: Enhance your Chatting Experience.
 permissions:

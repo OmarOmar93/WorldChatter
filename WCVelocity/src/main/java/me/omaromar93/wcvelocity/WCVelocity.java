@@ -30,8 +30,7 @@ import java.util.Locale;
         description = "Enhance your Chatting Experience.",
         authors = {"Omar"},
         dependencies = {
-                @Dependency(id = "luckperms", optional = true),
-                @Dependency(id = "interactivechatvelocity", optional = true)
+                @Dependency(id = "luckperms", optional = true)
         }
 )
 public final class WCVelocity implements MainPlugin {

@@ -46,7 +46,7 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
             final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
             mvcore = plugin != null ? (MultiverseCore) plugin : null;
         } catch (ClassNotFoundException e) {
-            sendConsoleMessage(ChatColor.RED + "Unable to hook into multiverse core.")
+            sendConsoleMessage(ChatColor.RED + "Unable to hook into multiverse core.");
         }
         MainPluginConnector.INSTANCE.setWorldChatter(this);
         registerEvents(getServer().getPluginManager());

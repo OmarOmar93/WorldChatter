@@ -25,6 +25,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.ClassNotFoundException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -36,14 +37,17 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
     public WCBukkit() {
         INSTANCE = this;
-        final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
-        mvcore = plugin != null ? (MultiverseCore) plugin : null;
         new MainPluginConnector();
     }
 
-
     @Override
     public void onEnable() throws RuntimeException {
+        try {
+            final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
+            mvcore = plugin != null ? (MultiverseCore) plugin : null;
+        } catch (ClassNotFoundException e) {
+            sendConsoleMessage(ChatColor.RED + "Unable to hook into multiverse core.");
+        }
         MainPluginConnector.INSTANCE.setWorldChatter(this);
         registerEvents(getServer().getPluginManager());
         getCommand("worldchatter").setExecutor(new Command());

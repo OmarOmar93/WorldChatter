@@ -87,9 +87,8 @@ public final class BukkitPlayer implements WorldChatterCore.Players.Player {
 
     @Override
     public void kick(String reason) {
-        if (!reason.isEmpty()) {
-            Bukkit.getScheduler().runTask(WCBukkit.INSTANCE, () -> player.kickPlayer(reason));
-        }
+        if (!reason.isEmpty()) Bukkit.getScheduler().runTask(WCBukkit.INSTANCE, () -> player.kickPlayer(reason));
+
     }
 
 }

@@ -31,6 +31,10 @@ public interface WCListener {
      */
     default void chatLockToggle(final CommandSender sender){}
 
+    default void onWorldChatterEnable(){}
+
+    default void onWorldChatterDisable(){}
+
     /**
      *
      * @param sender The Command Sender

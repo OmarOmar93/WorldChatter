@@ -31,6 +31,7 @@ public final class ChannelManager {
 
     /**
      * Check if the global sending is enabled or not
+     *
      * @return {@link Boolean} based check
      */
     public boolean isGlobalSending() {
@@ -49,17 +50,13 @@ public final class ChannelManager {
             final List<String> places = channels.getStringList(key + ".places");
             final List<String> players = channels.getStringList(key + ".players");
 
-            if (!isChannelExist(key)) {
-                channelList.add(new Channel(key, places, players));
-            } else {
-                getChannel(key).setPlayerList(players).setPlaceList(places);
-            }
-        });
+            if (!isChannelExist(key)) channelList.add(new Channel(key, places, players));
+            else getChannel(key).setPlayerList(players).setPlaceList(places);
 
+        });
     }
 
     /**
-     *
      * @param name the channel name
      * @return the channel's existence
      */
@@ -70,6 +67,7 @@ public final class ChannelManager {
 
     /**
      * Gets the channel by adding it's name
+     *
      * @param name the channel's name
      * @return the {@link Channel}
      */
@@ -82,7 +80,8 @@ public final class ChannelManager {
 
     /**
      * The channel's send message
-     * @param player the player
+     *
+     * @param player  the player
      * @param message the message
      */
     public void sendMessage(final Player player, final String message) {

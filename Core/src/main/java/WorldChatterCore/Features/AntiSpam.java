@@ -28,6 +28,7 @@ public final class AntiSpam {
 
     /**
      * adds the player in a cooldown
+     *
      * @param player the player
      */
     public void coolThatPlayerDown(final Player player) {
@@ -36,6 +37,7 @@ public final class AntiSpam {
 
     /**
      * Gets the time remaining from player if it is in a cooldown
+     *
      * @param player the player
      * @return the time left
      */
@@ -45,17 +47,16 @@ public final class AntiSpam {
 
     /**
      * Checks if the player is in a cooldown or not
+     *
      * @param player the player
      * @return if there is or not
      */
     public boolean isTimeLeft(final Player player) {
-        if (cooldowns.containsKey(player)) {
-            if (cooldowns.get(player) < System.currentTimeMillis()) {
-                cooldowns.remove(player);
-                return false;
-            }
-            return true;
+        if (!cooldowns.containsKey(player)) return false;
+        if (cooldowns.get(player) < System.currentTimeMillis()) {
+            cooldowns.remove(player);
+            return false;
         }
-        return false;
+        return true;
     }
 }

@@ -56,25 +56,19 @@ public final class UpdateSystem {
                 break;
             case -1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "A " + (isDev ? "Development" : "Stable") +
-                    " version is available! " + ColorSystem.GREEN + buildTitle + ColorSystem.GRAY + " - " + buildName + ColorSystem.YELLOW + " -> https://modrinth.com/plugin/worldchatter/";
+                        " version is available! " + ColorSystem.GREEN + buildTitle + ColorSystem.GRAY + " - " + buildName + ColorSystem.YELLOW + " -> https://modrinth.com/plugin/worldchatter/";
                 break;
             case 1:
                 message = ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "You're using an " + ColorSystem.AQUA + "Early-Access" +
-                    ColorSystem.BLUE + " version of WorldChatter!";
+                        ColorSystem.BLUE + " version of WorldChatter!";
                 break;
         }
 
-        if (sender != null) {
-            sender.sendMessage(message);
-        } else {
-            MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(message);
-        }
+        if (sender != null) sender.sendMessage(message);
+        else MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(message);
 
-        if (WCA.INSTANCE != null) {
-            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
-                listener.updateChecked(sender);
-            }
-        }
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) listener.updateChecked(sender);
+
     }
 
     public boolean isDev() {

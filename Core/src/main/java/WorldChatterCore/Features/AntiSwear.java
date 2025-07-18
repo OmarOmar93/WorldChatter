@@ -31,22 +31,23 @@ public final class AntiSwear {
         whitelist.clear();
         curseWords.clear();
 
-        if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
-            // Populate whitelist
-            whitelist.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.whitelist"));
-
-            // Fetch curse words from an external URL and local configuration
-            curseWords.addAll(Arrays.asList(Objects.requireNonNull(Util.getContentfromURl(
-                    ConfigSystem.INSTANCE.getSystem().getString("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"))
-            ).split("\n")));
-            curseWords.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.blacklist"));
-            curseWords.removeAll(whitelist); // Ensure whitelist overrides blacklist
-            similarity = ConfigSystem.INSTANCE.getSecurity().getDouble("AntiSwear.sensitivity", 80);
-            minimum = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSwear.minimum", 3);
+        if (!ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+            similarity = null;
+            minimum = null;
             return;
         }
-        similarity = null;
-        minimum = null;
+
+        // Populate whitelist
+        whitelist.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.whitelist"));
+
+        // Fetch curse words from an external URL and local configuration
+        curseWords.addAll(Arrays.asList(Objects.requireNonNull(Util.getContentfromURl(
+                ConfigSystem.INSTANCE.getSystem().getString("ASWLocation", "https://raw.githubusercontent.com/OmarOmar93/WCVersion/main/profanity_list.txt"))
+        ).split("\n")));
+        curseWords.addAll(ConfigSystem.INSTANCE.getSecurity().getStringList("AntiSwear.blacklist"));
+        curseWords.removeAll(whitelist); // Ensure whitelist overrides blacklist
+        similarity = ConfigSystem.INSTANCE.getSecurity().getDouble("AntiSwear.sensitivity", 80);
+        minimum = ConfigSystem.INSTANCE.getSecurity().getInt("AntiSwear.minimum", 3);
     }
 
     /**
@@ -56,14 +57,8 @@ public final class AntiSwear {
      * @return A normalized string containing only letters, lowercase.
      */
     public String preprocessMessage(final String message) {
-        // Normalize accents (e.g., "café" → "cafe")
-        String normalized = Normalizer.normalize(message, Normalizer.Form.NFD)
-                .replaceAll("\\p{M}", ""); // Remove diacritical marks
-
-        // Remove all non-letter characters (e.g., "~", "-", "_", ".", " ")
-        normalized = normalized.replaceAll("[^a-zA-Z]", ""); // Keep only letters
-
-        return normalized.toLowerCase(); // Convert to lowercase for consistency
+        return Normalizer.normalize(message, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "").replaceAll("[^a-zA-Z]", "").toLowerCase(); // Convert to lowercase for consistency
     }
 
     /**
@@ -77,11 +72,8 @@ public final class AntiSwear {
             if (word.length() < minimum) continue; // Skip short words
             if (whitelist.contains(word)) continue; // Skip whitelisted words
 
-            for (final String curse : curseWords) {
-                if (isSimilar(word, curse)) {
-                    return true;
-                }
-            }
+            for (final String curse : curseWords) if (isSimilar(word, curse)) return true;
+
         }
         return false;
     }

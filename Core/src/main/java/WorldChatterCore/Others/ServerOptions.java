@@ -25,14 +25,14 @@ public final class ServerOptions {
 
     public void update() {
         switchMessage = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.enabled");
-        if (switchMessage) {
-            preMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.premessage");
-            coMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.comessage");
-            switchGlobal = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.global");
+        if (!switchMessage) {
+            preMessage = null;
+            coMessage = null;
             return;
         }
-        preMessage = null;
-        coMessage = null;
+        preMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.premessage");
+        coMessage = ConfigSystem.INSTANCE.getMessages().getString("SwitchSettings.comessage");
+        switchGlobal = ConfigSystem.INSTANCE.getMessages().getBoolean("SwitchSettings.global");
     }
 
     public boolean isSwitchMessage() {
@@ -48,11 +48,9 @@ public final class ServerOptions {
 
     public void loopType(final Player joiner, final String previous, final String current) {
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(formatQuickPlayerServers(preMessage, joiner, previous, current));
-        for (final Player player : !switchGlobal ? Stream.concat(getPlayersinPlace(previous).stream(), getPlayersinPlace(current).stream()).collect(Collectors.toCollection(ArrayList::new)) : PlayerHandler.INSTANCE.getPlayers().values()) {
-            if (player != joiner) {
+        for (final Player player : !switchGlobal ? Stream.concat(getPlayersinPlace(previous).stream(), getPlayersinPlace(current).stream()).collect(Collectors.toCollection(ArrayList::new)) : PlayerHandler.INSTANCE.getPlayers().values())
+            if (player != joiner)
                 player.sendMessage(formatQuickPlayerServers(player.getRawPlace().equalsIgnoreCase(previous) ? preMessage : coMessage, joiner, previous, current));
-            }
-        }
     }
 
     private String formatQuickPlayerServers(final String message, final Player player, final String previous, final String current) {

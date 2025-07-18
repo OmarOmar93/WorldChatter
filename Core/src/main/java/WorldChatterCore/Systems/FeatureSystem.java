@@ -62,51 +62,48 @@ public final class FeatureSystem {
     - check if it has the following (anti-Ads,anti-caps,anti-swear) ✅
      */
     private boolean messageApproved(final Player player, final String message) {
-        if (WCA.INSTANCE != null) {
-            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
-                try {
-                    setUnformattedMessage(message);
-                    listener.onMessage(this, player);
-                } catch (AbstractMethodError ignored) {
-                    setUnformattedMessage(null);
-                    debugMode.INSTANCE.println("Method not found in API Listener, ignoring....", debugMode.printType.WARNING);
-                }
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) {
+            try {
+                setUnformattedMessage(message);
+                listener.onMessage(this, player);
+            } catch (AbstractMethodError ignored) {
+                setUnformattedMessage(null);
+                debugMode.INSTANCE.println("Method not found in API Listener, ignoring....", debugMode.printType.WARNING);
             }
         }
-        if (!cancelled) {
-            if (!ChatLock.INSTANCE.isLocked() || player.hasPermission("worldchatter.bypass.chatlock")) {
-                if (ConfigSystem.INSTANCE.getPlace().getBoolean("BlackList.enabled")
-                        && worldBlacklist.isPlaceBlackListed(player.getRawPlace())) {
-                    return false;
-                }
-                if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
-                    reason = PlaceHolders.applyPlaceHoldersifPossible(
-                            ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
-                                    .replace("$duration", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
-                            , player);
 
-                    callAPI(Collections.singletonList("Anti-Spam"), player, message);
-                    return false;
-                } else {
-                    AntiSpam.INSTANCE.coolThatPlayerDown(player);
-                }
-                if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
-                        || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
-                        || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+        if (cancelled) return false;
 
-                    final List<String> flags = featureIterator.securityCheck(player, ColorSystem.stripColor(message));
-                    if (!flags.isEmpty()) {
-                        Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
-
-                        callAPI(flags, player, message);
-                        return false;
-                    }
-                }
-                return true;
+        if (!ChatLock.INSTANCE.isLocked() || player.hasPermission("worldchatter.bypass.chatlock")) {
+            if (ConfigSystem.INSTANCE.getPlace().getBoolean("BlackList.enabled")
+                    && worldBlacklist.isPlaceBlackListed(player.getRawPlace())) {
+                return false;
             }
-            reason = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.currently");
-            return false;
+            if (AntiSpam.INSTANCE.isTimeLeft(player) && !player.hasPermission("worldchatter.bypass.antispam")) {
+                reason = PlaceHolders.applyPlaceHoldersifPossible(
+                        ConfigSystem.INSTANCE.getMessages().getString("SpamMessage")
+                                .replace("$duration", Objects.requireNonNull(AntiSpam.INSTANCE.getTimeLeft(player)))
+                        , player);
+
+                callAPI(Collections.singletonList("Anti-Spam"), player, message);
+                return false;
+            } else AntiSpam.INSTANCE.coolThatPlayerDown(player);
+
+            if (ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiADS")
+                    || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiCaps.enabled")
+                    || ConfigSystem.INSTANCE.getSecurity().getBoolean("AntiSwear.enabled")) {
+
+                final List<String> flags = featureIterator.securityCheck(player, ColorSystem.stripColor(message));
+                if (!flags.isEmpty()) {
+                    Notifications.INSTANCE.alertStaffandPlayer(String.join(", ", flags), player, message);
+
+                    callAPI(flags, player, message);
+                    return false;
+                }
+            }
+            return true;
         }
+        reason = ConfigSystem.INSTANCE.getPlace().getString("ChatLockMessage.currently");
         return false;
     }
 
@@ -135,10 +132,6 @@ public final class FeatureSystem {
     }
 
     private void callAPI(final List<String> flags, final Player player, final String message) {
-        if (WCA.INSTANCE != null) {
-            for (final WCListener listener : WCA.INSTANCE.getListeners()) {
-                listener.messageDetect(flags, player, message);
-            }
-        }
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) listener.messageDetect(flags, player, message);
     }
 }

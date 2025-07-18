@@ -37,11 +37,7 @@ public final class PlayerJoiningQuitting {
     }
 
     public void update() {
-        if (ConfigSystem.INSTANCE.getPlayer().getBoolean("Greetings.enabled")) {
-            greetingsMessage = ConfigSystem.INSTANCE.getPlayer().getString("Greetings.message");
-        } else {
-            greetingsMessage = null;
-        }
+        greetingsMessage = ConfigSystem.INSTANCE.getPlayer().getBoolean("Greetings.enabled") ? ConfigSystem.INSTANCE.getPlayer().getString("Greetings.message") : null;
 
         if (ConfigSystem.INSTANCE.getSystem().getBoolean("Join.enabled")) {
             joinPermissions = ConfigSystem.INSTANCE.getSystem().getSection("Join.permissions");
@@ -89,18 +85,14 @@ public final class PlayerJoiningQuitting {
 
 
     private boolean hasPermission(final Player player, final List<String> permissions) {
-        for (final String permission : permissions) {
-            if (player.hasPermission(permission)) return true;
-        }
+        for (final String permission : permissions) if (player.hasPermission(permission)) return true;
         return false;
     }
 
 
     public void commitPlayerActivities(final Player joiner, final boolean type) {
         if (type && defaultJoin != null) {
-            if (greetingsMessage != null) {
-                joiner.sendMessage(formatQuick(greetingsMessage, joiner));
-            }
+            if (greetingsMessage != null) joiner.sendMessage(formatQuick(greetingsMessage, joiner));
             switch (joinLevel) {
                 case 1:
                     loopType(joinMode, joiner, defaultJoin, joinPermissions, ServerOptions.INSTANCE.getPlayersinPlace(joinPlace));

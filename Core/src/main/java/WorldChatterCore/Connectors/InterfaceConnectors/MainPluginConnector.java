@@ -1,6 +1,7 @@
 package WorldChatterCore.Connectors.InterfaceConnectors;
 
 import WorldChatterCore.API.WCA;
+import WorldChatterCore.API.WCListener;
 import WorldChatterCore.Connectors.Interfaces.MainPlugin;
 import WorldChatterCore.Features.LuckPermsConnector;
 import WorldChatterCore.Features.MiniMessageConnector;
@@ -44,22 +45,19 @@ public final class MainPluginConnector {
         new WCA();
         WCA.INSTANCE.addListener(new WCDefaultEvents());
         UpdateSystem.INSTANCE.messageCheck(null);
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) listener.onWorldChatterEnable();
     }
 
     public void loadSupportedPlugins() {
         for (final String plugin : new String[]{"PlaceholderAPI", "Multiverse-Core", "LuckPerms"}) {
-            if (getWorldChatter().isPluginEnabled(plugin)) {
-                getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
-                if (plugin.equalsIgnoreCase("LuckPerms")) {
-                    new LuckPermsConnector();
-                }
-            }
-
+            if (!getWorldChatter().isPluginEnabled(plugin)) continue;
+            getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.GREEN + "Enabled Support for " + ColorSystem.YELLOW + plugin + "!");
+            if (plugin.equalsIgnoreCase("LuckPerms")) new LuckPermsConnector();
         }
     }
 
     public void onDisable() {
-        getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.BLUE + "Goodbye and thanks for using WorldChatter ^ - ^");
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) listener.onWorldChatterDisable();
     }
 
 }

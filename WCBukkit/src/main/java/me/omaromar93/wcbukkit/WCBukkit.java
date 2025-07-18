@@ -36,14 +36,14 @@ public final class WCBukkit extends JavaPlugin implements MainPlugin {
 
     public WCBukkit() {
         INSTANCE = this;
-        final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
-        mvcore = plugin != null ? (MultiverseCore) plugin : null;
         new MainPluginConnector();
     }
 
 
     @Override
     public void onEnable() throws RuntimeException {
+        final Plugin plugin = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
+        mvcore = plugin != null ? (MultiverseCore) plugin : null;
         MainPluginConnector.INSTANCE.setWorldChatter(this);
         registerEvents(getServer().getPluginManager());
         getCommand("worldchatter").setExecutor(new Command());

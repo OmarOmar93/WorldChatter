@@ -22,6 +22,7 @@ public final class AntiCaps {
 
     /**
      * Check if the message is detected or not
+     *
      * @param message the player's message
      * @return if it is capped or not
      */
@@ -31,19 +32,11 @@ public final class AntiCaps {
 
         for (final String word : words) {
             int capsCount = 0;
-            for (int i = 0; i < word.length(); i++) {
-                if (Character.isUpperCase(word.charAt(i))) {
-                    capsCount++;
-                }
-            }
+            for (int i = 0; i < word.length(); i++) if (Character.isUpperCase(word.charAt(i))) capsCount++;
 
-            if (capsCount >= minCapsPerWord) {
-                cappedWordsCount++;
-            }
+            if (capsCount >= minCapsPerWord) cappedWordsCount++;
 
-            if (cappedWordsCount >= minWordsToBlock) {
-                return true;
-            }
+            if (cappedWordsCount >= minWordsToBlock) return true;
         }
 
         return false;

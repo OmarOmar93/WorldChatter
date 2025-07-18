@@ -19,15 +19,15 @@ public final class debugMode {
 
     public void update() {
         isDebug = ConfigSystem.INSTANCE.getSystem().getBoolean("debug.enabled");
-        if (isDebug) {
-            info = ConfigSystem.INSTANCE.getSystem().getString("debug.info");
-            warning = ConfigSystem.INSTANCE.getSystem().getString("debug.warning");
-            error = ConfigSystem.INSTANCE.getSystem().getString("debug.error");
+        if (!isDebug) {
+            info = null;
+            warning = null;
+            error = null;
             return;
         }
-        info = null;
-        warning = null;
-        error = null;
+        info = ConfigSystem.INSTANCE.getSystem().getString("debug.info");
+        warning = ConfigSystem.INSTANCE.getSystem().getString("debug.warning");
+        error = ConfigSystem.INSTANCE.getSystem().getString("debug.error");
     }
 
     /**

@@ -22,6 +22,7 @@ public final class Command {
     public static Command INSTANCE;
 
     private static final List<String> cleaner = new ArrayList<>();
+
     static {
         for (int i = 0; i < 100; i++) {
             cleaner.add("§f                                            \n");
@@ -44,71 +45,64 @@ public final class Command {
 
     /**
      * Executes the command for all softwares
+     *
      * @param sender the command sender
-     * @param args the arguments
+     * @param args   the arguments
      */
     public void executeCommand(final CommandSender sender, final String[] args) {
         ThreadsSystem.runAsync(() -> {
-            if (sender.hasPermission("worldchatter.control")) {
-                if (args.length > 0) {
-                    switch (args[0].toLowerCase()) {
-                        case "reload":
-                        case "r":
-                            ConfigSystem.INSTANCE.update();
-                            if(WCA.INSTANCE != null) for(final WCListener listener: WCA.INSTANCE.getListeners()) {
-                                listener.senderConfigReload(sender);
-                            }
-                            return;
-                        case "version":
-                        case "info":
-                        case "v":
-                        case "i":
-                            sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
-                            sender.sendMessage(ColorSystem.YELLOW + "Created By: Omar");
-                            sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Beta Phase\" Update");
-                            return;
-                        case "help":
-                        case "commands":
-                        case "h":
-                        case "c":
-                            for (final String msg : helpMessages) {
-                                sender.sendMessage(msg);
-                            }
-                            return;
-                        case "lock":
-                        case "l":
-                            ChatLock.INSTANCE.toggleLocked(sender);
-                            return;
-                        case "update":
-                        case "u":
-                            UpdateSystem.INSTANCE.messageCheck(sender);
-                            return;
-                        case "clear":
-                        case "clearchat":
-                        case "cc":
-                            final String clear = (MiniMessageConnector.INSTANCE == null ? String.join("\n", cleaner)
-                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))
-                                    : MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
-                                    + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))))
-                                    .replace("$sender", sender.getName() == null ? "SERVER" : sender.getName());
-                            if (!sender.isPlayer() || ChannelManager.INSTANCE.isGlobalSending()) {
-                                MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
-                            } else {
-                                for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getRawPlace())) {
-                                    player.sendMessage(clear);
-                                }
-                            }
-                            sender.sendMessage(ColorSystem.GREEN + "Successfully cleared Chat!");
-                            return;
-                    }
-                    return;
-                }
-                for (final String msg : helpMessages) {
-                    sender.sendMessage(msg);
-                }
+            if (!sender.hasPermission("worldchatter.control")) {
+                sender.sendMessage(ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("NoPermissionMessage")));
                 return;
             }
-            sender.sendMessage(ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("NoPermissionMessage")));
+            if (args.length == 0) {
+                for (final String msg : helpMessages) sender.sendMessage(msg);
+                return;
+            }
+            switch (args[0].toLowerCase()) {
+                case "reload":
+                case "r":
+                    ConfigSystem.INSTANCE.update();
+                    if (WCA.INSTANCE != null) for (final WCListener listener : WCA.INSTANCE.getListeners())
+                        listener.senderConfigReload(sender);
+                    return;
+                case "version":
+                case "info":
+                case "v":
+                case "i":
+                    sender.sendMessage(ColorSystem.GRAY + "- " + ColorSystem.YELLOW + "WorldChatter" + ColorSystem.GRAY + " - " + ColorSystem.GREEN + MainPluginConnector.INSTANCE.getWorldChatter().getVersion() + ColorSystem.GRAY + " (" + UpdateSystem.INSTANCE.getCurrentBuild() + ")");
+                    sender.sendMessage(ColorSystem.YELLOW + "Created By: Omar");
+                    sender.sendMessage("Update Title: " + ColorSystem.GOLD + "The \"Beta Phase\" Update");
+                    return;
+                case "help":
+                case "commands":
+                case "h":
+                case "c":
+                    for (final String msg : helpMessages) sender.sendMessage(msg);
+                    return;
+                case "lock":
+                case "l":
+                    ChatLock.INSTANCE.toggleLocked(sender);
+                    return;
+                case "update":
+                case "u":
+                    UpdateSystem.INSTANCE.messageCheck(sender);
+                    return;
+                case "clear":
+                case "clearchat":
+                case "cc":
+                    final String clear = (MiniMessageConnector.INSTANCE == null ? String.join("\n", cleaner)
+                            + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))
+                            : MiniMessageConnector.INSTANCE.returnFormattedString(String.join("\n", cleaner)
+                            + '\n' + ColorSystem.tCC(ConfigSystem.INSTANCE.getMessages().getString("ChatClearMessage"))))
+                            .replace("$sender", sender.getName() == null ? "SERVER" : sender.getName());
+                    if (!sender.isPlayer() || ChannelManager.INSTANCE.isGlobalSending())
+                        MainPluginConnector.INSTANCE.getWorldChatter().broadcastMessage(clear);
+                    else
+                        for (final Player player : ServerOptions.INSTANCE.getPlayersinPlace(sender.getPlayer().getRawPlace()))
+                            player.sendMessage(clear);
+                    sender.sendMessage(ColorSystem.GREEN + "Successfully cleared Chat!");
+            }
         });
     }
 }

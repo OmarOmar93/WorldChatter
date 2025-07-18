@@ -27,7 +27,6 @@ public final class LuckPermsConnector {
                 debugMode.INSTANCE.println("couldn't find the user's data with UUID \"" + uuid + "\"", debugMode.printType.WARNING);
                 return null; // User not found, return the original message
             }
-
             return user.getCachedData().getMetaData();
         } catch (Exception e) {
             throw new RuntimeException(e);

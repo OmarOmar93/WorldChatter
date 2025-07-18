@@ -26,13 +26,13 @@ public final class ConfigSystem {
      * Retrieves the configuration for the chatFormatter config file.
      */
     public ConfigSystem() {
-        if(INSTANCE == null) INSTANCE = this;
+        if (INSTANCE == null) INSTANCE = this;
 
         final File dataFolder = new File("plugins/WorldChatter");
 
-        if (dataFolder.mkdir()) {
+        if (dataFolder.mkdir())
             MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.WHITE + "Created WorldChatter Folder!");
-        }
+
 
         chatFormatterFile = new File(dataFolder.getPath(), "chatFormatter.yml");
         securityFile = new File(dataFolder.getPath(), "security.yml");
@@ -160,9 +160,8 @@ public final class ConfigSystem {
     }
 
     private void updateSystem() {
-        if (!systemFile.exists()) {
-            createFile(systemFile);
-        }
+        if (!systemFile.exists()) createFile(systemFile);
+
 
         try {
             system = ConfigurationProvider.getProvider(YamlConfiguration.class).load(systemFile);
@@ -172,9 +171,8 @@ public final class ConfigSystem {
     }
 
     private void updateMessages() {
-        if (!messagesFile.exists()) {
-            createFile(messagesFile);
-        }
+        if (!messagesFile.exists()) createFile(messagesFile);
+
 
         try {
             messages = ConfigurationProvider.getProvider(YamlConfiguration.class).load(messagesFile);
@@ -184,9 +182,8 @@ public final class ConfigSystem {
     }
 
     private void updatePlayer() {
-        if (!playerFile.exists()) {
-            createFile(playerFile);
-        }
+        if (!playerFile.exists()) createFile(playerFile);
+
 
         try {
             player = ConfigurationProvider.getProvider(YamlConfiguration.class).load(playerFile);
@@ -196,9 +193,8 @@ public final class ConfigSystem {
     }
 
     private void updateTexts() {
-        if (!textsFile.exists()) {
-            createFile(textsFile);
-        }
+        if (!textsFile.exists()) createFile(textsFile);
+
 
         try {
             texts = ConfigurationProvider.getProvider(YamlConfiguration.class).load(textsFile);
@@ -208,9 +204,8 @@ public final class ConfigSystem {
     }
 
     private void updatePlace() {
-        if (!placeFile.exists()) {
-            createFile(placeFile);
-        }
+        if (!placeFile.exists()) createFile(placeFile);
+
 
         try {
             place = ConfigurationProvider.getProvider(YamlConfiguration.class).load(placeFile);
@@ -220,9 +215,8 @@ public final class ConfigSystem {
     }
 
     private void updateChatFormatter() {
-        if (!chatFormatterFile.exists()) {
-            createFile(chatFormatterFile);
-        }
+        if (!chatFormatterFile.exists()) createFile(chatFormatterFile);
+
 
         try {
             chatFormatter = ConfigurationProvider.getProvider(YamlConfiguration.class).load(chatFormatterFile);
@@ -232,9 +226,8 @@ public final class ConfigSystem {
     }
 
     private void updateSecurity() {
-        if (!securityFile.exists()) {
-            createFile(securityFile);
-        }
+        if (!securityFile.exists()) createFile(securityFile);
+
 
         try {
             security = ConfigurationProvider.getProvider(YamlConfiguration.class).load(securityFile);

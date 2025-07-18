@@ -41,7 +41,6 @@ public final class ChatLock {
         }
         lockedMessage = null;
         unlockedMessage = null;
-
     }
 
 
@@ -59,9 +58,8 @@ public final class ChatLock {
             return;
         }
         MainPluginConnector.INSTANCE.getWorldChatter().sendConsoleMessage(ColorSystem.GOLD + "[WorldChatter] " + ColorSystem.YELLOW + "You cannot toggle while it's disabled in the config!");
-        if(WCA.INSTANCE != null) for (final WCListener listener : WCA.INSTANCE.getListeners()) {
-            listener.chatLockToggle(sender);
-        }
+        for (final WCListener listener : WCA.INSTANCE.getListeners()) listener.chatLockToggle(sender);
+
     }
 
     /**

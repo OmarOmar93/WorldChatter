@@ -17,15 +17,16 @@ public final class UserMention {
     }
 
     public void update() {
-        if (ConfigSystem.INSTANCE.getPlayer().getBoolean("UserMention.enabled")) {
-            prefix = ConfigSystem.INSTANCE.getPlayer().getString("UserMention.prefix");
-            soundName = ConfigSystem.INSTANCE.getPlayer().getString("UserMention.sound.name");
-            soundVolume = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.volume", 1);
-            soundPitch = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.pitch", 1);
+        if (!ConfigSystem.INSTANCE.getPlayer().getBoolean("UserMention.enabled")) {
+            prefix = null;
+            soundName = null;
             return;
         }
-        prefix = null;
-        soundName = null;
+
+        prefix = ConfigSystem.INSTANCE.getPlayer().getString("UserMention.prefix");
+        soundName = ConfigSystem.INSTANCE.getPlayer().getString("UserMention.sound.name");
+        soundVolume = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.volume", 1);
+        soundPitch = ConfigSystem.INSTANCE.getPlayer().getFloat("UserMention.sound.pitch", 1);
     }
 
 
@@ -41,9 +42,7 @@ public final class UserMention {
                     colorBeforeMention = ColorSystem.RESET.toString();
                 }
 
-                if (sender != player) {
-                    player.playSound(soundName, soundVolume, soundPitch);
-                }
+                if (sender != player) player.playSound(soundName, soundVolume, soundPitch);
 
                 final String replacement = PlaceHolders.applyPlaceHoldersifPossible(
                         ConfigSystem.INSTANCE.getPlayer().getString("UserMention.format"), player) + colorBeforeMention;

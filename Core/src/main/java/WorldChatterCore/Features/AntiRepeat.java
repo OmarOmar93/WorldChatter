@@ -33,7 +33,8 @@ public final class AntiRepeat {
 
     /**
      * Check how similar is the message from the last one
-     * @param playerId the player's UUID
+     *
+     * @param playerId   the player's UUID
      * @param newMessage the current message
      * @return if it's similar or not
      */
@@ -44,18 +45,14 @@ public final class AntiRepeat {
 
         for (final String oldMessage : messages) {
             double similarity = Util.calculateSimilarity(newMessage, oldMessage);
-            if (similarity >= SENSITIVITY_THRESHOLD) {
-                return true; // Message is too similar
-            }
+            if (similarity >= SENSITIVITY_THRESHOLD) return true; // Message is too similar
         }
 
         // Add the new message to the list
         messages.add(newMessage);
 
         // Maintain the message limit
-        if (messages.size() > MESSAGE_LIMIT) {
-            messages.removeFirst();
-        }
+        if (messages.size() > MESSAGE_LIMIT) messages.removeFirst();
 
         return false;
     }
